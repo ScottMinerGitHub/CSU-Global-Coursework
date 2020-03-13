@@ -1,6 +1,6 @@
 # CSU-Global-Coursework
 
-The below presents an overview of the folder structure for each class:
+The below presents an overview of the folder structure of each class in the program.
 
 ## MIS-500: History of Data Analytics
  
