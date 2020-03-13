@@ -6,8 +6,6 @@ The below presents an overview of the folder structure of each class in the prog
 
 October 07, 2019 - December 01, 2019
 
-***
-
 * module-1: Intro to Data Science and Analytics
     - option-1-installing-python-and-running-a-data-set-exploration-in-pycharm-edu-program.docx
 * module-2: Landscape of Data Science and Analytics
@@ -34,13 +32,9 @@ October 07, 2019 - December 01, 2019
                 + my-output
         + Option-2-Running-SAS-Code-on-Dataset-Provided-by-U.S.-Department-of-Health-&-Human-Services.docx
 
-***
-
 ## MIS-540: Introduction to Business Intelligence
 
 December 09, 2019 - February 09, 2020
-
-***
 
 * module-1: Business Intelligence For Enterprise Opportunities and Challenges
     - option-1-manufacturing-bi-use-case-single-integrated-BI-solution-1.docx
@@ -70,8 +64,6 @@ December 09, 2019 - February 09, 2020
 ## MIS-510: Introduction to Data Mining and Visualizations
 
 February 10th, 2020 - April 05, 2020
-
-***
 
 * module-1: Core Concepts
     - option-1-categorical-variables-toyota-corolla-data-set.docx
