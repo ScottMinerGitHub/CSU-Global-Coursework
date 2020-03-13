@@ -1,0 +1,625 @@
+NOTE: PROCEDURE PRINTTO used (Total process time):
+      real time           0.09 seconds
+<<<<<<< HEAD
+      cpu time            0.06 seconds
+      
+
+99         
+100        TITLE1 '2018 AHRQ MEPS DATA USERS WORKSHOP';
+101        TITLE2 "EXERCISE 1.A SAS: ESTIMATES ON NATIONAL HEALTH CARE EXPENSES, 2016";
+102        
+103        /**********************************************************************************
+104        
+105        Create format variables
+106        Age is divided into 3 categories: 'ALL AGES','0-64','65+'
+107        A variable is created to represent whether or not a value is greater than zero
+108        A FLAG is created with 3 possible outcomes: 'No or any expense',
+109        'No expense', 'Any expense'
+110        
+111         *********************************************************************************/;
+112        
+113        PROC FORMAT;
+114        	
+114      !  VALUE AGEF .='ALL AGES' 0-64='0-64' 65-HIGH='65+';
+NOTE: Format AGEF is already on the library WORK.FORMATS.
+NOTE: Format AGEF has been output.
+115        	
+115      !  VALUE AGECAT .='ALL AGES' 1='0-64' 2='65+';
+NOTE: Format AGECAT is already on the library WORK.FORMATS.
+NOTE: Format AGECAT has been output.
+116        	
+116      !  VALUE GTZERO 0='0' 0 <- HIGH='>0';
+NOTE: Format GTZERO is already on the library WORK.FORMATS.
+NOTE: Format GTZERO has been output.
+117        	
+117      !  VALUE FLAG .='No or any expense' 0='No expense' 1='Any expense';
+NOTE: Format FLAG is already on the library WORK.FORMATS.
+NOTE: Format FLAG has been output.
+118        RUN;
+=======
+      cpu time            0.05 seconds
+      
+
+98         
+99         /* Create format variables */
+100        /* Age is divided into 3 categories: 'ALL AGES','0-64','65+'
+101        /* A variable is created to represent whether or not a value is greater than zero */
+102        /* A FLAG is created with 3 possible outcomes: 'No or any expense', 'No expense', 'Any expense' */
+103        PROC FORMAT;
+104        	
+104      !  VALUE AGEF .='ALL AGES' 0-64='0-64' 65-HIGH='65+';
+NOTE: Format AGEF is already on the library WORK.FORMATS.
+NOTE: Format AGEF has been output.
+105        	
+105      !  VALUE AGECAT .='ALL AGES' 1='0-64' 2='65+';
+NOTE: Format AGECAT is already on the library WORK.FORMATS.
+NOTE: Format AGECAT has been output.
+106        	
+106      !  VALUE GTZERO 0='0' 0 <- HIGH='>0';
+NOTE: Format GTZERO is already on the library WORK.FORMATS.
+NOTE: Format GTZERO has been output.
+107        	
+107      !  VALUE FLAG .='No or any expense' 0='No expense' 1='Any expense';
+NOTE: Format FLAG is already on the library WORK.FORMATS.
+NOTE: Format FLAG has been output.
+108        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: PROCEDURE FORMAT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+<<<<<<< HEAD
+119        
+120        * Create summary statistics for dataset;
+121        
+122        PROC MEANS DATA=CDATA.H192 n nmiss mean mode min max maxdec=2 range std fw=8;
+123        	var TOTEXP16 AGE16X AGE42X AGE31X VARSTR VARPSU PERWT16F;
+124        	title3 "Descriptive Statistics for age variables and expenditure
+125        	variables in (2016 FULL-YEAR FILE) dataset";
+126        RUN;
+
+NOTE: There were 34655 observations read from the data set CDATA.H192.
+NOTE: The PROCEDURE MEANS printed page 47.
+NOTE: PROCEDURE MEANS used (Total process time):
+      real time           3.03 seconds
+      cpu time            1.48 seconds
+      
+
+127        
+128        /**********************************************************************************
+129        
+130        READ IN DATA FROM 2016 CONSOLIDATED DATA FILE (HC-192)
+131        
+132        The Age variable (AGE16X) represents the exact age, calculated from
+133        date of birth and indicates age status as of 12/31/16.
+134        
+135        Demographic variables that are round-specific are identified by names
+136        including numbers “xy”, where x and y refer to round numbers of
+137        Panel 20 and Panel 21 respectively.
+138        
+139        For example, AGE31X represents the age data relevant to Round 3 of
+140        Panel 20 or Round 1 of Panel 21. (It's Round #3 of Panel 20 because the
+141        31 is marked with an X).
+142        
+143        The variables VARSTR and VARPSU on this MEPS data file serve to identify
+144        the sampling strata and primary sampling units required by the
+145        variance estimation programs. In conjunction with the person-level
+146        weight variable (PERWT16F) provided on this file, data for persons
+147        with a positive person-level weight can be used to make estimates
+148        for the civilian noninstitutionalized U.S. population for 2016.
+149        
+150        Rename the TOTEXP16 Variable to Total
+151        
+152         *********************************************************************************/;
+153        
+154        DATA PUF192;
+155        	SET CDATA.H192 (KEEP=TOTEXP16 AGE16X AGE42X AGE31X VARSTR VARPSU PERWT16F);
+156        	TOTAL=TOTEXP16;
+157        
+158        	/* CREATE FLAG (1/0) VARIABLES FOR PERSONS WITH AN EXPENSE */
+159        	X_ANYSVCE=0;
+160        
+161        	IF TOTAL > 0 THEN
+162        		X_ANYSVCE=1;
+163        
+164        	/* CREATE A SUMMARY VARIABLE FROM END OF YEAR, 42, AND 31 VARIABLES*/
+165        	IF AGE16X >=0 THEN
+166        		AGE=AGE16X;
+167        	ELSE IF AGE42X >=0 THEN
+168        		AGE=AGE42X;
+169        	ELSE IF AGE31X >=0 THEN
+170        		AGE=AGE31X;
+171        
+172        	/* CREATE 2 LEVEL AGE CATEGORIZATION VARIABLE (0-64,65+) */
+173        	IF 0 LE AGE LE 64 THEN
+174        		AGECAT=1;
+175        	ELSE IF AGE  > 64 THEN
+176        		AGECAT=2;
+177        RUN;
+=======
+109        
+110        /* Create summary statistics for dataset*/
+111        PROC MEANS DATA=CDATA.H192 n nmiss mean mode min max maxdec=2 range std fw=8;
+112        	var TOTEXP16 AGE16X AGE42X AGE31X VARSTR VARPSU PERWT16F;
+113        	title3 "Descriptive Statistics for age variables and expenditure variables in (2016 FULL-YEAR FILE) dataset";
+114        RUN;
+
+NOTE: There were 34655 observations read from the data set CDATA.H192.
+NOTE: The PROCEDURE MEANS printed page 1.
+NOTE: PROCEDURE MEANS used (Total process time):
+      real time           2.25 seconds
+      cpu time            1.16 seconds
+      
+
+115        
+2                                                                        The SAS System
+
+116        /* READ IN DATA FROM 2016 CONSOLIDATED DATA FILE (HC-192) */
+117        /* The Age variable (AGE16X) represents the exact age, calculated from date of birth and indicates age status as of 12/31/16. */
+118        /* Demographic variables that are round-specific are identified by names including numbers “xy”, where x and y refer to round numbers of Panel 20
+118      !  and Panel 21 respectively. */
+119        /* For example, AGE31X represents the age data relevant to Round 3 of Panel 20 or Round 1 of Panel 21. (It's Round #3 of Panel 20 because the 31 is
+119      ! marked with an X) */
+120        /* The variables VARSTR and VARPSU on this MEPS data file serve to identify the sampling strata and primary sampling units required by the variance
+120      ! estimation programs. */
+121        /* In conjunction with the person-level weight variable (PERWT16F) provided on this file, data for persons with a positive person-level weight
+122        can be used to make estimates for the civilian noninstitutionalized U.S. population for 2016. */
+123        /* Rename the TOTEXP16 Variable to Total */
+124        DATA PUF192;
+125        	SET CDATA.H192 (KEEP=TOTEXP16 AGE16X AGE42X AGE31X VARSTR VARPSU PERWT16F);
+126        	TOTAL=TOTEXP16;
+127        
+128        	/* CREATE FLAG (1/0) VARIABLES FOR PERSONS WITH AN EXPENSE */
+129        	X_ANYSVCE=0;
+130        
+131        	IF TOTAL > 0 THEN
+132        		X_ANYSVCE=1;
+133        
+134        	/* CREATE A SUMMARY VARIABLE FROM END OF YEAR, 42, AND 31 VARIABLES*/
+135        	IF AGE16X >=0 THEN
+136        		AGE=AGE16X;
+137        	ELSE IF AGE42X >=0 THEN
+138        		AGE=AGE42X;
+139        	ELSE IF AGE31X >=0 THEN
+140        		AGE=AGE31X;
+141        
+142        	/* CREATE 2 LEVEL AGE CATEGORIZATION VARIABLE (0-64,65+) */
+143        	IF 0 LE AGE LE 64 THEN
+144        		AGECAT=1;
+145        	ELSE IF AGE  > 64 THEN
+146        		AGECAT=2;
+147        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 34655 observations read from the data set CDATA.H192.
+NOTE: The data set WORK.PUF192 has 34655 observations and 11 variables.
+NOTE: DATA statement used (Total process time):
+<<<<<<< HEAD
+      real time           2.78 seconds
+      cpu time            1.29 seconds
+      
+
+178        
+179        /**********************************************************************************
+180        
+181        Display the X_ANYSVCE FLAG Along side the TOTAL FLAG
+182        Display the AGECAT FLAG Along side the AGE FLAG
+183        Display Frequency counts for cross-tabs. Format as a LIST and treat missing
+184        values as VALID non-missing levels.
+185        
+186         *********************************************************************************/;
+187        
+188        PROC FREQ DATA=PUF192;
+189        	TABLES X_ANYSVCE*TOTAL AGECAT*AGE /LIST MISSING;
+190        	FORMAT TOTAL gtzero.
+191                  AGE agef.;
+192        	TITLE3 "Supporting crosstabs for the flag variables";
+193        RUN;
+
+NOTE: There were 34655 observations read from the data set WORK.PUF192.
+NOTE: The PROCEDURE FREQ printed page 48.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           0.11 seconds
+      cpu time            0.09 seconds
+      
+
+194        
+195        * Suppress all output of the ODS;
+196        ods graphics off;
+197        ods exclude all;
+198        
+199        /**********************************************************************************
+200        
+201        Estimate the percentage of individuals with an expense & overall expenses
+202        for the entire population
+203        
+204        Estimate the proportion of individuals with an expense in the entire
+205        population of the U.S.
+206        
+207        Provide standard error estimations as well
+208        
+209        Output the results of the statistics table to be later passed as input the
+210        PROC PRINT statement for printing to the ODS Display
+211        
+212         *********************************************************************************/;
+213        
+214        PROC SURVEYMEANS DATA=PUF192 MEAN NOBS SUMWGT STDERR SUM STD;
+215        	STRATUM VARSTR;
+216        	CLUSTER VARPSU;
+217        	WEIGHT PERWT16F;
+218        	VAR X_ANYSVCE TOTAL;
+219        	ods output Statistics=work.Overall_results;
+220        	TITLE3 'PERCENTAGE OF PERSONS WITH AN EXPENSE & OVERALL EXPENSES';
+221        RUN;
+=======
+      real time           2.12 seconds
+      cpu time            0.99 seconds
+      
+
+148        
+149        /* Display the X_ANYSVCE FLAG Along side the TOTAL FLAG */
+150        /* Display the AGECAT FLAG Along side the AGE FLAG */
+151        /* Display Frequency counts for cross-tabs. Format as a LIST and treat missing values as VALID non-missing levels */
+152        PROC FREQ DATA=PUF192;
+153        	TABLES X_ANYSVCE*TOTAL AGECAT*AGE /LIST MISSING;
+154        	FORMAT TOTAL gtzero.
+155                  AGE agef.;
+156        	TITLE3 "Supporting crosstabs for the flag variables";
+157        RUN;
+
+NOTE: There were 34655 observations read from the data set WORK.PUF192.
+NOTE: The PROCEDURE FREQ printed page 2.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           0.10 seconds
+      cpu time            0.09 seconds
+      
+
+158        
+159        /* Suppress all output of the ODS */
+160        ods graphics off;
+161        ods exclude all;
+162        
+163        /* Estimate the percentage of individuals with an expense & overall expenses for the entire population */
+164        /* Estimate the proportion of individuals with an expense in the entire population of the U.S. */
+165        /* Provide standard error estimations as well */
+166        /* Output the results of the statistics table to be later passed as input the the PROC PRINT statement for printing to the ODS Display */
+167        PROC SURVEYMEANS DATA=PUF192 MEAN NOBS SUMWGT STDERR SUM STD;
+168        	STRATUM VARSTR;
+169        	CLUSTER VARPSU;
+170        	WEIGHT PERWT16F;
+171        	VAR X_ANYSVCE TOTAL;
+172        	ods output Statistics=work.Overall_results;
+173        	TITLE3 'PERCENTAGE OF PERSONS WITH AN EXPENSE & OVERALL EXPENSES';
+3                                                                        The SAS System
+
+174        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: Due to nonpositive weights, 1396 observation(s) were deleted.
+NOTE: The data set WORK.OVERALL_RESULTS has 2 observations and 7 variables.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+<<<<<<< HEAD
+      real time           0.10 seconds
+      cpu time            0.10 seconds
+      
+
+222        
+223        /* Exclude nothing from the output */
+224        ods exclude none;
+225        
+226        /**********************************************************************************
+227        
+228        Print the results of the statistics table from the PROC SURVEYMEANS statement above
+229        exclude the # of observations (NOOBS) and split the header on the * symbol
+230        relabel variables for appropriate display output
+231        format variables with commas for readability
+232        Display the percentage of persons with an expense estimated for the entire
+233        population, as well as the proportion
+234        
+235         *********************************************************************************/;
+236        
+237        proc print data=work.Overall_results (firstobs=1 obs=1) noobs split='*';
+238        	var N SumWgt mean StdErr Sum stddev;
+239        	label SumWgt='Population*Size' mean='Proportion' StdErr='SE of Proportion'
+240        		Sum='Persons*with Any*Expense '
+241        		Stddev='SE of*Number*Persons*with*Any Expense';
+242        	format N SumWgt Comma12. mean comma7.2 stderr 7.5 sum Stddev comma17.;
+243        	TITLE3 'PERCENTAGE OF PERSONS WITH AN EXPENSE';
+244        run;
+
+NOTE: There were 1 observations read from the data set WORK.OVERALL_RESULTS.
+NOTE: The PROCEDURE PRINT printed page 49.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.02 seconds
+      
+
+245        
+246        /**********************************************************************************
+247        
+248        Print additional results from the Statistics table from the PROC SURVEYMEANS
+249        statement above
+250        
+251        Begin printing with the 2nd row, exclude the # of observations, and split the
+252        header on the '*' symbol
+253        
+254        relabel variables for appropriate display output
+255        
+256        format variables with commas for readability
+257        
+258        Display the Overall Expenses estimates projected for the entire U.S. population
+259        
+260         *********************************************************************************/;
+261        
+262        proc print data=work.Overall_results (firstobs=2) noobs split='*';
+263        	var N SumWgt mean StdErr Sum stddev;
+264        	label SumWgt='Population*Size' mean='Mean($)' StdErr='SE of Mean($)'
+265        		Sum='Total*Expense ($)' Stddev='SE of*Total Expense($)';
+266        	format N SumWgt Comma12. mean comma9.2 stderr 9.5 sum Stddev comma17.;
+267        	TITLE3 'OVERALL EXPENSES';
+268        run;
+
+NOTE: There were 1 observations read from the data set WORK.OVERALL_RESULTS.
+NOTE: The PROCEDURE PRINT printed page 50.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.03 seconds
+      
+
+269        
+270        /* Exclude everything from the output */
+271        ods exclude all;
+272        
+273        /**********************************************************************************
+274        
+275        Use the PROC SURVEYMEANS function to estimate the average expense per
+276        person with an expense as well as estimate the average expense per person
+277        with an expense as dependent upon age category (0-64, 65+)
+278        
+279        print the output of the domain table to the domain_results dataset in the
+280        temporary WORK library
+281        
+282        The domain table will later be printed via the PROC PRINT procedure
+283        
+284         *********************************************************************************/;
+285        
+286        PROC SURVEYMEANS DATA=PUF192 MEAN NOBS SUMWGT STDERR SUM STD;
+287        	STRATUM VARSTR;
+288        	CLUSTER VARPSU;
+289        	WEIGHT PERWT16F;
+290        	VAR TOTAL;
+291        	DOMAIN X_ANYSVCE('1') X_ANYSVCE('1')*AGECAT;
+292        	FORMAT AGECAT agecat.;
+293        	ods output domain=work.domain_results;
+294        	TITLE3
+295        		'MEAN EXPENSE PER PERSON WITH AN EXPENSE, FOR OVERALL, AGE 0-64, AND AGE 65+';
+296        RUN;
+
+NOTE: Due to nonpositive weights, 1396 observation(s) were deleted.
+NOTE: Only one cluster in a stratum for X_ANYSVCE*AGECAT domains for variable(s) TOTAL. The estimate of variance for TOTAL will omit this stratum.
+NOTE: The data set WORK.DOMAIN_RESULTS has 3 observations and 10 variables.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.23 seconds
+      cpu time            0.20 seconds
+      
+
+297        
+298        /* Exclude nothing from the output */
+299        ods exclude none;
+300        
+301        /**********************************************************************************
+302        
+303        Display the results of the PROC SURVEYMEANS procedure above
+304        
+305        Display the AGECAT with user-defined formatting, the number of observations (N),
+306        as well as Population Size and Mean($) Estimated Expenditure, etc.
+307        
+308         *********************************************************************************/;
+309        
+310        proc print data=work.domain_results noobs split='*';
+311        	var AGECAT N SumWgt mean StdErr Sum stddev;
+312        	label AGECAT='Age Group' SumWgt='Population*Size' mean='Mean($)'
+313        		StdErr='SE of Mean($)' Sum='Total*Expense ($)'
+314        		Stddev='SE of*Total Expense($)';
+315        	format AGECAT agecat. N SumWgt Comma12. mean comma9.1 stderr 9.4 sum Stddev
+316        		comma17.;
+317        run;
+
+NOTE: There were 3 observations read from the data set WORK.DOMAIN_RESULTS.
+NOTE: The PROCEDURE PRINT printed page 51.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.03 seconds
+      cpu time            0.03 seconds
+      
+
+318        
+319        ods graphics on;
+320        
+321        /**********************************************************************************
+322        
+323        Perform a tTest on the variables AGECAT and TOTAL Expenditure
+324        
+325        Display MEAN, STD DEV, STD ERR of the MEAN, MIN. and MAX. for each value of AGECAT
+326        
+327        Display 95% CLI for MEAN and STD DEV in each AGECAT group.
+328        
+329        Display 95% CLI for the difference in the group means using a pooled
+330        estimate vs. Satterthwaite
+331        
+332        Display the results of the t-test for both pooled and Satterthwaite versions
+333        
+334        Display the results of the F-Test for deciding whether the variances
+335        can be considered equal
+336        
+337        Display Histogram (w/ normal curves, kernel density estimators, and
+338        boxplots) and Q-Q Plots
+339        
+340         *********************************************************************************/;
+341        
+342        PROC TTEST DATA=puf192;
+343        	CLASS AGECAT;
+344        	VAR TOTAL;
+345        	Format AGECAT agecat.;
+346        	Title3 'Independent Group t-Test Example (AGECAT By TOTAL Expenditure)';
+347        Run;
+=======
+      real time           0.11 seconds
+      cpu time            0.09 seconds
+      
+
+175        
+176        /* Exclude nothing from the output */
+177        ods exclude none;
+178        
+179        /* Print the results of the statistics table from the PROC SURVEYMEANS statement above */
+180        /* exclude the # of observations (NOOBS) and split the header on the * symbol */
+181        /* relabel variables for appropriate display output */
+182        /* format variables with commas for readability */
+183        /* Display the percentage of persons with an expense estimated for the entire population, as well as the proportion */
+184        proc print data=work.Overall_results (firstobs=1 obs=1) noobs split='*';
+185        	var N SumWgt mean StdErr Sum stddev;
+186        	label SumWgt='Population*Size' mean='Proportion' StdErr='SE of Proportion'
+187        		Sum='Persons*with Any*Expense '
+188        		Stddev='SE of*Number*Persons*with*Any Expense';
+189        	format N SumWgt Comma12. mean comma7.2 stderr 7.5 sum Stddev comma17.;
+190        	TITLE3 'PERCENTAGE OF PERSONS WITH AN EXPENSE';
+191        run;
+
+NOTE: There were 1 observations read from the data set WORK.OVERALL_RESULTS.
+NOTE: The PROCEDURE PRINT printed page 3.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.03 seconds
+      
+
+192        
+193        /* Print additional results from the Statistics table from the PROC SURVEYMEANS statement above */
+194        /* Begin printing with the 2nd row, exclude the # of observations, and split the header on the '*' symbol */
+195        /* relabel variables for appropriate display output */
+196        /* format variables with commas for readability */
+197        /* Display the Overall Expenses estimates projected for the entire U.S. population */
+198        proc print data=work.Overall_results (firstobs=2) noobs split='*';
+199        	var N SumWgt mean StdErr Sum stddev;
+200        	label SumWgt='Population*Size' mean='Mean($)' StdErr='SE of Mean($)'
+201        		Sum='Total*Expense ($)' Stddev='SE of*Total Expense($)';
+202        	format N SumWgt Comma12. mean comma9.2 stderr 9.5 sum Stddev comma17.;
+203        	TITLE3 'OVERALL EXPENSES';
+204        run;
+
+NOTE: There were 1 observations read from the data set WORK.OVERALL_RESULTS.
+NOTE: The PROCEDURE PRINT printed page 4.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.03 seconds
+      cpu time            0.03 seconds
+      
+
+205        
+206        /* Exclude everything from the output */
+207        ods exclude all;
+208        
+209        /* Use the PROC SURVEYMEANS function to estimate the average expense per person with an expense */
+210        /* as well as estimate the average expense per person with an expense as dependent upon age category (0-64, 65+) */
+211        /* print the output of the domain table to the domain_results dataset in the temporary WORK library */
+212        /* The domain table will later be printed via the PROC PRINT procedure */
+213        PROC SURVEYMEANS DATA=PUF192 MEAN NOBS SUMWGT STDERR SUM STD;
+214        	STRATUM VARSTR;
+215        	CLUSTER VARPSU;
+216        	WEIGHT PERWT16F;
+217        	VAR TOTAL;
+218        	DOMAIN X_ANYSVCE('1') X_ANYSVCE('1')*AGECAT;
+219        	FORMAT AGECAT agecat.;
+220        	ods output domain=work.domain_results;
+221        	TITLE3
+222        		'MEAN EXPENSE PER PERSON WITH AN EXPENSE, FOR OVERALL, AGE 0-64, AND AGE 65+';
+223        RUN;
+
+NOTE: Due to nonpositive weights, 1396 observation(s) were deleted.
+NOTE: Only one cluster in a stratum for X_ANYSVCE*AGECAT domains for variable(s) TOTAL. The estimate of variance for TOTAL will omit this stratum.
+4                                                                        The SAS System
+
+NOTE: The data set WORK.DOMAIN_RESULTS has 3 observations and 10 variables.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.22 seconds
+      cpu time            0.21 seconds
+      
+
+224        
+225        /* Exclude nothing from the output */
+226        ods exclude none;
+227        
+228        /* Display the results of the PROC SURVEYMEANS procedure above */
+229        /* Display the AGECAT with user-defined formatting, the number of observations (N), as well as Population Size and Mean($) Estimated Expenditure,
+229      ! etc. */
+230        proc print data=work.domain_results noobs split='*';
+231        	var AGECAT N SumWgt mean StdErr Sum stddev;
+232        	label AGECAT='Age Group' SumWgt='Population*Size' mean='Mean($)'
+233        		StdErr='SE of Mean($)' Sum='Total*Expense ($)'
+234        		Stddev='SE of*Total Expense($)';
+235        	format AGECAT agecat. N SumWgt Comma12. mean comma9.1 stderr 9.4 sum Stddev
+236        		comma17.;
+237        run;
+
+NOTE: There were 3 observations read from the data set WORK.DOMAIN_RESULTS.
+NOTE: The PROCEDURE PRINT printed page 5.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.03 seconds
+      
+
+238        
+239        ods graphics on;
+240        /* Perform a tTest on the variables AGECAT and TOTAL Expenditure */
+241        /* Display MEAN, STD DEV, STD ERR of the MEAN, MIN. and MAX. for each value of AGECAT */
+242        /* Display 95% CLI for MEAN and STD DEV in each AGECAT group. */
+243        /* Display 95% CLI for the difference in the group means using a pooled estimate vs. Satterthwaite */
+244        /* Display the results of the t-test for both pooled and Satterthwaite versions */
+245        /* Display the results of the F-Test for deciding whether the variances can be considered equal */
+246        /* Display Histogram (w/ normal curves, kernel density estimators, and boxplots) and Q-Q Plots */
+247        PROC TTEST DATA=puf192;
+248        	CLASS AGECAT;
+249        	VAR TOTAL;
+250        	Format AGECAT agecat.;
+251        	Title 'Independent Group t-Test Example (AGECAT By TOTAL Expenditure)';
+252        Run;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+WARNING: GPATH or PATH is not a writable directory. It will be ignored.
+ERROR: Cannot write image to SlantFactor. Please ensure that proper disk permissions are set.
+ERROR: Cannot write image to SlantFactor. Please ensure that proper disk permissions are set.
+NOTE: The SAS System stopped processing this step because of errors.
+<<<<<<< HEAD
+NOTE: The PROCEDURE TTEST printed page 52.
+NOTE: PROCEDURE TTEST used (Total process time):
+      real time           3.28 seconds
+      cpu time            2.08 seconds
+      
+348        
+349        /* Close All open ODS output destinations. */
+350        ODS _ALL_ CLOSE;
+NOTE: ODS PDF(WEB) printed 7 pages to /tmp/SAS_work954500000E42_localhost.localdomain/#LN00390.
+351        
+352        /* THE PROC PRINTTO null step is required to close the PROC PRINTTO */
+
+
+353        PROC PRINTTO;
+354        RUN;
+=======
+NOTE: The PROCEDURE TTEST printed page 6.
+NOTE: PROCEDURE TTEST used (Total process time):
+      real time           4.09 seconds
+      cpu time            2.74 seconds
+      
+253        
+254        /* Close All open ODS output destinations. */
+255        ODS _ALL_ CLOSE;
+NOTE: ODS PDF(WEB) printed 7 pages to /tmp/SAS_work7D55000033F2_localhost.localdomain/#LN01363.
+256        
+257        /* THE PROC PRINTTO null step is required to close the PROC PRINTTO */
+
+
+258        PROC PRINTTO;
+259        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+

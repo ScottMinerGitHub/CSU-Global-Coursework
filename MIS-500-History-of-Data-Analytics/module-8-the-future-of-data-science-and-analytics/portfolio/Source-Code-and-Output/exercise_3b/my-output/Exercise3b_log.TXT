@@ -1,0 +1,1895 @@
+NOTE: PROCEDURE PRINTTO used (Total process time):
+<<<<<<< HEAD
+      real time           0.11 seconds
+      cpu time            0.06 seconds
+      
+
+167        
+168        TITLE1 'AHRQ MEPS DATA USERS WORKSHOP -- 2018';
+169        TITLE2 'EXERCISE 3b SAS: CALCULATE EXPENDITURES FOR ALL EVENTS ASSOCIATED
+170        WITH A CONDITION (DIABETES)';
+=======
+      real time           0.08 seconds
+      cpu time            0.04 seconds
+      
+
+168        
+169        TITLE1 'AHRQ MEPS DATA USERS WORKSHOP -- 2018';
+170        TITLE2 'EXERCISE 3b SAS: CALCULATE EXPENDITURES FOR ALL EVENTS ASSOCIATED WITH A CONDITION (DIABETES)';
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+171        
+172        /* Create format variables: greater than zero and greater than or equal to zero */
+173        PROC FORMAT;
+174        	
+174      !  VALUE GTZERO 0='0' 0 <- HIGH='>0';
+NOTE: Format GTZERO is already on the library WORK.FORMATS.
+NOTE: Format GTZERO has been output.
+175        	
+175      !  VALUE GEZERO 0 - HIGH='GE 0';
+NOTE: Format GEZERO is already on the library WORK.FORMATS.
+NOTE: Format GEZERO has been output.
+176        RUN;
+
+NOTE: PROCEDURE FORMAT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+177        
+<<<<<<< HEAD
+178        /*********************************************************************\
+179        
+180        1) PULL OUT CONDITIONS WITH DIABETES (CCS CODE='049', '050')
+181        FROM 2015 CONDITION PUF - HC180
+182        Create a dataset named DIAB
+183        
+184         *********************************************************************/
+185        
+186        DATA DIAB;
+187        	SET CDATA.H180;
+188        
+189        	IF CCCODEX IN ('049', '050');
+190        RUN;
+=======
+178        /* Create a dataset named DIAB */
+179        /*1) PULL OUT CONDITIONS WITH DIABETES (CCS CODE='049', '050') FROM 2015 CONDITION PUF - HC180*/
+180        DATA DIAB;
+181        	SET CDATA.H180;
+182        
+183        	IF CCCODEX IN ('049', '050');
+184        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 123227 observations read from the data set CDATA.H180.
+NOTE: The data set WORK.DIAB has 3327 observations and 27 variables.
+NOTE: DATA statement used (Total process time):
+<<<<<<< HEAD
+      real time           0.26 seconds
+      cpu time            0.15 seconds
+      
+
+191        
+192        /* Provide a frequency count of Diabetes condition codes */
+193        PROC FREQ DATA=DIAB;
+194        	TABLES CCCODEX / LIST MISSING;
+195        TITLE3 "CHECK CCS CODES";
+196        RUN;
+
+NOTE: There were 3327 observations read from the data set WORK.DIAB.
+NOTE: The PROCEDURE FREQ printed page 52.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           0.08 seconds
+      cpu time            0.08 seconds
+      
+
+197        
+198        /*********************************************************************\
+199        
+200        2) GET EVENT ID FOR THE DIABETIC CONDITIONS FROM
+201        CONDITION-EVENT LINK FILE
+202        
+203        Merge Diabetes Dataset with the CONDITION-EVENT LINK PUF DATASET
+204        
+205        CONDITION-EVENTLINK links an event (outpatient visit, inpatient visit,
+206        ER visit, home health visit, etc.) to a condition (DIABETES)
+207        
+208        Add the EVNTIDX field from the linking file, which corresponds
+209        to a unique record in one of the MEPS event files, HC-178B through
+210        HC-178H.
+211        
+212        Call the dataset DIAB2
+213        
+214         *********************************************************************/
+215        
+216        DATA DIAB2;
+217        	MERGE DIAB          (IN=AA KEEP=DUPERSID CONDIDX CCCODEX) CDATA.H178IF1 (IN=BB
+218        		KEEP=CONDIDX EVNTIDX);
+219        	BY CONDIDX;
+220        
+221        	IF AA AND BB;
+222        RUN;
+=======
+      real time           0.19 seconds
+      cpu time            0.11 seconds
+      
+
+185        
+186        /* Provide a frequency count of Diabetes condition codes */
+187        PROC FREQ DATA=DIAB;
+188        	TABLES CCCODEX / LIST MISSING;
+189        TITLE3 "CHECK CCS CODES";
+190        RUN;
+
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table1.OneWayFreqs
+3                                                                        The SAS System
+
+-------------
+NOTE: There were 3327 observations read from the data set WORK.DIAB.
+NOTE: The PROCEDURE FREQ printed page 1.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           0.10 seconds
+      cpu time            0.09 seconds
+      
+
+191        
+192        /* 2) GET EVENT ID FOR THE DIABETIC CONDITIONS FROM CONDITION-EVENT LINK FILE */
+193        /* Merge Diabetes Dataset with the CONDITION-EVENT LINK PUF DATASET */
+194        /* CONDITION-EVENTLINK links an event (outpatient visit, inpatient visit, ER visit, home health visit, etc.) to a condition (DIABETES) */
+195        /* Add the EVNTIDX field from the linking file, which corresponds to a unique record in one of the MEPS event files, HC-178B through HC-178H. */
+196        /* Call the dataset DIAB2 */
+197        DATA DIAB2;
+198        	MERGE DIAB          (IN=AA KEEP=DUPERSID CONDIDX CCCODEX) CDATA.H178IF1 (IN=BB
+199        		KEEP=CONDIDX EVNTIDX);
+200        	BY CONDIDX;
+201        
+202        	IF AA AND BB;
+203        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 3327 observations read from the data set WORK.DIAB.
+NOTE: There were 377736 observations read from the data set CDATA.H178IF1.
+NOTE: The data set WORK.DIAB2 has 21659 observations and 4 variables.
+NOTE: DATA statement used (Total process time):
+<<<<<<< HEAD
+      real time           0.44 seconds
+      cpu time            0.28 seconds
+      
+
+223        
+224        /* Review the output we just created by CONDIDX
+225        (first 20 observations) */
+                                                                         The SAS System
+
+226        PROC PRINT DATA=DIAB2 (OBS=20);
+227        	BY CONDIDX;
+228        TITLE3 "SAMPLE DUMP FOR CONDITION-EVENT LINK FILE";
+229        RUN;
+
+NOTE: There were 20 observations read from the data set WORK.DIAB2.
+NOTE: The PROCEDURE PRINT printed page 53.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.08 seconds
+      cpu time            0.08 seconds
+      
+
+230        
+231        /*3) DELETE DUPLICATE CASES PER EVENT*/
+232        /* CALL THE OUTPUT DIAB3 */
+233        PROC SORT DATA=DIAB2 (KEEP=DUPERSID EVNTIDX) OUT=DIAB3 NODUPKEY;
+234        	BY EVNTIDX;
+235        RUN;
+=======
+      real time           0.35 seconds
+      cpu time            0.23 seconds
+      
+
+204        
+205        /* Review the output we just created by CONDIDX (first 20 observations) */
+206        PROC PRINT DATA=DIAB2 (OBS=20);
+207        	BY CONDIDX;
+208        TITLE3 "SAMPLE DUMP FOR CONDITION-EVENT LINK FILE";
+209        RUN;
+
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.DIAB2
+Data Name:  ProcPrintTable
+Path:       Print.ByGroup1.Print
+-------------
+NOTE: The above message was for the following BY group:
+      CONDITION ID=600011010051
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.DIAB2
+Data Name:  ProcPrintTable
+Path:       Print.ByGroup2.Print
+-------------
+NOTE: The above message was for the following BY group:
+      CONDITION ID=600011010121
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.DIAB2
+Data Name:  ProcPrintTable
+Path:       Print.ByGroup3.Print
+-------------
+NOTE: The above message was for the following BY group:
+      CONDITION ID=600011020031
+NOTE: There were 20 observations read from the data set WORK.DIAB2.
+NOTE: The PROCEDURE PRINT printed page 2.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.09 seconds
+      cpu time            0.09 seconds
+      
+
+210        
+211        /*3) DELETE DUPLICATE CASES PER EVENT*/
+212        /* CALL THE OUTPUT DIAB3 */
+4                                                                        The SAS System
+
+213        PROC SORT DATA=DIAB2 (KEEP=DUPERSID EVNTIDX) OUT=DIAB3 NODUPKEY;
+214        	BY EVNTIDX;
+215        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 21659 observations read from the data set WORK.DIAB2.
+NOTE: 151 observations with duplicate key values were deleted.
+NOTE: The data set WORK.DIAB3 has 21508 observations and 2 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.02 seconds
+      
+
+<<<<<<< HEAD
+236        
+237        /* Review the output after deleting duplicated cases
+238        first 30 observations) */
+239        PROC PRINT DATA=DIAB3 (OBS=30);
+240        TITLE3 "SAMPLE DUMP AFTER DUPLICATE CASES ARE DELETED";
+241        RUN;
+
+NOTE: There were 30 observations read from the data set WORK.DIAB3.
+NOTE: The PROCEDURE PRINT printed page 54.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.07 seconds
+      cpu time            0.08 seconds
+      
+
+242        
+243        
+244        /*********************************************************************\
+245        
+246        4) SUM UP PMED PURCHASE-LEVEL DATA TO EVENT-LEVEL
+247        (EVNTIDX is not included on the 2015 Prescribed Medicines
+248        event file, HC-178A;
+249        
+250        Rather, on this file the variable for linking with EVNTIDX on the
+251        CLNK file is LINKIDX.)
+252        
+253        Include additional fields representing the event type
+254        (outpatient visit, inpatient visit, ER visit, etc.) (RXSF15X--RXOUT15X)
+255        
+256        Rename fields as discussed above
+257        
+258         *********************************************************************/
+259        
+260        PROC SORT DATA=CDATA.H178A OUT=PMED (KEEP=LINKIDX RXXP15X RXSF15X--RXOU15X
+261        		RENAME=(LINKIDX=EVNTIDX));
+262        	BY LINKIDX;
+263        RUN;
+=======
+216        
+217        /* Review the output after deleting duplicated cases (first 30 observations) */
+218        PROC PRINT DATA=DIAB3 (OBS=30);
+219        TITLE3 "SAMPLE DUMP AFTER DUPLICATE CASES ARE DELETED";
+220        RUN;
+
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.DIAB3
+Data Name:  ProcPrintTable
+Path:       Print.Print
+-------------
+NOTE: There were 30 observations read from the data set WORK.DIAB3.
+NOTE: The PROCEDURE PRINT printed page 3.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.08 seconds
+      cpu time            0.09 seconds
+      
+
+221        
+222        /* 4) SUM UP PMED PURCHASE-LEVEL DATA TO EVENT-LEVEL */
+223        /* (EVNTIDX is not included on the 2015 Prescribed Medicines event file, HC-178A; */
+224        /* Rather, on this file the variable for linking with EVNTIDX on the CLNK file is LINKIDX.) */
+225        /* Include additional fields representing the event type (outpatient visit, inpatient visit, ER visit, etc.) (RXSF15X--RXOUT15X) */
+226        /* Rename fields as discussed above */
+227        PROC SORT DATA=CDATA.H178A OUT=PMED (KEEP=LINKIDX RXXP15X RXSF15X--RXOU15X
+228        		RENAME=(LINKIDX=EVNTIDX));
+229        	BY LINKIDX;
+230        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 330453 observations read from the data set CDATA.H178A.
+NOTE: The data set WORK.PMED has 330453 observations and 14 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+<<<<<<< HEAD
+      real time           1.91 seconds
+      cpu time            1.20 seconds
+      
+
+264        
+265        /* Summarize the data to the EVENTID Level; Call the output PMED2 */
+266        PROC SUMMARY DATA=PMED NWAY;
+267        	CLASS EVNTIDX;
+268        	VAR RXXP15X RXSF15X--RXOU15X;
+269        	OUTPUT OUT=PMED2 SUM=;
+270        RUN;
+=======
+      real time           1.75 seconds
+      cpu time            1.13 seconds
+      
+
+231        
+232        /* Summarize the data to the EVENTID Level */
+233        /* Call the output PMED2 */
+234        PROC SUMMARY DATA=PMED NWAY;
+235        	CLASS EVNTIDX;
+236        	VAR RXXP15X RXSF15X--RXOU15X;
+237        	OUTPUT OUT=PMED2 SUM=;
+238        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 330453 observations read from the data set WORK.PMED.
+NOTE: The data set WORK.PMED2 has 140953 observations and 16 variables.
+NOTE: PROCEDURE SUMMARY used (Total process time):
+<<<<<<< HEAD
+      real time           0.42 seconds
+      cpu time            0.55 seconds
+      
+
+271        
+272        /*********************************************************************\
+273        
+274        5) ALIGN EXP VARIABLES IN DIFFERENT EVENTS WITH THE SAME NAMES
+275        
+276        Prescribed Medications File (keep Event ID and source
+277        of payment and total expenditure)
+278        
+279        Rename variables to keep consistency among source of payment between
+280        different event types
+281        
+282         *********************************************************************/
+283        
+284        DATA PMED3 (KEEP=EVNTIDX SF MR MD PV VA TR OF SL WC OR OU OT TOTEXP);
+285        	SET PMED2;
+286        	SF=RXSF15X;
+287        	MR=RXMR15X;
+288        	MD=RXMD15X;
+289        	PV=RXPV15X;
+290        	VA=RXVA15X;
+291        	TR=RXTR15X;
+292        	OF=RXOF15X;
+293        	SL=RXSL15X;
+294        	WC=RXWC15X;
+295        	OR=RXOR15X;
+296        	OU=RXOU15X;
+297        	OT=RXOT15X;
+298        	TOTEXP=RXXP15X;
+299        
+300        	IF TOTEXP GE 0;
+301        RUN;
+=======
+      real time           0.44 seconds
+      cpu time            0.57 seconds
+      
+
+239        
+240        /*5) ALIGN EXP VARIABLES IN DIFFERENT EVENTS WITH THE SAME NAMES */
+241        /* Prescribed Medications File (keep Event ID and source of payment and total expenditure) */
+242        /* rename variables to keep consistency among source of payment between different event types */
+243        DATA PMED3 (KEEP=EVNTIDX SF MR MD PV VA TR OF SL WC OR OU OT TOTEXP);
+244        	SET PMED2;
+245        	SF=RXSF15X;
+246        	MR=RXMR15X;
+247        	MD=RXMD15X;
+248        	PV=RXPV15X;
+5                                                                        The SAS System
+
+249        	VA=RXVA15X;
+250        	TR=RXTR15X;
+251        	OF=RXOF15X;
+252        	SL=RXSL15X;
+253        	WC=RXWC15X;
+254        	OR=RXOR15X;
+255        	OU=RXOU15X;
+256        	OT=RXOT15X;
+257        	TOTEXP=RXXP15X;
+258        
+259        	IF TOTEXP GE 0;
+260        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 140953 observations read from the data set WORK.PMED2.
+NOTE: The data set WORK.PMED3 has 140953 observations and 14 variables.
+NOTE: DATA statement used (Total process time):
+<<<<<<< HEAD
+      real time           0.11 seconds
+      cpu time            0.11 seconds
+      
+
+302        
+303        /*********************************************************************\
+304        
+305        Office-based Medical Provider Visits File (keep ID and source of
+306        payment)
+307        
+308        Rename variables to keep consistency among source of payment
+309        between different event types
+310        
+311         *********************************************************************/
+312        
+313        DATA OB (KEEP=EVNTIDX SF MR MD PV VA TR OF SL WC OR OU OT TOTEXP);
+314        	SET CDATA.H178G;
+315        	SF=OBSF15X;
+316        	MR=OBMR15X;
+317        	MD=OBMD15X;
+318        	PV=OBPV15X;
+319        	VA=OBVA15X;
+320        	TR=OBTR15X;
+321        	OF=OBOF15X;
+322        	SL=OBSL15X;
+323        	WC=OBWC15X;
+324        	OR=OBOR15X;
+325        	OU=OBOU15X;
+326        	OT=OBOT15X;
+327        	TOTEXP=OBXP15X;
+328        
+329        	IF TOTEXP GE 0;
+330        RUN;
+=======
+      real time           0.08 seconds
+      cpu time            0.06 seconds
+      
+
+261        
+262        /* Office-based Medical Provider Visits File (keep ID and source of payment) */
+263        /* rename variables to keep consistency among source of payment between different event types */
+264        DATA OB (KEEP=EVNTIDX SF MR MD PV VA TR OF SL WC OR OU OT TOTEXP);
+265        	SET CDATA.H178G;
+266        	SF=OBSF15X;
+267        	MR=OBMR15X;
+268        	MD=OBMD15X;
+269        	PV=OBPV15X;
+270        	VA=OBVA15X;
+271        	TR=OBTR15X;
+272        	OF=OBOF15X;
+273        	SL=OBSL15X;
+274        	WC=OBWC15X;
+275        	OR=OBOR15X;
+276        	OU=OBOU15X;
+277        	OT=OBOT15X;
+278        	TOTEXP=OBXP15X;
+279        
+280        	IF TOTEXP GE 0;
+281        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 172388 observations read from the data set CDATA.H178G.
+NOTE: The data set WORK.OB has 171076 observations and 14 variables.
+NOTE: DATA statement used (Total process time):
+<<<<<<< HEAD
+      real time           0.62 seconds
+      cpu time            0.32 seconds
+      
+
+331        
+332        /*********************************************************************\
+333        
+334        Emergency Room Event File (keep Event ID and source of payment and
+335        total expenditure)
+336        
+337        Rename variables to keep consistency among source of payment
+338        between different event types
+339        
+340         *********************************************************************/
+341        
+342        DATA EROM (KEEP=EVNTIDX SF MR MD PV VA TR OF SL WC OR OU OT TOTEXP);
+343        	SET CDATA.H178E;
+344        	SF=ERFSF15X + ERDSF15X;
+345        	MR=ERFMR15X + ERDMR15X;
+346        	MD=ERFMD15X + ERDMD15X;
+347        	PV=ERFPV15X + ERDPV15X;
+348        	VA=ERFVA15X + ERDVA15X;
+349        	TR=ERFTR15X + ERDTR15X;
+350        	OF=ERFOF15X + ERDOF15X;
+351        	SL=ERFSL15X + ERDSL15X;
+352        	WC=ERFWC15X + ERDWC15X;
+353        	OR=ERFOR15X + ERDOR15X;
+354        	OU=ERFOU15X + ERDOU15X;
+355        	OT=ERFOT15X + ERDOT15X;
+356        	TOTEXP=ERXP15X;
+357        
+358        	IF TOTEXP GE 0;
+359        RUN;
+=======
+      real time           0.59 seconds
+      cpu time            0.30 seconds
+      
+
+282        
+283        /* Emergency Room Event File (keep Event ID and source of payment and total expenditure) */
+284        /* rename variables to keep consistency among source of payment between different event types */
+285        DATA EROM (KEEP=EVNTIDX SF MR MD PV VA TR OF SL WC OR OU OT TOTEXP);
+286        	SET CDATA.H178E;
+287        	SF=ERFSF15X + ERDSF15X;
+288        	MR=ERFMR15X + ERDMR15X;
+289        	MD=ERFMD15X + ERDMD15X;
+290        	PV=ERFPV15X + ERDPV15X;
+291        	VA=ERFVA15X + ERDVA15X;
+292        	TR=ERFTR15X + ERDTR15X;
+293        	OF=ERFOF15X + ERDOF15X;
+294        	SL=ERFSL15X + ERDSL15X;
+295        	WC=ERFWC15X + ERDWC15X;
+296        	OR=ERFOR15X + ERDOR15X;
+297        	OU=ERFOU15X + ERDOU15X;
+298        	OT=ERFOT15X + ERDOT15X;
+299        	TOTEXP=ERXP15X;
+300        
+301        	IF TOTEXP GE 0;
+302        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 7163 observations read from the data set CDATA.H178E.
+NOTE: The data set WORK.EROM has 7163 observations and 14 variables.
+NOTE: DATA statement used (Total process time):
+<<<<<<< HEAD
+      real time           0.06 seconds
+      cpu time            0.03 seconds
+      
+                                                                         The SAS System
+
+
+360        
+361        /*********************************************************************\
+362        
+363        Inpatient Event File (keep Event ID and source of payment
+364        and total expenditure)
+365        
+366        Rename variables to keep consistency among source of payment between
+367        different event types
+368        
+369         *********************************************************************/
+370        
+371        DATA IPAT (KEEP=EVNTIDX SF MR MD PV VA TR OF SL WC OR OU OT TOTEXP);
+372        	SET CDATA.H178D;
+373        	SF=IPFSF15X + IPDSF15X;
+374        	MR=IPFMR15X + IPDMR15X;
+375        	MD=IPFMD15X + IPDMD15X;
+376        	PV=IPFPV15X + IPDPV15X;
+377        	VA=IPFVA15X + IPDVA15X;
+378        	TR=IPFTR15X + IPDTR15X;
+379        	OF=IPFOF15X + IPDOF15X;
+380        	SL=IPFSL15X + IPDSL15X;
+381        	WC=IPFWC15X + IPDWC15X;
+382        	OR=IPFOR15X + IPDOR15X;
+383        	OU=IPFOU15X + IPDOU15X;
+384        	OT=IPFOT15X + IPDOT15X;
+385        	TOTEXP=IPXP15X;
+386        
+387        	IF TOTEXP GE 0;
+388        RUN;
+=======
+      real time           0.05 seconds
+      cpu time            0.02 seconds
+      
+6                                                                        The SAS System
+
+
+303        
+304        /* Inpatient Event File (keep Event ID and source of payment and total expenditure) */
+305        /* rename variables to keep consistency among source of payment between different event types */
+306        DATA IPAT (KEEP=EVNTIDX SF MR MD PV VA TR OF SL WC OR OU OT TOTEXP);
+307        	SET CDATA.H178D;
+308        	SF=IPFSF15X + IPDSF15X;
+309        	MR=IPFMR15X + IPDMR15X;
+310        	MD=IPFMD15X + IPDMD15X;
+311        	PV=IPFPV15X + IPDPV15X;
+312        	VA=IPFVA15X + IPDVA15X;
+313        	TR=IPFTR15X + IPDTR15X;
+314        	OF=IPFOF15X + IPDOF15X;
+315        	SL=IPFSL15X + IPDSL15X;
+316        	WC=IPFWC15X + IPDWC15X;
+317        	OR=IPFOR15X + IPDOR15X;
+318        	OU=IPFOU15X + IPDOU15X;
+319        	OT=IPFOT15X + IPDOT15X;
+320        	TOTEXP=IPXP15X;
+321        
+322        	IF TOTEXP GE 0;
+323        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 2921 observations read from the data set CDATA.H178D.
+NOTE: The data set WORK.IPAT has 2921 observations and 14 variables.
+NOTE: DATA statement used (Total process time):
+<<<<<<< HEAD
+      real time           0.04 seconds
+      cpu time            0.01 seconds
+      
+
+389        
+390        /*********************************************************************\
+391        
+392        Home Health Visit Event File (keep Event ID and source of payment
+393        and total expenditure)
+394        
+395        Rename variables to keep consistency among source of payment between
+396        different event types
+397        
+398         *********************************************************************/
+399        
+400        DATA HVIS (KEEP=EVNTIDX SF MR MD PV VA TR OF SL WC OR OU OT TOTEXP);
+401        	SET CDATA.H178H;
+402        	SF=HHSF15X;
+403        	MR=HHMR15X;
+404        	MD=HHMD15X;
+405        	PV=HHPV15X;
+406        	VA=HHVA15X;
+407        	TR=HHTR15X;
+408        	OF=HHOF15X;
+409        	SL=HHSL15X;
+410        	WC=HHWC15X;
+411        	OR=HHOR15X;
+412        	OU=HHOU15X;
+413        	OT=HHOT15X;
+414        	TOTEXP=HHXP15X;
+415        
+416        	IF TOTEXP GE 0;
+417        RUN;
+=======
+      real time           0.03 seconds
+      cpu time            0.01 seconds
+      
+
+324        
+325        /* Home Health Visit Event File (keep Event ID and source of payment and total expenditure) */
+326        /* rename variables to keep consistency among source of payment between different event types */
+327        DATA HVIS (KEEP=EVNTIDX SF MR MD PV VA TR OF SL WC OR OU OT TOTEXP);
+328        	SET CDATA.H178H;
+329        	SF=HHSF15X;
+330        	MR=HHMR15X;
+331        	MD=HHMD15X;
+332        	PV=HHPV15X;
+333        	VA=HHVA15X;
+334        	TR=HHTR15X;
+335        	OF=HHOF15X;
+336        	SL=HHSL15X;
+337        	WC=HHWC15X;
+338        	OR=HHOR15X;
+339        	OU=HHOU15X;
+340        	OT=HHOT15X;
+341        	TOTEXP=HHXP15X;
+342        
+343        	IF TOTEXP GE 0;
+344        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 6663 observations read from the data set CDATA.H178H.
+NOTE: The data set WORK.HVIS has 5933 observations and 14 variables.
+NOTE: DATA statement used (Total process time):
+<<<<<<< HEAD
+      real time           0.06 seconds
+      cpu time            0.03 seconds
+      
+
+418        
+419        
+420        /*********************************************************************\
+421        
+422        Outpatient Event File (keep Event ID and source of
+423        payment and total expenditure)
+424        
+425        Rename variables to keep consistency among source of payment
+426        between different event types
+427        
+428         *********************************************************************/
+429        
+430        DATA OPAT (KEEP=EVNTIDX SF MR MD PV VA TR OF SL WC OR OU OT TOTEXP);
+431        	SET CDATA.H178F;
+432        	SF=OPFSF15X + OPDSF15X;
+433        	MR=OPFMR15X + OPDMR15X;
+434        	MD=OPFMD15X + OPDMD15X;
+435        	PV=OPFPV15X + OPDPV15X;
+436        	VA=OPFVA15X + OPDVA15X;
+437        	TR=OPFTR15X + OPDTR15X;
+438        	OF=OPFOF15X + OPDOF15X;
+439        	SL=OPFSL15X + OPDSL15X;
+440        	WC=OPFWC15X + OPDWC15X;
+441        	OR=OPFOR15X + OPDOR15X;
+442        	OU=OPFOU15X + OPDOU15X;
+443        	OT=OPFOT15X + OPDOT15X;
+444        	TOTEXP=OPXP15X;
+445        
+446        	IF TOTEXP GE 0;
+447        RUN;
+=======
+      real time           0.07 seconds
+      cpu time            0.03 seconds
+      
+
+345        
+346        /* Outpatient Event File (keep Event ID and source of payment and total expenditure) */
+347        /* rename variables to keep consistency among source of payment between different event types */
+348        DATA OPAT (KEEP=EVNTIDX SF MR MD PV VA TR OF SL WC OR OU OT TOTEXP);
+349        	SET CDATA.H178F;
+350        	SF=OPFSF15X + OPDSF15X;
+351        	MR=OPFMR15X + OPDMR15X;
+352        	MD=OPFMD15X + OPDMD15X;
+353        	PV=OPFPV15X + OPDPV15X;
+354        	VA=OPFVA15X + OPDVA15X;
+355        	TR=OPFTR15X + OPDTR15X;
+356        	OF=OPFOF15X + OPDOF15X;
+357        	SL=OPFSL15X + OPDSL15X;
+358        	WC=OPFWC15X + OPDWC15X;
+359        	OR=OPFOR15X + OPDOR15X;
+360        	OU=OPFOU15X + OPDOU15X;
+361        	OT=OPFOT15X + OPDOT15X;
+362        	TOTEXP=OPXP15X;
+7                                                                        The SAS System
+
+363        
+364        	IF TOTEXP GE 0;
+365        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 14178 observations read from the data set CDATA.H178F.
+NOTE: The data set WORK.OPAT has 14107 observations and 14 variables.
+NOTE: DATA statement used (Total process time):
+<<<<<<< HEAD
+      real time           0.09 seconds
+      cpu time            0.05 seconds
+      
+
+448        
+449        /*********************************************************************\
+450        
+451        6)  COMBINE ALL EVENTS INTO ONE DATASET
+452        Rename datasets with 2 letter references (i.e. IN=) and keep
+453        corresponding variables created above
+454        
+455        Create an EVNTYP variable to describe the type of event based
+456        on the original file
+457        
+458        Set the EVNTYP variable based on the name of the dataset that was
+459        combined into ALLEVENT Dataset
+460        
+461        Create labels for the display output
+462        
+463         *********************************************************************/
+464        
+465        DATA ALLEVENT;
+466        	SET OB   (IN=MV KEEP=EVNTIDX SF MR MD PV VA TR OF SL WC OR OU OT TOTEXP)
+467        		EROM (IN=ER KEEP=EVNTIDX SF MR MD PV VA TR OF SL WC OR OU OT TOTEXP)
+468        		IPAT (IN=ST KEEP=EVNTIDX SF MR MD PV VA TR OF SL WC OR OU OT TOTEXP)
+469        		HVIS (IN=HH KEEP=EVNTIDX SF MR MD PV VA TR OF SL WC OR OU OT TOTEXP)
+470        		OPAT (IN=OP KEEP=EVNTIDX SF MR MD PV VA TR OF SL WC OR OU OT TOTEXP)
+471        		PMED3 (IN=RX KEEP=EVNTIDX SF MR MD PV VA TR OF SL WC OR OU OT TOTEXP);
+472        	BY EVNTIDX;
+473        	LENGTH EVNTYP $4;
+474        	LABEL EVNTYP='EVENT TYPE' TOTEXP='TOTAL EXPENDITURE FOR EVENT'
+475        		SF="SOURCE OF PAYMENT: FAMILY" MR="SOURCE OF PAYMENT: MEDICARE"
+476        		MD="SOURCE OF PAYMENT: MEDICAID" PV="SOURCE OF PAYMENT: PRIVATE INSURANCE"
+477        		VA="SOURCE OF PAYMENT: VETERANS" TR="SOURCE OF PAYMENT: TRICARE"
+478        		OF="SOURCE OF PAYMENT: OTHER FEDERAL"
+479        		SL="SOURCE OF PAYMENT: STATE & LOCAL GOV"
+480        		WC="SOURCE OF PAYMENT: WORKERS COMP" OR="SOURCE OF PAYMENT: OTHER PRIVATE"
+481        		OU="SOURCE OF PAYMENT: OTHER PUBLIC" OT="SOURCE OF PAYMENT: OTHER INSURANCE";
+482        
+483        	IF MV OR OP THEN
+484        		EVNTYP='AMBU';
+485        	ELSE IF ER THEN
+486        		EVNTYP='EROM';
+487        	ELSE IF ST THEN
+488        		EVNTYP='IPAT';
+489        	ELSE IF HH THEN
+490        		EVNTYP='HVIS';
+491        	ELSE IF RX THEN
+492        		EVNTYP='PMED';
+493        RUN;
+=======
+      real time           0.11 seconds
+      cpu time            0.05 seconds
+      
+
+366        
+367        /* 6)  COMBINE ALL EVENTS INTO ONE DATASET */
+368        /* Rename datasets with 2 letter references (i.e. IN=) and keep corresponding variables created above */
+369        /* Create an EVNTYP variable to describe the type of event based on the original file */
+370        /* Set the EVNTYP variable based on the name of the dataset that was combined into ALLEVENT Dataset */
+371        /* Create labels for the display output */
+372        DATA ALLEVENT;
+373        	SET OB   (IN=MV KEEP=EVNTIDX SF MR MD PV VA TR OF SL WC OR OU OT TOTEXP)
+374        		EROM (IN=ER KEEP=EVNTIDX SF MR MD PV VA TR OF SL WC OR OU OT TOTEXP)
+375        		IPAT (IN=ST KEEP=EVNTIDX SF MR MD PV VA TR OF SL WC OR OU OT TOTEXP)
+376        		HVIS (IN=HH KEEP=EVNTIDX SF MR MD PV VA TR OF SL WC OR OU OT TOTEXP)
+377        		OPAT (IN=OP KEEP=EVNTIDX SF MR MD PV VA TR OF SL WC OR OU OT TOTEXP)
+378        		PMED3 (IN=RX KEEP=EVNTIDX SF MR MD PV VA TR OF SL WC OR OU OT TOTEXP);
+379        	BY EVNTIDX;
+380        	LENGTH EVNTYP $4;
+381        	LABEL EVNTYP='EVENT TYPE' TOTEXP='TOTAL EXPENDITURE FOR EVENT'
+382        		SF="SOURCE OF PAYMENT: FAMILY" MR="SOURCE OF PAYMENT: MEDICARE"
+383        		MD="SOURCE OF PAYMENT: MEDICAID" PV="SOURCE OF PAYMENT: PRIVATE INSURANCE"
+384        		VA="SOURCE OF PAYMENT: VETERANS" TR="SOURCE OF PAYMENT: TRICARE"
+385        		OF="SOURCE OF PAYMENT: OTHER FEDERAL"
+386        		SL="SOURCE OF PAYMENT: STATE & LOCAL GOV"
+387        		WC="SOURCE OF PAYMENT: WORKERS COMP" OR="SOURCE OF PAYMENT: OTHER PRIVATE"
+388        		OU="SOURCE OF PAYMENT: OTHER PUBLIC" OT="SOURCE OF PAYMENT: OTHER INSURANCE";
+389        
+390        	IF MV OR OP THEN
+391        		EVNTYP='AMBU';
+392        	ELSE IF ER THEN
+393        		EVNTYP='EROM';
+394        	ELSE IF ST THEN
+395        		EVNTYP='IPAT';
+396        	ELSE IF HH THEN
+397        		EVNTYP='HVIS';
+398        	ELSE IF RX THEN
+399        		EVNTYP='PMED';
+400        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 171076 observations read from the data set WORK.OB.
+NOTE: There were 7163 observations read from the data set WORK.EROM.
+NOTE: There were 2921 observations read from the data set WORK.IPAT.
+NOTE: There were 5933 observations read from the data set WORK.HVIS.
+NOTE: There were 14107 observations read from the data set WORK.OPAT.
+NOTE: There were 140953 observations read from the data set WORK.PMED3.
+NOTE: The data set WORK.ALLEVENT has 342153 observations and 15 variables.
+NOTE: DATA statement used (Total process time):
+<<<<<<< HEAD
+      real time           0.40 seconds
+      cpu time            0.40 seconds
+      
+
+494        
+495        /*********************************************************************\
+496        
+497        Display frequency counts for the events combined into 1 file
+498        LIST displays as list output, MISSING treats missing values as
+499        valid nonmissing levels
+500        FORMAT as appropriate
+501        
+502         *********************************************************************/
+503        
+504        PROC FREQ DATA=ALLEVENT;
+505        	TABLES EVNTYP TOTEXP SF MR MD PV VA TR OF SL WC OR OU OT /LIST MISSING;
+506        	FORMAT TOTEXP SF MR MD PV VA TR OF SL WC OR OU OT gezero.;
+507        TITLE3 "ALL EVENTS ARE COMBINED INTO ONE FILE";
+508        RUN;
+
+NOTE: There were 342153 observations read from the data set WORK.ALLEVENT.
+NOTE: The PROCEDURE FREQ printed page 55.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           0.80 seconds
+      cpu time            0.79 seconds
+      
+
+509        
+510        /* Print the first 20 observations (ALL EVENTS COMINTED INTO ONE FILE) */
+511        PROC PRINT DATA=ALLEVENT (OBS=20);
+                                                                         The SAS System
+
+512        RUN;
+
+NOTE: There were 20 observations read from the data set WORK.ALLEVENT.
+NOTE: The PROCEDURE PRINT printed page 56.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.13 seconds
+      cpu time            0.13 seconds
+      
+
+513        
+514        /*********************************************************************\
+515        
+516        7) SUBSET EVENTS TO THOSE ONLY WITH DIABETES
+517        MERGE DIAB3 dataset with ALLEVENT dataset
+518        Create a dataset of all events for DIAB Condition called DIAB4
+519        
+520         *********************************************************************/
+521        
+522        DATA DIAB4;
+523        	MERGE DIAB3(IN=AA) ALLEVENT(IN=BB);
+524        	BY EVNTIDX;
+525        
+526        	IF AA AND BB;
+527        RUN;
+=======
+      real time           0.39 seconds
+      cpu time            0.37 seconds
+      
+
+401        
+402        /* Display frequency counts for the events combined into 1 file */
+403        /* LIST displays as list output, MISSING treats missing values as valid nonmissing levels */
+404        /* FORMAT as appropriate */
+405        PROC FREQ DATA=ALLEVENT;
+406        	TABLES EVNTYP TOTEXP SF MR MD PV VA TR OF SL WC OR OU OT /LIST MISSING;
+407        	FORMAT TOTEXP SF MR MD PV VA TR OF SL WC OR OU OT gezero.;
+408        TITLE3 "ALL EVENTS ARE COMBINED INTO ONE FILE";
+409        RUN;
+
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table1.OneWayFreqs
+-------------
+8                                                                        The SAS System
+
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table2.OneWayFreqs
+-------------
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table3.OneWayFreqs
+-------------
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table4.OneWayFreqs
+-------------
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table5.OneWayFreqs
+-------------
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table6.OneWayFreqs
+-------------
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table7.OneWayFreqs
+-------------
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table8.OneWayFreqs
+-------------
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table9.OneWayFreqs
+-------------
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table10.OneWayFreqs
+-------------
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+9                                                                        The SAS System
+
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table11.OneWayFreqs
+-------------
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table12.OneWayFreqs
+-------------
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table13.OneWayFreqs
+-------------
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table14.OneWayFreqs
+-------------
+NOTE: There were 342153 observations read from the data set WORK.ALLEVENT.
+NOTE: The PROCEDURE FREQ printed pages 4-5.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           0.81 seconds
+      cpu time            0.75 seconds
+      
+
+410        
+411        /* Print the first 20 observations (ALL EVENTS COMINTED INTO ONE FILE) */
+412        PROC PRINT DATA=ALLEVENT (OBS=20);
+413        RUN;
+
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.ALLEVENT
+Data Name:  ProcPrintTable
+Path:       Print.Print
+-------------
+NOTE: There were 20 observations read from the data set WORK.ALLEVENT.
+NOTE: The PROCEDURE PRINT printed page 6.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.16 seconds
+      cpu time            0.15 seconds
+      
+
+414        
+415        /* 7) SUBSET EVENTS TO THOSE ONLY WITH DIABETES */
+416        /* MERGE DIAB3 dataset with ALLEVENT dataset */
+417        /* Create a dataset of all events for DIAB Condition called DIAB4 */
+418        DATA DIAB4;
+419        	MERGE DIAB3(IN=AA) ALLEVENT(IN=BB);
+420        	BY EVNTIDX;
+421        
+422        	IF AA AND BB;
+423        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 21508 observations read from the data set WORK.DIAB3.
+NOTE: There were 342153 observations read from the data set WORK.ALLEVENT.
+NOTE: The data set WORK.DIAB4 has 21261 observations and 16 variables.
+NOTE: DATA statement used (Total process time):
+<<<<<<< HEAD
+      real time           0.19 seconds
+      cpu time            0.19 seconds
+      
+
+528        
+529        
+530        /*********************************************************************\
+531        
+532        8) CALCULATE ESTIMATES ON EXPENDITURES AND USE, ALL TYPES OF SERVICE
+533        Push output to ALL Dataset
+534        Group by DUPERSID
+535        
+536         *********************************************************************/
+537        
+538        
+539        PROC SUMMARY DATA=DIAB4 NWAY;
+540        	CLASS DUPERSID;
+541        	VAR TOTEXP SF MR MD PV VA TR OF SL WC OR OU OT;
+542        	OUTPUT OUT=ALL SUM=;
+543        RUN;
+=======
+      real time           0.18 seconds
+      cpu time            0.18 seconds
+      
+
+424        
+425        /* 8) CALCULATE ESTIMATES ON EXPENDITURES AND USE, ALL TYPES OF SERVICE */
+426        /* Push output to ALL Dataset */
+427        /* Group by DUPERSID */
+10                                                                       The SAS System
+
+428        PROC SUMMARY DATA=DIAB4 NWAY;
+429        	CLASS DUPERSID;
+430        	VAR TOTEXP SF MR MD PV VA TR OF SL WC OR OU OT;
+431        	OUTPUT OUT=ALL SUM=;
+432        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 21261 observations read from the data set WORK.DIAB4.
+NOTE: The data set WORK.ALL has 2902 observations and 16 variables.
+NOTE: PROCEDURE SUMMARY used (Total process time):
+<<<<<<< HEAD
+      real time           0.03 seconds
+      cpu time            0.04 seconds
+      
+
+544        
+545        /*********************************************************************\
+546        
+547        Merge the original dataset with the previous dataset to calculate
+548        estimates on EXPENDITURES and USE for ALL TYPES OF SERVICE per person
+549        
+550        Create a FLAG (Subpop.) for people who have at least 1 event
+551        (Home health visit, ambulance, prescribed medication, emergency room)
+552        associated with DIAB
+553        
+554        Keep only those in Analysis with PERWT15F > 0
+555        
+556         *********************************************************************/
+557        
+558        DATA FY1;
+559        	MERGE CDATA.H181 (IN=AA KEEP=DUPERSID VARPSU VARSTR
+560        		PERWT15F /*ADD MORE VARIABLES*/) ALL        (IN=BB KEEP=DUPERSID TOTEXP SF MR
+561        		MD PV VA TR OF SL WC OR OU OT);
+562        	BY DUPERSID;
+563        	LABEL SUB='PERSONS WHO HAVE AT LEAST 1 EVENT ASSOCIATED WITH DIABETES';
+564        
+565        	IF AA AND BB THEN
+566        		SUB=1;
+567        	ELSE IF AA AND NOT BB THEN
+568        		DO;
+569        
+570        			/*PERSONS WITHOUT EVENTS WITH DIABETES*/
+571        			SUB=2;
+572        			TOTEXP=0;
+573        			SF=0;
+574        			MR=0;
+575        			MD=0;
+576        			PV=0;
+577        			VA=0;
+578        			TR=0;
+579        			OF=0;
+580        			SL=0;
+581        			WC=0;
+582        			OR=0;
+583        			OU=0;
+584        			OT=0;
+585        		END;
+586        
+587        	IF PERWT15F > 0;
+588        RUN;
+=======
+      real time           0.02 seconds
+      cpu time            0.03 seconds
+      
+
+433        
+434        /* Merge the original dataset with the previous dataset to calculate estimates on EXPENDITURES and USE for ALL TYPES OF SERVICE per person */
+435        /* Create a FLAG (Subpop.) for people who have at least 1 event (Home health visit, ambulance, prescribed medication, emergency room) associated with
+435      !  DIAB */
+436        /* Keep only those in Analysis with PERWT15F > 0 */
+437        DATA FY1;
+438        	MERGE CDATA.H181 (IN=AA KEEP=DUPERSID VARPSU VARSTR
+439        		PERWT15F /*ADD MORE VARIABLES*/) ALL        (IN=BB KEEP=DUPERSID TOTEXP SF MR
+440        		MD PV VA TR OF SL WC OR OU OT);
+441        	BY DUPERSID;
+442        	LABEL SUB='PERSONS WHO HAVE AT LEAST 1 EVENT ASSOCIATED WITH DIABETES';
+443        
+444        	IF AA AND BB THEN
+445        		SUB=1;
+446        	ELSE IF AA AND NOT BB THEN
+447        		DO;
+448        
+449        			/*PERSONS WITHOUT EVENTS WITH DIABETES*/
+450        			SUB=2;
+451        			TOTEXP=0;
+452        			SF=0;
+453        			MR=0;
+454        			MD=0;
+455        			PV=0;
+456        			VA=0;
+457        			TR=0;
+458        			OF=0;
+459        			SL=0;
+460        			WC=0;
+461        			OR=0;
+462        			OU=0;
+463        			OT=0;
+464        		END;
+465        
+466        	IF PERWT15F > 0;
+467        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 35427 observations read from the data set CDATA.H181.
+NOTE: There were 2902 observations read from the data set WORK.ALL.
+NOTE: The data set WORK.FY1 has 33893 observations and 18 variables.
+NOTE: DATA statement used (Total process time):
+<<<<<<< HEAD
+      real time           2.45 seconds
+      cpu time            1.18 seconds
+      
+
+589        
+590        /* Turn off graphs and suppress output */
+591        ODS GRAPHICS OFF;
+592        
+593        /* Close the ODS LISTING output */
+594        ODS LISTING CLOSE;
+595        
+596        
+597        /*********************************************************************\
+598        
+599        Calculate persons with condition (DIAB) who reported EVENT
+600        (home health visit, prescribed medication, ambulance, etc. )
+601        
+602        Calculate estimates for all sources of payments for sub-pop
+603        (persons with DIAB reporting an Event)
+604        
+605         *********************************************************************/
+606        
+607        PROC SURVEYMEANS DATA=FY1 NOBS SUMWGT SUM STD MEAN STDERR;
+608        	STRATA VARSTR;
+609        	CLUSTER VARPSU;
+610        	WEIGHT PERWT15F;
+611        	DOMAIN SUB('1');
+612        	VAR TOTEXP SF MR MD PV VA TR OF SL WC OR OU OT;
+613        	ODS OUTPUT DOMAIN=OUT1;
+614        RUN;
+
+NOTE: The data set WORK.OUT1 has 13 observations and 10 variables.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.52 seconds
+      cpu time            0.50 seconds
+      
+
+615        
+616        /* Turn output on */
+617        ODS LISTING;
+618        
+619        /*********************************************************************\
+620        
+621        Display ESTIMATES ON USE AND EXPENDITURES FOR ALL EVENTS
+622        ASSOCIATED WITH DIABETES FOR 2015 BY SOURCE OF PAYMENTS
+623        
+624         *********************************************************************/
+625        
+626        PROC PRINT DATA=OUT1 NOOBS LABEL;
+627        	VAR VARNAME /*VARLABEL*/
+628        	N SUMWGT SUM STDDEV MEAN STDERR;
+629        	FORMAT N comma6.0 SUMWGT SUM STDDEV comma17.0 MEAN STDERR comma9.2;
+630        TITLE3 "ESTIMATES ON USE AND EXPENDITURES FOR ALL EVENTS ASSOCIATED WITH DIABETES, 2015";
+631        RUN;
+
+NOTE: There were 13 observations read from the data set WORK.OUT1.
+NOTE: The PROCEDURE PRINT printed page 57.
+=======
+      real time           2.10 seconds
+      cpu time            1.02 seconds
+      
+
+468        
+469        /* Turn off graphs and suppress output */
+470        ODS GRAPHICS OFF;
+471        
+472        /* Close the ODS LISTING output */
+473        ODS LISTING CLOSE;
+474        
+475        /* Calculate persons with condition (DIAB) who reported EVENT (home health visit, prescribed medication, ambulance, etc. ) */
+476        /* Calculate estimates for all sources of payments for sub-pop (persons with DIAB reporting an Event) */
+477        PROC SURVEYMEANS DATA=FY1 NOBS SUMWGT SUM STD MEAN STDERR;
+478        	STRATA VARSTR;
+479        	CLUSTER VARPSU;
+480        	WEIGHT PERWT15F;
+481        	DOMAIN SUB('1');
+482        	VAR TOTEXP SF MR MD PV VA TR OF SL WC OR OU OT;
+483        	ODS OUTPUT DOMAIN=OUT1;
+484        RUN;
+
+
+11                                                                       The SAS System
+
+Output Added:
+-------------
+Name:       Summary
+Label:      Data Summary
+Template:   Stat.SurveyMeans.Factoid
+Path:       Surveymeans.Summary
+-------------
+
+Output Added:
+-------------
+Name:       Statistics
+Label:      Statistics
+Template:   Stat.SurveyMeans.Statistics
+Path:       Surveymeans.Statistics
+-------------
+
+Output Added:
+-------------
+Name:       Domain
+Label:      Statistics
+Template:   Stat.SurveyMeans.Domain
+Path:       Surveymeans.DomainAnalysis.Domain
+-------------
+NOTE: The data set WORK.OUT1 has 13 observations and 10 variables.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.47 seconds
+      cpu time            0.42 seconds
+      
+
+485        
+486        /* Turn output on */
+487        ODS LISTING;
+488        
+489        /* Display ESTIMATES ON USE AND EXPENDITURES FOR ALL EVENTS ASSOCIATED WITH DIABETES FOR 2015 BY SOURCE OF PAYMENTS */
+490        PROC PRINT DATA=OUT1 NOOBS LABEL;
+491        	VAR VARNAME /*VARLABEL*/
+492        	N SUMWGT SUM STDDEV MEAN STDERR;
+493        	FORMAT N comma6.0 SUMWGT SUM STDDEV comma17.0 MEAN STDERR comma9.2;
+494        TITLE3 "ESTIMATES ON USE AND EXPENDITURES FOR ALL EVENTS ASSOCIATED WITH DIABETES, 2015";
+495        RUN;
+
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.OUT1
+Data Name:  ProcPrintTable
+Path:       Print.Print
+-------------
+NOTE: There were 13 observations read from the data set WORK.OUT1.
+NOTE: The PROCEDURE PRINT printed page 7.
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.07 seconds
+      cpu time            0.07 seconds
+      
+
+<<<<<<< HEAD
+632        
+633        /*********************************************************************\
+634        
+635        9) CALCULATE ESTIMATES ON EXPENDITURES AND USE BY TYPE OF SERVICE
+636        
+637        Further consolidate data by summing up to PERSON-EVENT TYPE LEVEL
+638        
+639        How many event types per person? 1 AMB, 13 PMED for person with DB
+640        Pass output TOS (Type of Service) Temporary dataset
+641        
+642         *********************************************************************/
+643        
+644        
+645        PROC SUMMARY DATA=DIAB4 NWAY;
+646        	CLASS DUPERSID EVNTYP;
+647        	VAR TOTEXP SF MR MD PV VA TR OF SL WC OR OU OT;
+648        	OUTPUT OUT=TOS SUM=;
+649        RUN;
+=======
+496        
+497        /* 9) CALCULATE ESTIMATES ON EXPENDITURES AND USE BY TYPE OF SERVICE */
+498        /* Further consolidate data by summing up to PERSON-EVENT TYPE LEVEL */
+499        /* How many event types per person? 1 AMB, 13 PMED for person with DB */
+500        /* Pass output TOS (Type of Service) Temporary dataset */
+501        PROC SUMMARY DATA=DIAB4 NWAY;
+502        	CLASS DUPERSID EVNTYP;
+503        	VAR TOTEXP SF MR MD PV VA TR OF SL WC OR OU OT;
+504        	OUTPUT OUT=TOS SUM=;
+505        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 21261 observations read from the data set WORK.DIAB4.
+NOTE: The data set WORK.TOS has 4973 observations and 17 variables.
+NOTE: PROCEDURE SUMMARY used (Total process time):
+<<<<<<< HEAD
+      real time           0.03 seconds
+      cpu time            0.05 seconds
+      
+
+650        
+651        /* Drop the _TYPE_ Field and rename _FREQ_ to N_VISITS
+652        Call the dataset TOS2 (TYPE OF SERVICE 2) */
+                                                                         The SAS System
+
+653        DATA TOS2;
+654        	SET TOS (DROP=_TYPE_ RENAME=(_FREQ_=N_VISITS));
+655        	LABEL N_VISITS='# OF VISITS PER PERSON FOR EACH TYPE OF SERVICE';
+656        RUN;
+=======
+      real time           0.04 seconds
+      cpu time            0.06 seconds
+      
+
+506        
+507        /* Drop the _TYPE_ Field and rename _FREQ_ to N_VISITS */
+508        /* Call the dataset TOS2 (TYPE OF SERVICE 2) */
+12                                                                       The SAS System
+
+509        DATA TOS2;
+510        	SET TOS (DROP=_TYPE_ RENAME=(_FREQ_=N_VISITS));
+511        	LABEL N_VISITS='# OF VISITS PER PERSON FOR EACH TYPE OF SERVICE';
+512        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 4973 observations read from the data set WORK.TOS.
+NOTE: The data set WORK.TOS2 has 4973 observations and 16 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+<<<<<<< HEAD
+      cpu time            0.02 seconds
+      
+
+657        
+658        
+659        /* Print the results to check output
+660        QC - Sample Dump */
+661        PROC PRINT DATA=TOS2 (OBS=20);
+662        	BY DUPERSID;
+663        TITLE3 "SAMPLE DUMP AFTER DATA IS SUMMED UP TO PERSON-EVENT TYPE-LEVEL";
+664        RUN;
+
+NOTE: There were 20 observations read from the data set WORK.TOS2.
+NOTE: The PROCEDURE PRINT printed page 58.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.37 seconds
+      cpu time            0.36 seconds
+      
+
+665        
+666        /*********************************************************************\
+667        
+668        Create dataset and FLAG variable for Persons who have at least 1
+669        event associated with diabetes.
+670        
+671        SubPop either has event associated with DIAB (Condition) or does not.
+672        
+673        Keep only those individuals for analysis with a PERWT15F > 0.
+674        
+675         *********************************************************************/
+676        
+677        DATA FYTOS;
+678        	MERGE CDATA.H181 (IN=AA KEEP=DUPERSID VARPSU VARSTR
+679        		PERWT15F /*ADD MORE VARIABLES*/) TOS2       (IN=BB);
+680        	BY DUPERSID;
+681        
+682        	IF AA AND BB THEN
+683        		SUB=1;
+684        	ELSE IF AA AND NOT BB THEN
+685        		DO;
+686        
+687        			/*PERSONS WITHOUT EVENTS WITH DIABETES*/
+688        			SUB=2;
+689        			EVNTYP='NA';
+690        			N_VISITS=0;
+691        			TOTEXP=0;
+692        			SF=0;
+693        			MR=0;
+694        			MD=0;
+695        			PV=0;
+696        			VA=0;
+697        			TR=0;
+698        			OF=0;
+699        			SL=0;
+700        			WC=0;
+701        			OR=0;
+702        			OU=0;
+703        			OT=0;
+704        		END;
+705        	LABEL SUB='PERSONS WHO HAVE AT LEAST 1 EVENT ASSOCIATED WITH DIABETES';
+706        
+707        	IF PERWT15F > 0;
+708        RUN;
+=======
+      cpu time            0.01 seconds
+      
+
+513        
+514        
+515        /* Print the results to check output */
+516        /* QC - Sample Dump */
+517        PROC PRINT DATA=TOS2 (OBS=20);
+518        	BY DUPERSID;
+519        TITLE3 "SAMPLE DUMP AFTER DATA IS SUMMED UP TO PERSON-EVENT TYPE-LEVEL";
+520        RUN;
+
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.TOS2
+Data Name:  ProcPrintTable
+Path:       Print.ByGroup1.Print
+-------------
+NOTE: The above message was for the following BY group:
+      PERSON ID (DUID + PID)=60001101
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.TOS2
+Data Name:  ProcPrintTable
+Path:       Print.ByGroup2.Print
+-------------
+NOTE: The above message was for the following BY group:
+      PERSON ID (DUID + PID)=60001102
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.TOS2
+Data Name:  ProcPrintTable
+Path:       Print.ByGroup3.Print
+-------------
+NOTE: The above message was for the following BY group:
+      PERSON ID (DUID + PID)=60004103
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.TOS2
+Data Name:  ProcPrintTable
+Path:       Print.ByGroup4.Print
+-------------
+NOTE: The above message was for the following BY group:
+      PERSON ID (DUID + PID)=60020101
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.TOS2
+Data Name:  ProcPrintTable
+Path:       Print.ByGroup5.Print
+-------------
+NOTE: The above message was for the following BY group:
+      PERSON ID (DUID + PID)=60035101
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.TOS2
+Data Name:  ProcPrintTable
+13                                                                       The SAS System
+
+Path:       Print.ByGroup6.Print
+-------------
+NOTE: The above message was for the following BY group:
+      PERSON ID (DUID + PID)=60036101
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.TOS2
+Data Name:  ProcPrintTable
+Path:       Print.ByGroup7.Print
+-------------
+NOTE: The above message was for the following BY group:
+      PERSON ID (DUID + PID)=60045101
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.TOS2
+Data Name:  ProcPrintTable
+Path:       Print.ByGroup8.Print
+-------------
+NOTE: The above message was for the following BY group:
+      PERSON ID (DUID + PID)=60052101
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.TOS2
+Data Name:  ProcPrintTable
+Path:       Print.ByGroup9.Print
+-------------
+NOTE: The above message was for the following BY group:
+      PERSON ID (DUID + PID)=60060102
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.TOS2
+Data Name:  ProcPrintTable
+Path:       Print.ByGroup10.Print
+-------------
+NOTE: The above message was for the following BY group:
+      PERSON ID (DUID + PID)=60069101
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.TOS2
+Data Name:  ProcPrintTable
+Path:       Print.ByGroup11.Print
+-------------
+NOTE: The above message was for the following BY group:
+      PERSON ID (DUID + PID)=60121103
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.TOS2
+Data Name:  ProcPrintTable
+Path:       Print.ByGroup12.Print
+-------------
+NOTE: The above message was for the following BY group:
+      PERSON ID (DUID + PID)=60122202
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.TOS2
+Data Name:  ProcPrintTable
+Path:       Print.ByGroup13.Print
+-------------
+NOTE: The above message was for the following BY group:
+      PERSON ID (DUID + PID)=60128102
+NOTE: There were 20 observations read from the data set WORK.TOS2.
+NOTE: The PROCEDURE PRINT printed pages 8-9.
+NOTE: PROCEDURE PRINT used (Total process time):
+14                                                                       The SAS System
+
+      real time           0.38 seconds
+      cpu time            0.38 seconds
+      
+
+521        
+522        /* Create dataset and FLAG variable for Persons who have at least 1 event associated with diabetes */
+523        /* SubPop either has event associated with DIAB (Condition) or does not */
+524        /* Keep only those individuals for analysis with a PERWT15F > 0 */
+525        DATA FYTOS;
+526        	MERGE CDATA.H181 (IN=AA KEEP=DUPERSID VARPSU VARSTR
+527        		PERWT15F /*ADD MORE VARIABLES*/) TOS2       (IN=BB);
+528        	BY DUPERSID;
+529        
+530        	IF AA AND BB THEN
+531        		SUB=1;
+532        	ELSE IF AA AND NOT BB THEN
+533        		DO;
+534        
+535        			/*PERSONS WITHOUT EVENTS WITH DIABETES*/
+536        			SUB=2;
+537        			EVNTYP='NA';
+538        			N_VISITS=0;
+539        			TOTEXP=0;
+540        			SF=0;
+541        			MR=0;
+542        			MD=0;
+543        			PV=0;
+544        			VA=0;
+545        			TR=0;
+546        			OF=0;
+547        			SL=0;
+548        			WC=0;
+549        			OR=0;
+550        			OU=0;
+551        			OT=0;
+552        		END;
+553        	LABEL SUB='PERSONS WHO HAVE AT LEAST 1 EVENT ASSOCIATED WITH DIABETES';
+554        
+555        	IF PERWT15F > 0;
+556        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 35427 observations read from the data set CDATA.H181.
+NOTE: There were 4973 observations read from the data set WORK.TOS2.
+NOTE: The data set WORK.FYTOS has 35931 observations and 20 variables.
+NOTE: DATA statement used (Total process time):
+<<<<<<< HEAD
+      real time           2.50 seconds
+      cpu time            1.20 seconds
+      
+
+709        
+710        /* Turn off graphics and turn off ODS LISTING output */
+711        ODS GRAPHICS OFF;
+712        *ODS LISTING CLOSE;
+713        
+714        
+715        /*********************************************************************\
+716        
+717        Compute estimates by SOURCE PAYMENT for persons who reported an
+718        EVENT with DIAB by EVENT TYPE.
+719        
+720        Output the Domain table for further processing in PROC PRINT
+721        statement.
+722        
+723         *********************************************************************/
+724        
+725        PROC SURVEYMEANS DATA=FYTOS NOBS SUMWGT SUM STD MEAN STDERR;
+726        	STRATA VARSTR;
+727        	CLUSTER VARPSU;
+728        	WEIGHT PERWT15F;
+729        	DOMAIN SUB('1') * EVNTYP;
+730        	VAR N_VISITS TOTEXP SF MR MD PV VA TR OF SL WC OR OU OT;
+731        	ODS OUTPUT DOMAIN=OUT2;
+732        RUN;
+
+=======
+      real time           2.16 seconds
+      cpu time            1.01 seconds
+      
+
+557        
+558        /* Turn off graphics and turn off ODS LISTING output */
+559        ODS GRAPHICS OFF;
+560        ODS LISTING CLOSE;
+561        
+562        /* Compute estimates by SOURCE PAYMENT for persons who reported an EVENT with DIAB by EVENT TYPE */
+563        /* Output the Domain table for further processing in PROC PRINT statement */
+564        PROC SURVEYMEANS DATA=FYTOS NOBS SUMWGT SUM STD MEAN STDERR;
+565        	STRATA VARSTR;
+566        	CLUSTER VARPSU;
+567        	WEIGHT PERWT15F;
+568        	DOMAIN SUB('1') * EVNTYP;
+569        	VAR N_VISITS TOTEXP SF MR MD PV VA TR OF SL WC OR OU OT;
+570        	ODS OUTPUT DOMAIN=OUT2;
+571        RUN;
+
+
+Output Added:
+-------------
+Name:       Summary
+Label:      Data Summary
+Template:   Stat.SurveyMeans.Factoid
+Path:       Surveymeans.Summary
+-------------
+
+Output Added:
+-------------
+Name:       Statistics
+15                                                                       The SAS System
+
+Label:      Statistics
+Template:   Stat.SurveyMeans.Statistics
+Path:       Surveymeans.Statistics
+-------------
+
+Output Added:
+-------------
+Name:       Domain
+Label:      Statistics
+Template:   Stat.SurveyMeans.Domain
+Path:       Surveymeans.DomainAnalysis.Domain
+-------------
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+NOTE: Only one cluster in a stratum for PERSONS WHO HAVE AT LEAST 1 EVENT ASSOCIATED WITH DIABETES*EVENT TYPE domains for variable(s) N_VISITS, TOTEXP, SF, MR, 
+      MD, PV, VA, TR, OF, SL, WC, OR, OU, OT. The estimate of variance for N_VISITS, TOTEXP, SF, MR, MD, PV, VA, TR, OF, SL, WC, OR, OU, OT will omit this 
+      stratum.
+NOTE: The data set WORK.OUT2 has 70 observations and 11 variables.
+<<<<<<< HEAD
+NOTE: The PROCEDURE SURVEYMEANS printed pages 59-60.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.91 seconds
+      cpu time            0.89 seconds
+      
+
+733        
+734        ODS LISTING;
+735        
+736        /* Sort data by event type */
+737        PROC SORT DATA=OUT2;
+738        	BY EVNTYP;
+739        RUN;
+=======
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.85 seconds
+      cpu time            0.80 seconds
+      
+
+572        
+573        /* Turn ODS LISTING output on */
+574        ODS LISTING;
+575        
+576        /* Sort data by event type */
+577        PROC SORT DATA=OUT2;
+578        	BY EVNTYP;
+579        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 70 observations read from the data set WORK.OUT2.
+NOTE: The data set WORK.OUT2 has 70 observations and 11 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+<<<<<<< HEAD
+740        
+741        /*********************************************************************\
+742        
+743        DISPLAY THE OUT2 DATASETS WITH LABELS
+744        DISPLAY THE ESTIMATED EXPENTIRUES AND POPULATION TOTALS FOR INDIVIDUALS
+745        REPORTING AND EVENT WITH DIABETES BY EVENT TYPE
+746        
+747         *********************************************************************/
+748        
+749        PROC PRINT DATA=OUT2 NOOBS LABEL;
+750        	BY EVNTYP;
+751        	VAR VARNAME /*VARLABEL*/
+752        TITLE3
+752      ! "
+           _
+           22
+           200
+752      ! ESTIMATES ON USE AND EXPENDITURES FOR
+ERROR 22-322: Syntax error, expecting one of the following: a name, ;, -, /, :, _ALL_, _CHARACTER_, _CHAR_, _NUMERIC_.  
+ERROR 200-322: The symbol is not recognized and will be ignored.
+753        EVENTS ASSOCIATED WITH DIABETES, BY TYPE OF SERVICE, 2015";
+ERROR: Variable TITLE3 not found.
+754        	N SUMWGT SUM STDDEV MEAN STDERR;
+            _
+            180
+ERROR 180-322: Statement is not valid or it is used out of proper order.
+755        	FORMAT N comma6.0 SUMWGT SUM STDDEV comma17.0 MEAN STDERR comma9.2;
+756        RUN;
+
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+757        
+758        /* THE PROC PRINTTO null step is required to close the PROC PRINTTO */
+
+
+759        PROC PRINTTO;
+760        RUN;
+=======
+580        
+581        /* DISPLAY THE OUT2 DATASETS WITH LABELS */
+582        /* DISPLAY THE ESTIMATED EXPENTIRUES AND POPULATION TOTALS FOR INDIVIDUALS REPORTING AND EVENT WITH DIABETES BY EVENT TYPE */
+583        PROC PRINT DATA=OUT2 NOOBS LABEL;
+584        	BY EVNTYP;
+585        	VAR VARNAME /*VARLABEL*/
+586        TITLE3 "ESTIMATES ON USE AND EXPENDITURES FOR EVENTS ASSOCIATED WITH DIABETES, BY TYPE OF SERVICE, 2015";
+                  _________________________________________________________________________________________________
+                  22
+                  200
+ERROR: Variable TITLE3 not found.
+587        	N SUMWGT SUM STDDEV MEAN STDERR;
+            _
+            180
+ERROR 22-322: Syntax error, expecting one of the following: a name, ;, -, /, :, _ALL_, _CHARACTER_, _CHAR_, _NUMERIC_.  
+ERROR 200-322: The symbol is not recognized and will be ignored.
+ERROR 180-322: Statement is not valid or it is used out of proper order.
+588        	FORMAT N comma6.0 SUMWGT SUM STDDEV comma17.0 MEAN STDERR comma9.2;
+589        RUN;
+
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+590        
+591        /* THE PROC PRINTTO null step is required to close the PROC PRINTTO */
+592        
+
+
+593        PROC PRINTTO;
+594        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+

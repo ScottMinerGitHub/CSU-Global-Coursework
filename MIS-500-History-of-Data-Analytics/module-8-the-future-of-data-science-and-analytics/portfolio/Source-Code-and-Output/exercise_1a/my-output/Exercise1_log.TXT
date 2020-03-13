@@ -1,0 +1,274 @@
+NOTE: PROCEDURE PRINTTO used (Total process time):
+      real time           0.07 seconds
+      cpu time            0.03 seconds
+      
+
+102        
+103        /* delete all files in the WORK library
+104        nolist suppresses the printing of the directory in SAS files in the SAS log
+105        kill deletes all files in the temporary WORK library in this case. */
+106        
+107        proc datasets lib=work nolist kill;
+NOTE: Deleting WORK.FORMATS (memtype=CATALOG).
+NOTE: Deleting WORK.REGSTRY (memtype=ITEMSTOR).
+NOTE: File WORK.REGSTRY (memtype=ITEMSTOR) cannot be deleted because it is in use.
+NOTE: Deleting WORK.SASGOPT (memtype=CATALOG).
+NOTE: File WORK.SASGOPT (memtype=CATALOG) cannot be deleted because it is in use.
+NOTE: Deleting WORK.SASMAC1 (memtype=CATALOG).
+NOTE: File WORK.SASMAC1 (memtype=CATALOG) cannot be deleted because it is in use.
+NOTE: Deleting WORK.SASMAC4 (memtype=CATALOG).
+NOTE: Deleting WORK.SASMACR (memtype=CATALOG).
+NOTE: File WORK.SASMACR (memtype=CATALOG) cannot be deleted because it is in use.
+108        quit;
+
+NOTE: PROCEDURE DATASETS used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+109        
+110        /* Set a library reference for the downloaded file from the MEPS website. */
+111        libname CDATA "/folders/myfolders/sasuser.v94/MEPS/SAS/Data";
+NOTE: Libref CDATA was successfully assigned as follows: 
+      Engine:        V9 
+      Physical Name: /folders/myfolders/sasuser.v94/MEPS/SAS/Data
+112        
+113        /* Set FORMAT variables.  Format variables are created for Age variables, variables
+114        greater than zero, and a FLAG indicating whether or not a person incurred an expense. */
+115        PROC FORMAT;
+116        	
+116      !  VALUE AGEF         	
+117             .='ALL AGES' 		
+2                                                          The SAS System
+
+118             0-  64='0-64'		
+119             65-HIGH='65+';
+NOTE: Format AGEF has been output.
+120        	
+121        	
+121      !  VALUE AGECAT  		
+122              .='ALL AGES' 		
+123        	   1='0-64' 		
+124        	   2='65+';
+NOTE: Format AGECAT has been output.
+125        
+126        	
+126      !  VALUE GTZERO 		
+127             0='0' 				
+128             0 <- HIGH='>0';
+NOTE: Format GTZERO has been output.
+129        
+130        	
+130      !  VALUE FLAG
+131              .='No or any expense'
+132              0='No expense'
+133              1='Any expense';
+NOTE: Format FLAG has been output.
+134        RUN;
+
+NOTE: PROCEDURE FORMAT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+135        
+136        TITLE1 'SUMMARY STATISTICS OF CONSOLIDATED DATA FILE (HC-192)';
+137        
+138        PROC MEANS DATA=cdata.h192;
+139            var TOTEXP16 AGE16X AGE42X AGE31X
+140        		VARSTR VARPSU PERWT16F;
+141        RUN;
+
+NOTE: There were 34655 observations read from the data set CDATA.H192.
+NOTE: The PROCEDURE MEANS printed page 1.
+NOTE: PROCEDURE MEANS used (Total process time):
+      real time           1.85 seconds
+      cpu time            0.93 seconds
+      
+
+142        
+143        TITLE1 '2018 AHRQ MEPS DATA USERS WORKSHOP';
+144        TITLE2 "EXERCISE1.SAS: NATIONAL HEALTH CARE EXPENSES, 2016";
+145        
+146        /* READ IN DATA FROM 2016 CONSOLIDATED DATA FILE (HC-192) */
+147        DATA PUF192;
+148        	
+149        	SET CDATA.H192 (KEEP=TOTEXP16 AGE16X AGE42X AGE31X
+150        		VARSTR VARPSU PERWT16F);
+151        	TOTAL=TOTEXP16;
+152        
+153        	/* CREATE FLAG (1/0) VARIABLES FOR PERSONS WITH AN EXPENSE */
+154        	X_ANYSVCE=0;
+155        
+156        	IF TOTAL > 0 THEN
+157        		X_ANYSVCE=1;
+158        
+159        	/* CREATE A SUMMARY VARIABLE FROM END OF YEAR, 42, AND 31 VARIABLES*/
+160        	IF AGE16X >=0 THEN
+161        		AGE=AGE16X;
+162        	ELSE IF AGE42X >=0 THEN
+163        		AGE=AGE42X;
+164        	ELSE IF AGE31X >=0 THEN
+165        		AGE=AGE31X;
+166        		
+167        	/* Create the AGECAT var. based on age 0-64,65+ */	
+168        	IF 0 LE AGE LE 64 THEN
+169        		AGECAT=1;
+170        	ELSE IF AGE  > 64 THEN
+171        		AGECAT=2;
+172        RUN;
+
+3                                                          The SAS System
+
+NOTE: There were 34655 observations read from the data set CDATA.H192.
+NOTE: The data set WORK.PUF192 has 34655 observations and 11 variables.
+NOTE: DATA statement used (Total process time):
+      real time           2.03 seconds
+      cpu time            0.97 seconds
+      
+
+173        
+174        TITLE3 "Supporting crosstabs for the flag variables";
+175        
+176        /* For 2-way tables PROC FREQ will compute tests and measures of association.
+177        Format variables according to format values above
+178        LIST - Use a list format as opposed to the 2x2 cross-tabulation format
+179        MISSING - treat all missing values as valid non-missing levels for all TABLES variables.*/
+180        PROC FREQ DATA=PUF192;
+181        	TABLES X_ANYSVCE*TOTAL AGECAT*AGE /LIST MISSING;
+182        	FORMAT TOTAL gtzero.
+183                  AGE agef.;
+184        RUN;
+
+NOTE: There were 34655 observations read from the data set WORK.PUF192.
+NOTE: The PROCEDURE FREQ printed page 2.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           0.07 seconds
+      cpu time            0.05 seconds
+      
+
+185        
+186        /* Temporarily suppresses the printing of output, so as not to clutter results */
+187        ods graphics off;
+188        ods exclude all;
+189        
+190        TITLE3 'PERCENTAGE OF PERSONS WITH AN EXPENSE & OVERALL EXPENSES';
+191        
+192        /* The SURVEYMEANS procedure estimates characteristics of a survey population by using
+193        statistics computed from a survey sample.
+194        The STRATA statement specifies variables that form the strata in a stratified sample design.
+195        The combinations of categories of STRATA variables define the strata in the sample.
+196        The CLUSTER statement names variables that identify the clusters in a clustered sample
+197        design. The combinations of categories of CLUSTER variables define the clusters in the
+198        sample. If there is a STRATA statement, clusters are nested within strata.*/
+199        PROC SURVEYMEANS DATA=PUF192 MEAN NOBS SUMWGT STDERR SUM STD;
+200        	STRATUM VARSTR;
+201        	CLUSTER VARPSU;
+202        	WEIGHT PERWT16F;
+203        	VAR X_ANYSVCE TOTAL;
+204        	ods output Statistics=work.Overall_results;
+205        RUN;
+
+NOTE: Due to nonpositive weights, 1396 observation(s) were deleted.
+NOTE: The data set WORK.OVERALL_RESULTS has 2 observations and 7 variables.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.06 seconds
+      cpu time            0.05 seconds
+      
+
+206        
+207        /* Unsuppress the printing of output */
+208        ods exclude none;
+209        
+210        TITLE3 'PERCENTAGE OF PERSONS WITH AN EXPENSE';
+211        
+212        /* Print the percentage of persons with an expense. */
+213        proc print data=work.Overall_results (firstobs=1 obs=1) noobs split='*';
+214        	var N SumWgt mean StdErr Sum stddev;
+215        	label SumWgt='Population*Size' mean='Proportion' StdErr='SE of Proportion'
+216        		Sum='Persons*with Any*Expense '
+217        		Stddev='SE of*Number*Persons*with*Any Expense';
+218        	format N SumWgt Comma12. mean comma7.2 stderr 7.5 sum Stddev comma17.;
+219        run;
+
+NOTE: There were 1 observations read from the data set WORK.OVERALL_RESULTS.
+NOTE: The PROCEDURE PRINT printed page 3.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.02 seconds
+      
+4                                                          The SAS System
+
+
+220        
+221        TITLE3 'OVERALL EXPENSES';
+222        /* Print overall expense */
+223        proc print data=work.Overall_results (firstobs=2) noobs split='*';
+224        	var N SumWgt mean StdErr Sum stddev;
+225        	label SumWgt='Population*Size' mean='Mean($)' StdErr='SE of Mean($)'
+226        		Sum='Total*Expense ($)' Stddev='SE of*Total Expense($)';
+227        	format N SumWgt Comma12. mean comma9.2 stderr 9.5 sum Stddev comma17.;
+228        run;
+
+NOTE: There were 1 observations read from the data set WORK.OVERALL_RESULTS.
+NOTE: The PROCEDURE PRINT printed page 4.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.02 seconds
+      
+
+229        
+230        /* suspend all destinations */
+231        ods exclude all;
+232        
+233        TITLE3
+234        	'MEAN EXPENSE PER PERSON WITH AN EXPENSE, FOR OVERALL, AGE 0-64, AND AGE 65+';
+235        
+236        PROC SURVEYMEANS DATA=PUF192 MEAN NOBS SUMWGT STDERR SUM STD;
+237        	STRATUM VARSTR;
+238        	CLUSTER VARPSU;
+239        	WEIGHT PERWT16F;
+240        	VAR TOTAL;
+241        	DOMAIN X_ANYSVCE('1') X_ANYSVCE('1')*AGECAT;
+242        	FORMAT AGECAT agecat.;
+243        	ods output domain=work.domain_results;
+244        RUN;
+
+NOTE: Due to nonpositive weights, 1396 observation(s) were deleted.
+NOTE: Only one cluster in a stratum for X_ANYSVCE*AGECAT domains for variable(s) TOTAL. The estimate of variance for TOTAL will 
+      omit this stratum.
+NOTE: The data set WORK.DOMAIN_RESULTS has 3 observations and 10 variables.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.12 seconds
+      cpu time            0.10 seconds
+      
+
+245        
+246        /* Unsuppress the printing of output */
+247        ods exclude none;
+248        
+249        proc print data=work.domain_results noobs split='*';
+250        	var AGECAT N SumWgt mean StdErr Sum stddev;
+251        	label AGECAT='Age Group' SumWgt='Population*Size' mean='Mean($)'
+252        		StdErr='SE of Mean($)' Sum='Total*Expense ($)'
+253        		Stddev='SE of*Total Expense($)';
+254        	format AGECAT agecat. N SumWgt Comma12. mean comma9.1 stderr 9.4 sum Stddev
+255        		comma17.;
+256        run;
+
+NOTE: There were 3 observations read from the data set WORK.DOMAIN_RESULTS.
+NOTE: The PROCEDURE PRINT printed page 5.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.02 seconds
+      
+
+257        
+258        /* The ODS _ALL_ CLOSE statement closes all open ODS output destinations. */
+259        ODS _ALL_ CLOSE;
+NOTE: ODS PDF(WEB) printed 5 pages to /tmp/SAS_work243500002586_localhost.localdomain/#LN00361.
+260        
+261        /* THE PROC PRINTTO null step is required to close the PROC PRINTTO */
+262        PROC PRINTTO;
+263        RUN;
+

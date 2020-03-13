@@ -1,0 +1,197 @@
+<<<<<<< HEAD
+                                                               2018 AHRQ MEPS DATA USERS WORKSHOP
+=======
+                                                               2018 AHRQ MEPS DATA USERS WORKSHOP                                                              1
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+                              EXERCISE 3a SAS: CALCULATE ESTIMATES ON USE AND EXPENDITURES FOR PERSONS WITH A CONDITION (DIABETES)
+                                                                   Summary of H180 Variables
+
+                                                                     The CONTENTS Procedure
+
+                                                                  Variables in Creation Order
+ 
+                                             #    Variable    Type    Len    Label
+
+                                             1    DUID        Char      5    DWELLING UNIT ID                     
+                                             2    PID         Num       4    PERSON NUMBER                        
+                                             3    CCCODEX     Char      3    CLINICAL CLASSIFICATION CODE - EDITED
+<<<<<<< HEAD
+                                                               2018 AHRQ MEPS DATA USERS WORKSHOP
+=======
+                                                               2018 AHRQ MEPS DATA USERS WORKSHOP                                                              2
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+                              EXERCISE 3a SAS: CALCULATE ESTIMATES ON USE AND EXPENDITURES FOR PERSONS WITH A CONDITION (DIABETES)
+                                                                   Summary of H181 Variables
+
+                                                                     The CONTENTS Procedure
+
+                                                                  Variables in Creation Order
+ 
+                                               #    Variable    Type    Len    Label
+
+                                               1    TOTEXP15    Num       8    TOTAL HEALTH CARE EXP 15         
+                                               2    TOTSLF15    Num       8    TOTAL AMT PAID BY SELF/FAMILY 15 
+                                               3    OBTOTV15    Num       4    # OFFICE-BASED PROVIDER VISITS 15
+<<<<<<< HEAD
+                                                               2018 AHRQ MEPS DATA USERS WORKSHOP
+=======
+                                                               2018 AHRQ MEPS DATA USERS WORKSHOP                                                              3
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+                              EXERCISE 3a SAS: CALCULATE ESTIMATES ON USE AND EXPENDITURES FOR PERSONS WITH A CONDITION (DIABETES)
+                                                            CHECK CCS CODES FOR DIABETIC CONDITIONS
+
+                                                                       The FREQ Procedure
+
+                                                             CLINICAL CLASSIFICATION CODE - EDITED
+ 
+                                                                                      Cumulative    Cumulative
+                                                  CCCODEX    Frequency     Percent     Frequency      Percent
+                                                  ------------------------------------------------------------
+                                                  049            3228       97.02          3228        97.02  
+                                                  050              99        2.98          3327       100.00  
+<<<<<<< HEAD
+                                                               2018 AHRQ MEPS DATA USERS WORKSHOP
+=======
+                                                               2018 AHRQ MEPS DATA USERS WORKSHOP                                                              4
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+                              EXERCISE 3a SAS: CALCULATE ESTIMATES ON USE AND EXPENDITURES FOR PERSONS WITH A CONDITION (DIABETES)
+                                                      UNWEIGHTED # OF PERSONS WHO REPORTED DIABETES, 2015
+
+                                                                       The FREQ Procedure
+
+                                                                 PERSONS WHO REPORTED DIABETES
+ 
+                                                                                      Cumulative    Cumulative
+                                                 DIABPERS    Frequency     Percent     Frequency      Percent
+                                                 -------------------------------------------------------------
+                                                    YES          3065        8.65          3065         8.65  
+                                                    NO          32362       91.35         35427       100.00  
+
+
+                                                                                           Cumulative    Cumulative
+                                            DIABPERS       SEX    Frequency     Percent     Frequency      Percent
+                                            -----------------------------------------------------------------------
+                                            YES         MALE          1393        3.93          1393         3.93  
+                                            YES         FEMALE        1672        4.72          3065         8.65  
+                                            NO          MALE         15620       44.09         18685        52.74  
+                                            NO          FEMALE       16742       47.26         35427       100.00  
+<<<<<<< HEAD
+                                                               2018 AHRQ MEPS DATA USERS WORKSHOP
+=======
+                                                               2018 AHRQ MEPS DATA USERS WORKSHOP                                                              5
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+                              EXERCISE 3a SAS: CALCULATE ESTIMATES ON USE AND EXPENDITURES FOR PERSONS WITH A CONDITION (DIABETES)
+                                                       WEIGHTED # OF PERSONS WHO REPORTED DIABETES, 2015
+
+                                                                       The FREQ Procedure
+
+                                                                 PERSONS WHO REPORTED DIABETES
+ 
+                                                                                      Cumulative    Cumulative
+                                                 DIABPERS    Frequency     Percent     Frequency      Percent
+                                                 -------------------------------------------------------------
+                                                    YES      27700589        8.62      27700589         8.62  
+                                                    NO       2.9372E8       91.38      3.2142E8       100.00  
+
+
+                                                                                           Cumulative    Cumulative
+                                            DIABPERS       SEX    Frequency     Percent     Frequency      Percent
+                                            -----------------------------------------------------------------------
+                                            YES         MALE      13531921        4.21      13531921         4.21  
+                                            YES         FEMALE    14168669        4.41      27700589         8.62  
+                                            NO          MALE      1.4364E8       44.69      1.7134E8        53.31  
+                                            NO          FEMALE    1.5009E8       46.69      3.2142E8       100.00  
+<<<<<<< HEAD
+                                                               2018 AHRQ MEPS DATA USERS WORKSHOP
+                              EXERCISE 3a SAS: CALCULATE ESTIMATES ON USE AND EXPENDITURES FOR PERSONS WITH A CONDITION (DIABETES)
+                                                       WEIGHTED # OF PERSONS WHO REPORTED DIABETES, 2015
+
+                                                                   The SURVEYMEANS Procedure
+
+                                                                          Data Summary
+
+                                                      Number of Strata                                 165
+                                                      Number of Clusters                               369
+                                                      Number of Observations                         35427
+                                                      Number of Observations Used                    33893
+                                                      Number of Obs with Nonpositive Weights          1534
+                                                      Sum of Weights                             321423251
+
+
+                                                                           Statistics
+ 
+                                                                          Sum of                       Std Error                       Std Error
+                Variable    Label                              N         Weights            Mean         of Mean             Sum          of Sum
+                --------------------------------------------------------------------------------------------------------------------------------
+                TOTEXP15    TOTAL HEALTH CARE              33893       321423251     4977.571930      134.414461    1.5999074E12     52731878601
+                            EXP 15                                                                                                              
+                TOTSLF15    TOTAL AMT PAID BY              33893       321423251      607.939395       14.708256    195405856608      6485460538
+                            SELF/FAMILY 15                                                                                                      
+                OBTOTV15    # OFFICE-BASED                 33893       321423251        5.818879        0.112098      1870323056        57195202
+                            PROVIDER VISITS 15                                                                                                  
+                --------------------------------------------------------------------------------------------------------------------------------
+                                                               2018 AHRQ MEPS DATA USERS WORKSHOP
+                              EXERCISE 3a SAS: CALCULATE ESTIMATES ON USE AND EXPENDITURES FOR PERSONS WITH A CONDITION (DIABETES)
+                                                       WEIGHTED # OF PERSONS WHO REPORTED DIABETES, 2015
+
+                                                                   The SURVEYMEANS Procedure
+
+                                                                 Statistics for DIABPERS Domains
+ 
+                                                                                Sum of                       Std Error                       Std Error
+          DIABPERS    Variable    Label                              N         Weights            Mean         of Mean             Sum          of Sum
+          --------------------------------------------------------------------------------------------------------------------------------------------
+                 1    TOTEXP15    TOTAL HEALTH CARE               2982        27700589           14188      803.756096    393028078843     24786133857
+                                  EXP 15                                                                                                              
+                      TOTSLF15    TOTAL AMT PAID BY               2982        27700589     1203.366023       47.355160     33333948175      1487670122
+                                  SELF/FAMILY 15                                                                                                      
+                      OBTOTV15    # OFFICE-BASED                  2982        27700589       11.810257        0.365636       327151092        14514086
+                                  PROVIDER VISITS 15                                                                                                  
+          --------------------------------------------------------------------------------------------------------------------------------------------
+                                                               2018 AHRQ MEPS DATA USERS WORKSHOP
+                              EXERCISE 3a SAS: CALCULATE ESTIMATES ON USE AND EXPENDITURES FOR PERSONS WITH A CONDITION (DIABETES)
+                                                       WEIGHTED # OF PERSONS WHO REPORTED DIABETES, 2015
+
+                                                                   The SURVEYMEANS Procedure
+
+                                                               Statistics for SEX*DIABPERS Domains
+ 
+                                                                                    Sum of                       Std Error                       Std Error
+       SEX    DIABPERS    Variable    Label                              N         Weights            Mean         of Mean             Sum          of Sum
+      ----------------------------------------------------------------------------------------------------------------------------------------------------
+         1           1    TOTEXP15    TOTAL HEALTH CARE               1359        13531921           14419      937.735189    195119396038     14540065365
+                                      EXP 15                                                                                                              
+                          TOTSLF15    TOTAL AMT PAID BY               1359        13531921     1218.361391       68.422936     16486769548      1108692452
+                                      SELF/FAMILY 15                                                                                                      
+                          OBTOTV15    # OFFICE-BASED                  1359        13531921       11.001818        0.537485       148875724         9300471
+                                      PROVIDER VISITS 15                                                                                                  
+         2           1    TOTEXP15    TOTAL HEALTH CARE               1623        14168669           13968      975.727600    197908682805     14806750887
+                                      EXP 15                                                                                                              
+                          TOTSLF15    TOTAL AMT PAID BY               1623        14168669     1189.044555       63.781705     16847178628       965315394
+                                      SELF/FAMILY 15                                                                                                      
+                          OBTOTV15    # OFFICE-BASED                  1623        14168669       12.582365        0.492716       178275368         9488276
+                                      PROVIDER VISITS 15                                                                                                  
+      ----------------------------------------------------------------------------------------------------------------------------------------------------
+                                                               2018 AHRQ MEPS DATA USERS WORKSHOP
+                              EXERCISE 3a SAS: CALCULATE ESTIMATES ON USE AND EXPENDITURES FOR PERSONS WITH A CONDITION (DIABETES)
+                                          ESTIMATES ON USE AND EXPENDITURES FOR PERSONS WHO 		REPORTED DIABETES, 2015
+=======
+                                                               2018 AHRQ MEPS DATA USERS WORKSHOP                                                              6
+                              EXERCISE 3a SAS: CALCULATE ESTIMATES ON USE AND EXPENDITURES FOR PERSONS WITH A CONDITION (DIABETES)
+                                           ESTIMATES ON USE AND EXPENDITURES FOR PERSONS WHO REPORTED DIABETES, 2015
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+                               Variable                                                                                          Std Error
+                      SEX        Name           N               SumWgt                  Sum     Std Error of Sum         Mean     of Mean
+
+                     TOTAL     TOTEXP15     2,982           27,700,589      393,028,078,843       24,786,133,857    14,188.44       803.76
+                     TOTAL     TOTSLF15     2,982           27,700,589       33,333,948,175        1,487,670,122     1,203.37        47.36
+                     TOTAL     OBTOTV15     2,982           27,700,589          327,151,092           14,514,086        11.81         0.37
+
+                     MALE      TOTEXP15     1,359           13,531,921      195,119,396,038       14,540,065,365    14,419.19       937.74
+                     MALE      TOTSLF15     1,359           13,531,921       16,486,769,548        1,108,692,452     1,218.36        68.42
+                     MALE      OBTOTV15     1,359           13,531,921          148,875,724            9,300,471        11.00         0.54
+
+                     FEMALE    TOTEXP15     1,623           14,168,669      197,908,682,805       14,806,750,887    13,968.05       975.73
+                     FEMALE    TOTSLF15     1,623           14,168,669       16,847,178,628          965,315,394     1,189.04        63.78
+                     FEMALE    OBTOTV15     1,623           14,168,669          178,275,368            9,488,276        12.58         0.49

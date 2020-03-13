@@ -1,0 +1,674 @@
+NOTE: PROCEDURE PRINTTO used (Total process time):
+<<<<<<< HEAD
+      real time           0.11 seconds
+      cpu time            0.06 seconds
+      
+
+163        
+164        TITLE1 '2018 AHRQ MEPS DATA USERS WORKSHOP';
+165        TITLE2 'EXERCISE 3a SAS: CALCULATE ESTIMATES ON USE
+166         AND EXPENDITURES FOR PERSONS WITH A CONDITION (DIABETES)';
+167        
+168        /* Create format variables to format output tables
+169        Create format variables for SEX and YESNO */
+170        PROC FORMAT;
+171        	
+171      !  VALUE SEX
+172             .='TOTAL' 1='MALE' 2='FEMALE';
+NOTE: Format SEX is already on the library WORK.FORMATS.
+NOTE: Format SEX has been output.
+173        	
+173      !  VALUE YESNO
+174             .='TOTAL' 1='YES' 2='NO';
+NOTE: Format YESNO is already on the library WORK.FORMATS.
+NOTE: Format YESNO has been output.
+175        RUN;
+=======
+      real time           0.09 seconds
+      cpu time            0.04 seconds
+      
+
+162        
+163        TITLE1 '2018 AHRQ MEPS DATA USERS WORKSHOP';
+164        TITLE2 'EXERCISE 3a SAS: CALCULATE ESTIMATES ON USE AND EXPENDITURES FOR PERSONS WITH A CONDITION (DIABETES)';
+165        
+166        /* Create format variables to format output tables
+167        Create format variables for SEX and YESNO */
+168        PROC FORMAT;
+169        	
+169      !  VALUE SEX
+170             .='TOTAL' 1='MALE' 2='FEMALE';
+NOTE: Format SEX is already on the library WORK.FORMATS.
+NOTE: Format SEX has been output.
+171        	
+171      !  VALUE YESNO
+172             .='TOTAL' 1='YES' 2='NO';
+NOTE: Format YESNO is already on the library WORK.FORMATS.
+NOTE: Format YESNO has been output.
+173        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: PROCEDURE FORMAT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+<<<<<<< HEAD
+176        
+177        /* Summary statistics table 1 */
+178        DATA SUMMARYSET (KEEP=DUID PID CCCODEX);
+179        	SET CDATA.H180;
+180        RUN;
+=======
+174        
+175        /* Summary statistics table 1 */
+176        DATA SUMMARYSET (KEEP=DUID PID CCCODEX);
+177        	SET CDATA.H180;
+178        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 123227 observations read from the data set CDATA.H180.
+NOTE: The data set WORK.SUMMARYSET has 123227 observations and 3 variables.
+NOTE: DATA statement used (Total process time):
+<<<<<<< HEAD
+      real time           0.35 seconds
+      cpu time            0.19 seconds
+      
+
+181        
+182        /* Summary statistics table 2 */
+183        DATA SUMMARYSET2 (KEEP=TOTEXP15 TOTSLF15 OBTOTV15);
+184        	SET CDATA.H181;
+185        RUN;
+=======
+      real time           0.22 seconds
+      cpu time            0.11 seconds
+      
+
+179        
+180        /* Summary statistics table 2 */
+181        DATA SUMMARYSET2 (KEEP=TOTEXP15 TOTSLF15 OBTOTV15);
+182        	SET CDATA.H181;
+183        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 35427 observations read from the data set CDATA.H181.
+NOTE: The data set WORK.SUMMARYSET2 has 35427 observations and 3 variables.
+NOTE: DATA statement used (Total process time):
+<<<<<<< HEAD
+      real time           2.91 seconds
+      cpu time            1.41 seconds
+      
+
+186        
+187        /* Select only the position table in the output */
+188        ODS Select Position;
+189        
+190        /* Display summary statistics: File #1 */
+191        PROC CONTENTS DATA=WORK.SUMMARYSET VARNUM;
+192        	Title3 'Summary of H180 Variables';
+193        RUN;
+
+NOTE: PROCEDURE CONTENTS used (Total process time):
+      real time           0.18 seconds
+      cpu time            0.12 seconds
+      
+NOTE: The PROCEDURE CONTENTS printed page 1.
+                                                                         The SAS System
+
+
+194        
+195        /* Select only the position table in the output */
+196        ODS Select Position;
+197        
+198        /* Display summary statistics: File #2 */
+199        PROC CONTENTS DATA=WORK.SUMMARYSET2 VARNUM;
+200        	Title3 'Summary of H181 Variables';
+201        RUN;
+
+NOTE: PROCEDURE CONTENTS used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.04 seconds
+      
+NOTE: The PROCEDURE CONTENTS printed page 2.
+
+202        
+203        /* Selct all output once again */
+204        ODS Select All;
+205        
+206        /*********************************************************************\
+207        
+208        Create a dataset named DIAB
+209        1) PULL OUT CONDITIONS WITH DIABETES (CCS CODE='049', '050')
+210        FROM 2015 CONDITION PUF - HC180
+211        
+212         *********************************************************************/
+213        DATA DIAB;
+214        	SET CDATA.H180;
+215        
+216        	IF CCCODEX IN ('049', '050');
+217        RUN;
+=======
+      real time           2.14 seconds
+      cpu time            1.02 seconds
+      
+
+184        
+185        /* Select only the position table in the output */
+186        ODS Select Position;
+187        
+188        /* Display summary statistics: File #1 */
+189        PROC CONTENTS DATA=WORK.SUMMARYSET VARNUM;
+190        	Title3 'Summary of H180 Variables';
+3                                                                        The SAS System
+
+191        RUN;
+
+
+Output Added:
+-------------
+Name:       Position
+Label:      Varnum
+Template:   Base.Contents.Position
+Path:       Contents.DataSet.Position
+-------------
+NOTE: PROCEDURE CONTENTS used (Total process time):
+      real time           0.09 seconds
+      cpu time            0.09 seconds
+      
+NOTE: The PROCEDURE CONTENTS printed page 1.
+
+192        
+193        /* Select only the position table in the output */
+194        ODS Select Position;
+195        
+196        /* Display summary statistics: File #2 */
+197        PROC CONTENTS DATA=WORK.SUMMARYSET2 VARNUM;
+198        	Title3 'Summary of H181 Variables';
+199        RUN;
+
+
+Output Added:
+-------------
+Name:       Position
+Label:      Varnum
+Template:   Base.Contents.Position
+Path:       Contents.DataSet.Position
+-------------
+NOTE: PROCEDURE CONTENTS used (Total process time):
+      real time           0.03 seconds
+      cpu time            0.02 seconds
+      
+NOTE: The PROCEDURE CONTENTS printed page 2.
+
+200        
+201        /* Selct all output once again */
+202        ODS Select All;
+203        
+204        /* Create a dataset named DIAB */
+205        /* 1) PULL OUT CONDITIONS WITH DIABETES (CCS CODE='049', '050') FROM 2015 CONDITION PUF - HC180 */
+206        DATA DIAB;
+207        	SET CDATA.H180;
+208        
+209        	IF CCCODEX IN ('049', '050');
+210        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 123227 observations read from the data set CDATA.H180.
+NOTE: The data set WORK.DIAB has 3327 observations and 27 variables.
+NOTE: DATA statement used (Total process time):
+<<<<<<< HEAD
+      real time           0.23 seconds
+      cpu time            0.13 seconds
+      
+
+218        
+219        /* Display summary counts for the values of the CCCODEX variable */
+220        PROC FREQ DATA=DIAB;
+221        	TABLES CCCODEX / LIST MISSING;
+222        	TITLE3 "CHECK CCS CODES FOR DIABETIC CONDITIONS";
+223        RUN;
+
+NOTE: There were 3327 observations read from the data set WORK.DIAB.
+NOTE: The PROCEDURE FREQ printed page 3.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.04 seconds
+      
+
+224        
+225        /*********************************************************************\
+226        
+227        2) IDENTIFY PERSONS WHO REPORTED DIABETES
+228        SORT by DUPERSID
+229        Remove any duplicates (NODUPKEY) as we consolidate records by DUPERSID
+230        
+231         *********************************************************************/
+232        PROC SORT DATA=DIAB OUT=DIABPERS (KEEP=DUPERSID) NODUPKEY;
+233        	BY DUPERSID;
+234        RUN;
+=======
+      real time           0.17 seconds
+      cpu time            0.09 seconds
+      
+
+211        
+212        /* Display summary counts for the values of the CCCODEX variable */
+213        PROC FREQ DATA=DIAB;
+214        	TABLES CCCODEX / LIST MISSING;
+215        	TITLE3 "CHECK CCS CODES FOR DIABETIC CONDITIONS";
+216        RUN;
+
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table1.OneWayFreqs
+-------------
+NOTE: There were 3327 observations read from the data set WORK.DIAB.
+NOTE: The PROCEDURE FREQ printed page 3.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           0.03 seconds
+4                                                                        The SAS System
+
+      cpu time            0.03 seconds
+      
+
+217        
+218        /* 2) IDENTIFY PERSONS WHO REPORTED DIABETES */
+219        /* SORT by DUPERSID */
+220        /* Remove any duplicates (NODUPKEY) as we consolidate records by DUPERSID */
+221        PROC SORT DATA=DIAB OUT=DIABPERS (KEEP=DUPERSID) NODUPKEY;
+222        	BY DUPERSID;
+223        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 3327 observations read from the data set WORK.DIAB.
+NOTE: 262 observations with duplicate key values were deleted.
+NOTE: The data set WORK.DIABPERS has 3065 observations and 1 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+<<<<<<< HEAD
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+235        
+236        /*********************************************************************\
+237        
+                                                                         The SAS System
+
+238        3) CREATE A FLAG FOR PERSONS WITH DIABETES IN THE 2015 FY DATA
+239        Merge the original dataset with the dataset for the person
+240        who reported diabetes and create a flag based on the result of the
+241        merge and whether the DUPERSID exists in both tables.
+242        Provide LABELS for out
+243        
+244         *********************************************************************/
+245        DATA FY1;
+246        	MERGE CDATA.H181 (IN=AA) DIABPERS   (IN=BB);
+247        	BY DUPERSID;
+248        	LABEL DIABPERS='PERSONS WHO REPORTED DIABETES';
+249        
+250        	IF AA AND BB THEN
+251        		DIABPERS=1;
+252        	ELSE
+253        		DIABPERS=2;
+254        RUN;
+=======
+      real time           0.01 seconds
+      cpu time            0.00 seconds
+      
+
+224        
+225        /* 3) CREATE A FLAG FOR PERSONS WITH DIABETES IN THE 2015 FY DATA */
+226        /* Merge the original dataset with the dataset for the person who reported diabetes */
+227        /* and create a flag based on the result of the merge and whether the DUPERSID exists in both tables. */
+228        /* Provide LABELS for out */
+229        DATA FY1;
+230        	MERGE CDATA.H181 (IN=AA) DIABPERS   (IN=BB);
+231        	BY DUPERSID;
+232        	LABEL DIABPERS='PERSONS WHO REPORTED DIABETES';
+233        
+234        	IF AA AND BB THEN
+235        		DIABPERS=1;
+236        	ELSE
+237        		DIABPERS=2;
+238        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 35427 observations read from the data set CDATA.H181.
+NOTE: There were 3065 observations read from the data set WORK.DIABPERS.
+NOTE: The data set WORK.FY1 has 35427 observations and 1832 variables.
+NOTE: DATA statement used (Total process time):
+<<<<<<< HEAD
+      real time           3.70 seconds
+      cpu time            2.11 seconds
+      
+
+255        
+256        /*********************************************************************\
+257        
+258        Display FREQ count (UNWEIGHTED) for all persons and
+259        FREQ by SEX (UNWEIGHTED)
+260        Display as LIST format, MISSING values are treated as valid
+261        nonmissing levels
+262        Format variables as needed
+263        
+264         *********************************************************************/
+265        
+266        PROC FREQ DATA=FY1;
+267        	TABLES DIABPERS DIABPERS * SEX / LIST MISSING;
+268        	FORMAT SEX sex.
+269                 DIABPERS yesno.;
+270        	TITLE3 "UNWEIGHTED # OF PERSONS WHO REPORTED DIABETES, 2015";
+271        RUN;
+
+NOTE: There were 35427 observations read from the data set WORK.FY1.
+NOTE: The PROCEDURE FREQ printed page 4.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           0.99 seconds
+      cpu time            0.39 seconds
+      
+
+272        
+273        /*********************************************************************\
+274        
+275        Display FREQ count (WEIGHTED) for all persons and FREQ by
+276        SEX (WEIGHTED)
+277        
+278        Display as LIST format, MISSING values are treated as valid
+279        nonmissing levels
+280        
+281        Format variables as needed
+282        
+283         *********************************************************************/
+284        
+285        PROC FREQ DATA=FY1;
+286        	TABLES DIABPERS DIABPERS * SEX /LIST MISSING;
+287        	WEIGHT PERWT15F;
+288        	FORMAT SEX sex.
+289                 DIABPERS yesno.;
+290        	TITLE3 "WEIGHTED # OF PERSONS WHO REPORTED DIABETES, 2015";
+291        RUN;
+
+NOTE: There were 35427 observations read from the data set WORK.FY1.
+NOTE: The PROCEDURE FREQ printed page 5.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           0.98 seconds
+      cpu time            0.39 seconds
+                                                                         The SAS System
+
+      
+
+292        
+293        /* Turn off graphs */
+294        ODS GRAPHICS OFF;
+295        
+296        /* Suppress the listing output temporarily */
+297        *ODS LISTING CLOSE;
+298        
+299        /*********************************************************************\
+300        
+301        4) CALCULATE ESTIMATES ON EXPENDITURES AND USE
+302        
+303        Calculate PERSON-LEVEL Estimates on USE and EXPENDITURES
+304        entire population (2015)
+305        
+306        Calculate PERSON-LEVEL Estimates on USE and EXPENDITURES
+307        for persons with a condition (DIABETES) (2015)
+308        
+309        Calculate PERSON-LEVEL Estimates on USE and EXPENDITURES for
+310        persons with a condition (DIABETES) (2015) Based on SEX
+311        
+312        Pass the output of the domain table to a new TEMP dataset for
+313        further processing with PROC PRINT
+314        
+315         *********************************************************************/
+316        PROC SURVEYMEANS DATA=FY1 NOBS SUMWGT SUM STD MEAN STDERR;
+317        	STRATA VARSTR;
+318        	CLUSTER VARPSU;
+319        	WEIGHT PERWT15F;
+320        	DOMAIN DIABPERS('1') SEX*DIABPERS('1');
+321        	VAR TOTEXP15 TOTSLF15 OBTOTV15;
+322        	ods output domain=work.domain_results;
+323        RUN;
+
+NOTE: Due to nonpositive weights, 1534 observation(s) were deleted.
+NOTE: Only one cluster in a stratum for SEX*PERSONS WHO REPORTED DIABETES domains for variable(s) TOTEXP15, TOTSLF15, OBTOTV15. The estimate of variance for 
+      TOTEXP15, TOTSLF15, OBTOTV15 will omit this stratum.
+NOTE: The data set WORK.DOMAIN_RESULTS has 9 observations and 11 variables.
+NOTE: The PROCEDURE SURVEYMEANS printed pages 6-8.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           1.33 seconds
+      cpu time            0.72 seconds
+      
+
+324        
+325        /* Turn the listing ODS output on */
+326        *ODS LISTING;
+327        
+328        /*********************************************************************\
+329        
+330        Print the PROC SURVEYMENTS output, dropping the column title
+331        'domain label' and further specifying formatting options
+332        such as blank lines, labels, & suppressing observation numbers
+333        
+334        FORMAT the output with commas and number of characters to the
+335        left and right of the decimal and user defined format variables
+336        
+337        PRINT ESTIMATES ON USE AND EXPENDITURES FOR PERSONS WHO REPORTED
+338        DIABETES FOR 2015 BY SEX
+339        
+340         *********************************************************************/
+341        
+342        PROC PRINT DATA=work.domain_results (DROP=DOMAINLABEL) NOOBS LABEL BLANKLINE=3;
+343        	VAR SEX VARNAME N SUMWGT SUM STDDEV MEAN STDERR;
+344        	FORMAT N comma6.0 SUMWGT SUM STDDEV comma17.0 MEAN STDERR comma9.2 DIABPERS
+345        		yesno.
+346               SEX sex.;
+347        	TITLE3
+348        		"ESTIMATES ON USE AND EXPENDITURES FOR PERSONS WHO
+349        		REPORTED DIABETES, 2015";
+350        RUN;
+
+NOTE: There were 9 observations read from the data set WORK.DOMAIN_RESULTS.
+NOTE: The PROCEDURE PRINT printed page 9.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.06 seconds
+                                                                         The SAS System
+
+      cpu time            0.06 seconds
+      
+
+351        
+352        /* Close all the output */
+353        ODS _ALL_ CLOSE;
+NOTE: ODS PDF(WEB) printed 9 pages to /tmp/SAS_workF37500007251_localhost.localdomain/#LN00206.
+354        
+355        /* THE PROC PRINTTO null step is required to close the PROC PRINTTO */
+356        PROC PRINTTO;
+357        RUN;
+=======
+      real time           2.87 seconds
+      cpu time            1.63 seconds
+      
+
+239        
+240        /* Display FREQ count (UNWEIGHTED) for all persons and FREQ by SEX (UNWEIGHTED) */
+241        /* Display as LIST format, MISSING values are treated as valid nonmissing levels */
+242        /* Format variables as needed */
+243        PROC FREQ DATA=FY1;
+244        	TABLES DIABPERS DIABPERS * SEX / LIST MISSING;
+245        	FORMAT SEX sex.
+246                 DIABPERS yesno.;
+247        	TITLE3 "UNWEIGHTED # OF PERSONS WHO REPORTED DIABETES, 2015";
+248        RUN;
+
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table1.OneWayFreqs
+-------------
+
+Output Added:
+-------------
+Name:       List
+Label:      LIST Frequencies
+Template:   Base.Freq.List
+Path:       Freq.Table2.List
+-------------
+NOTE: There were 35427 observations read from the data set WORK.FY1.
+NOTE: The PROCEDURE FREQ printed page 4.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           0.85 seconds
+      cpu time            0.29 seconds
+      
+
+5                                                                        The SAS System
+
+249        
+250        /* Display FREQ count (WEIGHTED) for all persons and FREQ by SEX (WEIGHTED) */
+251        /* Display as LIST format, MISSING values are treated as valid nonmissing levels */
+252        /* Format variables as needed */
+253        PROC FREQ DATA=FY1;
+254        	TABLES DIABPERS DIABPERS * SEX /LIST MISSING;
+255        	WEIGHT PERWT15F;
+256        	FORMAT SEX sex.
+257                 DIABPERS yesno.;
+258        	TITLE3 "WEIGHTED # OF PERSONS WHO REPORTED DIABETES, 2015";
+259        RUN;
+
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table1.OneWayFreqs
+-------------
+
+Output Added:
+-------------
+Name:       List
+Label:      LIST Frequencies
+Template:   Base.Freq.List
+Path:       Freq.Table2.List
+-------------
+NOTE: There were 35427 observations read from the data set WORK.FY1.
+NOTE: The PROCEDURE FREQ printed page 5.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           0.85 seconds
+      cpu time            0.32 seconds
+      
+
+260        
+261        /* Turn off graphs */
+262        ODS GRAPHICS OFF;
+263        
+264        /* Suppress the listing output temporarily */
+265        ODS LISTING CLOSE;
+266        
+267        /* 4) CALCULATE ESTIMATES ON EXPENDITURES AND USE */
+268        /* Calculate PERSON-LEVEL Estimates on USE and EXPENDITURES entire population (2015) */
+269        /* Calculate PERSON-LEVEL Estimates on USE and EXPENDITURES for persons with a condition (DIABETES) (2015) */
+270        /* Calculate PERSON-LEVEL Estimates on USE and EXPENDITURES for persons with a condition (DIABETES) (2015) Based on SEX*/
+271        /* Pass the output of the domain table to a new TEMP dataset for further processing with PROC PRINT */
+272        PROC SURVEYMEANS DATA=FY1 NOBS SUMWGT SUM STD MEAN STDERR;
+273        	STRATA VARSTR;
+274        	CLUSTER VARPSU;
+275        	WEIGHT PERWT15F;
+276        	DOMAIN DIABPERS('1') SEX*DIABPERS('1');
+277        	VAR TOTEXP15 TOTSLF15 OBTOTV15;
+278        	ods output domain=work.domain_results;
+279        RUN;
+
+NOTE: Due to nonpositive weights, 1534 observation(s) were deleted.
+
+Output Added:
+-------------
+Name:       Summary
+Label:      Data Summary
+Template:   Stat.SurveyMeans.Factoid
+Path:       Surveymeans.Summary
+-------------
+
+Output Added:
+-------------
+Name:       Statistics
+Label:      Statistics
+Template:   Stat.SurveyMeans.Statistics
+Path:       Surveymeans.Statistics
+-------------
+
+Output Added:
+-------------
+Name:       Domain
+6                                                                        The SAS System
+
+Label:      Statistics
+Template:   Stat.SurveyMeans.Domain
+Path:       Surveymeans.DomainAnalysis.Domain
+-------------
+
+Output Added:
+-------------
+Name:       Domain
+Label:      Statistics
+Template:   Stat.SurveyMeans.Domain
+Path:       Surveymeans.DomainAnalysis.Domain
+-------------
+NOTE: Only one cluster in a stratum for SEX*PERSONS WHO REPORTED DIABETES domains for variable(s) TOTEXP15, TOTSLF15, OBTOTV15. The estimate of variance for 
+      TOTEXP15, TOTSLF15, OBTOTV15 will omit this stratum.
+NOTE: The data set WORK.DOMAIN_RESULTS has 9 observations and 11 variables.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           1.10 seconds
+      cpu time            0.50 seconds
+      
+
+280        
+281        /* Turn the listing ODS output on */
+282        ODS LISTING;
+283        
+284        /* Print the PROC SURVEYMENTS output, dropping the column title 'domain label' and further specifying formatting options */
+285        /* such as blank lines, labels, & suppressing observation numbers */
+286        /* FORMAT the output with commas and number of characters to the left and right of the decimal and user defined format variables */
+287        /* PRINT ESTIMATES ON USE AND EXPENDITURES FOR PERSONS WHO REPRTED DIABETES FOR 2015 BY SEX */
+288        PROC PRINT DATA=work.domain_results (DROP=DOMAINLABEL) NOOBS LABEL BLANKLINE=3;
+289        	VAR SEX VARNAME N SUMWGT SUM STDDEV MEAN STDERR;
+290        	FORMAT N comma6.0 SUMWGT SUM STDDEV comma17.0 MEAN STDERR comma9.2 DIABPERS
+291        		yesno.
+292               SEX sex.;
+293        	TITLE3
+294        		"ESTIMATES ON USE AND EXPENDITURES FOR PERSONS WHO REPORTED DIABETES, 2015";
+295        RUN;
+
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.DOMAIN_RESULTS
+Data Name:  ProcPrintTable
+Path:       Print.Print
+-------------
+NOTE: There were 9 observations read from the data set WORK.DOMAIN_RESULTS.
+NOTE: The PROCEDURE PRINT printed page 6.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.08 seconds
+      cpu time            0.06 seconds
+      
+
+296        
+297        /* Close all the output */
+298        ODS _ALL_ CLOSE;
+NOTE: ODS PDF(WEB) printed 9 pages to /tmp/SAS_work7D55000033F2_localhost.localdomain/#LN03273.
+299        
+300        /* THE PROC PRINTTO null step is required to close the PROC PRINTTO */
+301        PROC PRINTTO;
+302        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+

@@ -1,0 +1,483 @@
+NOTE: PROCEDURE PRINTTO used (Total process time):
+<<<<<<< HEAD
+      real time           0.16 seconds
+      cpu time            0.06 seconds
+      
+
+100        
+101        /* Suppress the date and time in the output */
+102        OPTIONS NODATE;
+103        TITLE1 '2018 AHRQ MEPS DATA USERS WORKSHOP';
+104        TITLE2 'EXERCISE 4B SAS: POOL MEPS DATA FILES
+105        FROM DIFFERENT PANELS (PANELS 17, 18, 19)';
+106        
+107        /* Create format variables to display Poverty Category,
+108        Insurance status, and Age Subpopulation variables */
+109        PROC FORMAT;
+110        	
+110      !  VALUE POVCAT 1='1 POOR/NEGATIVE' 2='2 NEAR POOR' 3='3 LOW INCOME'
+111        		4='4 MIDDLE INCOME' 5='5 HIGH INCOME';
+NOTE: Format POVCAT is already on the library WORK.FORMATS.
+NOTE: Format POVCAT has been output.
+112        	
+112      !  VALUE INSF-1='-1 INAPPLICABLE' 1='1 ANY PRIVATE' 2='2 PUBLIC ONLY'
+113        		3='3 UNINSURED';
+NOTE: Format INSF is already on the library WORK.FORMATS.
+NOTE: Format INSF has been output.
+114        	
+114      !  VALUE AGE -1='-1 INAPPLICABLE' 26-30='26-30' 0-25, 31-HIGH='0-25, 31+';
+NOTE: Format AGE is already on the library WORK.FORMATS.
+NOTE: Format AGE has been output.
+115        run;
+=======
+      real time           0.07 seconds
+      cpu time            0.03 seconds
+      
+
+99         
+100        /* Suppress the date and time in the output */
+101        OPTIONS NODATE;
+102        TITLE1 '2018 AHRQ MEPS DATA USERS WORKSHOP';
+103        TITLE2 'EXERCISE 4B SAS: POOL MEPS DATA FILES FROM DIFFERENT PANELS (PANELS 17, 18, 19)';
+104        
+105        /* Create format variables to display Poverty Category, Insurance status, and Age Subpopulation variables */
+106        PROC FORMAT;
+107        	
+107      !  VALUE POVCAT 1='1 POOR/NEGATIVE' 2='2 NEAR POOR' 3='3 LOW INCOME'
+108        		4='4 MIDDLE INCOME' 5='5 HIGH INCOME';
+NOTE: Format POVCAT is already on the library WORK.FORMATS.
+NOTE: Format POVCAT has been output.
+109        	
+109      !  VALUE INSF-1='-1 INAPPLICABLE' 1='1 ANY PRIVATE' 2='2 PUBLIC ONLY'
+110        		3='3 UNINSURED';
+NOTE: Format INSF is already on the library WORK.FORMATS.
+NOTE: Format INSF has been output.
+111        	
+111      !  VALUE AGE -1='-1 INAPPLICABLE' 26-30='26-30' 0-25, 31-HIGH='0-25, 31+';
+NOTE: Format AGE is already on the library WORK.FORMATS.
+NOTE: Format AGE has been output.
+112        run;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: PROCEDURE FORMAT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+<<<<<<< HEAD
+116        
+117        /**********************************************************************************
+118        
+119        Select subset of variables from main datatable
+120        
+121        Display summary statatistics for data file
+122        
+123         *********************************************************************************/;
+124        DATA SUMMARYSET (KEEP=DUPERSID INSCOVY1 INSCOVY2 LONGWT VARSTR VARPSU POVCATY1
+125        		AGEY1X PANEL);
+126        	SET CDATA.H164;
+127        RUN;
+=======
+113        
+114        /*******************************
+115        /* Summary Statistics for 1 of 3 data files */
+116        DATA SUMMARYSET (KEEP=DUPERSID INSCOVY1 INSCOVY2 LONGWT VARSTR VARPSU POVCATY1
+117        		AGEY1X PANEL);
+118        	SET CDATA.H164;
+119        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 17923 observations read from the data set CDATA.H164.
+NOTE: The data set WORK.SUMMARYSET has 17923 observations and 9 variables.
+NOTE: DATA statement used (Total process time):
+<<<<<<< HEAD
+      real time           3.77 seconds
+      cpu time            1.82 seconds
+      
+
+128        
+129        /* Select only the position table in the output */
+130        ODS Select Position;
+131        
+132        /* Display summary statistics: File #2 */
+133        PROC CONTENTS DATA=WORK.SUMMARYSET VARNUM;
+134        	Title3 'Summary of Datafile Variables for LONGITUDINAL Files';
+135        RUN;
+
+NOTE: PROCEDURE CONTENTS used (Total process time):
+      real time           0.09 seconds
+      cpu time            0.09 seconds
+      
+NOTE: The PROCEDURE CONTENTS printed page 16.
+
+136        
+137        /**********************************************************************************
+138        
+139        Create a pooled dataset based off of 3 data files
+140        
+141        Insurance coverage, age, poverty category, as well as variables for
+142        CLUSTER, STRATA, and WEIGHT are kept
+143        
+144        Divide the LONGWT VARIABLE by 3 because we are now dealing with datasets in 3 years
+145         - assign to the POOLWT variable
+146        
+147        Create a SUBPOP FLAG to denote Persons (26-30, high income, uninsured) IN FIRST
+148        YEAR
+149        
+150         *********************************************************************************/;
+151        
+152        DATA POOL;
+153        	LENGTH INSCOVY1 INSCOVY2 PANEL AGEY1X POVCATY1 VARSTR VARPSU 8;
+154        	SET CDATA.H164 (KEEP=DUPERSID INSCOVY1 INSCOVY2 LONGWT VARSTR VARPSU POVCATY1
+155        		AGEY1X PANEL) CDATA.H172 (KEEP=DUPERSID INSCOVY1 INSCOVY2 LONGWT VARSTR
+156        		VARPSU POVCATY1 AGEY1X PANEL) CDATA.H183 (KEEP=DUPERSID INSCOVY1 INSCOVY2
+157        		LONGWT VARSTR VARPSU POVCATY1 AGEY1X PANEL);
+158        	POOLWT=LONGWT/3;
+159        
+160        	IF INSCOVY1=3 AND 26 LE AGEY1X LE 30 AND POVCATY1=5 THEN
+161        		SUBPOP=1;
+162        	ELSE
+163        		SUBPOP=2;
+164        	LABEL
+165        		SUBPOP='POPULATION WITH AGE=26-30, UNINSURED, AND HIGH INCOME IN FIRST YEAR'
+166        		INSCOVY2="HEALTH INSURANCE COVERAGE INDICATOR IN YEAR 2";
+167        RUN;
+=======
+      real time           2.94 seconds
+      cpu time            1.36 seconds
+      
+2                                                                        The SAS System
+
+
+120        
+121        /* Select only the position table in the output */
+122        ODS Select Position;
+123        
+124        /* Display summary statistics: File #2 */
+125        PROC CONTENTS DATA=WORK.SUMMARYSET VARNUM;
+126        	Title3 'Summary of Datafile Variables for LONGITUDINAL Files';
+127        RUN;
+
+
+Output Added:
+-------------
+Name:       Position
+Label:      Varnum
+Template:   Base.Contents.Position
+Path:       Contents.DataSet.Position
+-------------
+NOTE: PROCEDURE CONTENTS used (Total process time):
+      real time           0.11 seconds
+      cpu time            0.10 seconds
+      
+NOTE: The PROCEDURE CONTENTS printed page 1.
+
+128        /*******************************/
+129        
+130        /* Create a pooled dataset based off of 3 data files */
+131        /* Insurance coverage, age, poverty category, as well as variables for CLUSTER, STRATA, and WEIGHT are kept */
+132        /* Divide the LONGWT VARIABLE by 3 because we are now dealing with datasets in 3 years - assign to the POOLWT variable */
+133        /* Create a SUBPOP FLAG to denote Persons (26-30, high income, uninsured) IN FIRST YEAR */
+134        DATA POOL;
+135        	LENGTH INSCOVY1 INSCOVY2 PANEL AGEY1X POVCATY1 VARSTR VARPSU 8;
+136        	SET CDATA.H164 (KEEP=DUPERSID INSCOVY1 INSCOVY2 LONGWT VARSTR VARPSU POVCATY1
+137        		AGEY1X PANEL) CDATA.H172 (KEEP=DUPERSID INSCOVY1 INSCOVY2 LONGWT VARSTR
+138        		VARPSU POVCATY1 AGEY1X PANEL) CDATA.H183 (KEEP=DUPERSID INSCOVY1 INSCOVY2
+139        		LONGWT VARSTR VARPSU POVCATY1 AGEY1X PANEL);
+140        	POOLWT=LONGWT/3;
+141        
+142        	IF INSCOVY1=3 AND 26 LE AGEY1X LE 30 AND POVCATY1=5 THEN
+143        		SUBPOP=1;
+144        	ELSE
+145        		SUBPOP=2;
+146        	LABEL
+147        		SUBPOP='POPULATION WITH AGE=26-30, UNINSURED, AND HIGH INCOME IN FIRST YEAR'
+148        		INSCOVY2="HEALTH INSURANCE COVERAGE INDICATOR IN YEAR 2";
+149        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 17923 observations read from the data set CDATA.H164.
+NOTE: There were 16714 observations read from the data set CDATA.H172.
+NOTE: There were 15898 observations read from the data set CDATA.H183.
+NOTE: The data set WORK.POOL has 50535 observations and 11 variables.
+NOTE: DATA statement used (Total process time):
+<<<<<<< HEAD
+      real time           8.16 seconds
+      cpu time            3.75 seconds
+      
+
+168        
+169        /* Check missing values on the combined dataset (2015 and 2016)
+170        (N provides # of observations, while NMISS provides
+171        # of observations missing) */
+172        
+173        PROC MEANS DATA=POOL N NMISS;
+174        	TITLE3 "CHECK MISSING VALUES ON THE COMBINED DATA";
+175        RUN;
+
+NOTE: There were 50535 observations read from the data set WORK.POOL.
+NOTE: The PROCEDURE MEANS printed page 17.
+NOTE: PROCEDURE MEANS used (Total process time):
+      real time           0.09 seconds
+      cpu time            0.09 seconds
+      
+
+176        
+177        /**********************************************************************************
+178        
+179        Create FREQ count for SUBPOP Flag (26-30, high income, uninsured)
+180        
+181        Create FREQ display for SUBPOP FLAG (26-30, high income, uninsured) By Survey Panel
+182        
+183        Create FREQ display for SUBPOP FLAG (26-30, high income, uninsured)
+184        
+185        Insurance Coverage Indicator, Age as of 12/31/12, and Poverty Category in first year
+186        
+187         *********************************************************************************/;
+188        
+189        PROC FREQ DATA=POOL;
+190        	TABLES SUBPOP SUBPOP*PANEL SUBPOP*INSCOVY1*AGEY1X*POVCATY1/LIST MISSING;
+191        	FORMAT AGEY1X AGE. POVCATY1 POVCAT. INSCOVY1 INSF.;
+192        	TITLE3 'SUPPORTING CROSSTAB FOR THE CREATION OF THE SUBPOP FLAG';
+193        RUN;
+
+NOTE: There were 50535 observations read from the data set WORK.POOL.
+NOTE: The PROCEDURE FREQ printed page 18.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           0.29 seconds
+      cpu time            0.28 seconds
+      
+
+194        
+195        /* Turn all graphs off */
+196        ODS GRAPHICS OFF;
+197        
+198        /* Suppress the printing of output */
+199        ODS EXCLUDE ALL;
+200        
+201        /**********************************************************************************
+202        
+203        Estimate Insurance Coverage Indicator for 2nd year of SUBPOP
+204        (26-30, high income, uninsured)
+205        
+206        Calculate the estimated proportion of Insurance Coverage Indicator for
+                                                                         The SAS System
+
+207        SUBPOP in Year 2
+208        
+209        Pipe DOMAIN output to temporary dataset for further processing by
+210        PROC PRINT procedure
+211        
+212         *********************************************************************************/;
+213        
+214        PROC SURVEYMEANS DATA=POOL NOBS MEAN STDERR;
+215        	STRATUM VARSTR;
+216        	CLUSTER VARPSU;
+217        	WEIGHT POOLWT;
+218        	VAR INSCOVY2;
+219        	CLASS INSCOVY2;
+220        	FORMAT INSCOVY2 INSF.;
+221        	DOMAIN SUBPOP('1');
+222        	ODS OUTPUT DOMAIN=work.domain_results;
+223        	TITLE3 'INSURANCE STATUS IN THE SECOND YEAR FOR THOSE W/ AGE=26-30,
+224        	UNINSURED WHOLE YEAR, AND HIGH INCOME IN THE FIRST YEAR';
+225        RUN;
+
+=======
+      real time           6.38 seconds
+      cpu time            2.89 seconds
+      
+
+150        
+151        /* Check missing values on the combined dataset (2015 and 2016) */
+152        /* (N provides # of observations, while NMISS provides # of observations missing) */
+153        PROC MEANS DATA=POOL N NMISS;
+154        	TITLE3 "CHECK MISSING VALUES ON THE COMBINED DATA";
+155        RUN;
+
+
+Output Added:
+-------------
+Name:       Summary
+Label:      Summary statistics
+Template:   base.summary
+Path:       Means.Summary
+-------------
+NOTE: There were 50535 observations read from the data set WORK.POOL.
+NOTE: The PROCEDURE MEANS printed page 2.
+NOTE: PROCEDURE MEANS used (Total process time):
+      real time           0.08 seconds
+      cpu time            0.09 seconds
+      
+3                                                                        The SAS System
+
+
+156        
+157        /* Create FREQ count for SUBPOP Flag (26-30, high income, uninsured)
+158        /* Create FREQ display for SUBPOP FLAG (26-30, high income, uninsured) By Survey Panel */
+159        /* Create FREQ display for SUBPOP FLAG (26-30, high income, uninsured) */
+160        /* Insurance Coverage Indicator, Age as of 12/31/12, and Poverty Category in first year */
+161        PROC FREQ DATA=POOL;
+162        	TABLES SUBPOP SUBPOP*PANEL SUBPOP*INSCOVY1*AGEY1X*POVCATY1/LIST MISSING;
+163        	FORMAT AGEY1X AGE. POVCATY1 POVCAT. INSCOVY1 INSF.;
+164        	TITLE3 'SUPPORTING CROSSTAB FOR THE CREATION OF THE SUBPOP FLAG';
+165        RUN;
+
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table1.OneWayFreqs
+-------------
+
+Output Added:
+-------------
+Name:       List
+Label:      LIST Frequencies
+Template:   Base.Freq.List
+Path:       Freq.Table2.List
+-------------
+
+Output Added:
+-------------
+Name:       List
+Label:      LIST Frequencies
+Template:   Base.Freq.List
+Path:       Freq.Table3.List
+-------------
+NOTE: There were 50535 observations read from the data set WORK.POOL.
+NOTE: The PROCEDURE FREQ printed page 3.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           0.35 seconds
+      cpu time            0.33 seconds
+      
+
+166        
+167        /* Turn all graphs off */
+168        ODS GRAPHICS OFF;
+169        
+170        /* Suppress the printing of output */
+171        ODS EXCLUDE ALL;
+172        
+173        /* Estimate Insurance Coverage Indicator for 2nd year of SUBPOP (26-30, high income, uninsured) */
+174        /* Calculate the estimated proportion of Insurance Coverage Indicator for SUBPOP in Year 2 */
+175        /* Pipe DOMAIN output to temporary dataset for further processing by PROC PRINT procedure */
+176        PROC SURVEYMEANS DATA=POOL NOBS MEAN STDERR;
+177        	STRATUM VARSTR;
+178        	CLUSTER VARPSU;
+179        	WEIGHT POOLWT;
+180        	VAR INSCOVY2;
+181        	CLASS INSCOVY2;
+182        	FORMAT INSCOVY2 INSF.;
+183        	DOMAIN SUBPOP('1');
+184        	ODS OUTPUT DOMAIN=work.domain_results;
+185        	TITLE3 'INSURANCE STATUS IN THE SECOND YEAR FOR THOSE W/ AGE=26-30, UNINSURED WHOLE YEAR, AND HIGH INCOME IN THE FIRST YEAR';
+186        RUN;
+
+
+Output Added:
+-------------
+Name:       Domain
+Label:      Statistics
+Template:   Stat.SurveyMeans.Domain
+Path:       Surveymeans.DomainAnalysis.Domain
+-------------
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+NOTE: Only one cluster in a stratum for POPULATION WITH AGE=26-30, UNINSURED, AND HIGH INCOME IN FIRST YEAR domains for variable(s) INSCOVY2. The estimate of 
+      variance for INSCOVY2 will omit this stratum.
+NOTE: The data set WORK.DOMAIN_RESULTS has 4 observations and 8 variables.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+<<<<<<< HEAD
+      real time           0.30 seconds
+      cpu time            0.24 seconds
+      
+
+226        
+227        /* Unsuppress the printing of output */
+228        ODS EXCLUDE NONE;
+229        
+230        /**********************************************************************************
+231        
+232        Print the results of the DOMAIN table from the dataset output above
+233        NOOBS= SUPPRESS # OF OBSERVATIONS
+234        SPLIT= SPLIT ON DESIGNATED FIELD IN COLUMN HEADINGS
+235        VAR specifies the designated variables to display
+236        LABEL and FORMAT provide appropriate display opptions
+237        Display Estimated Insurance Coverage Status for SUBPOP in 2nd Year
+238        
+239         *********************************************************************************/;
+240        
+241        proc print data=work.domain_results noobs split='*';
+242        	var VARLEVEL N mean StdErr;
+243        	label mean='Proportion' StdErr='SE of Proportion';
+244        	format N Comma12. mean comma9.3 stderr 9.6;
+245        	TITLE3 'INSURANCE STATUS IN THE SECOND YEAR FOR THOSE W/ AGE=26-30,
+246        	UNINSURED WHOLE YEAR, AND HIGH INCOME IN THE FIRST YEAR';
+247        run;
+
+NOTE: There were 4 observations read from the data set WORK.DOMAIN_RESULTS.
+NOTE: The PROCEDURE PRINT printed page 19.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.03 seconds
+      
+
+248        
+249        /* Close all the output */
+250        ODS _ALL_ CLOSE;
+NOTE: ODS PDF(WEB) printed 5 pages to /tmp/SAS_workF37500007251_localhost.localdomain/#LN00254.
+251        
+252        /* THE PROC PRINTTO null step is required to close the PROC PRINTTO */
+253        PROC PRINTTO;
+254        RUN;
+=======
+4                                                                        The SAS System
+
+      real time           0.24 seconds
+      cpu time            0.23 seconds
+      
+
+187        
+188        /* Unsuppress the printing of output */
+189        ODS EXCLUDE NONE;
+190        
+191        /* Print the results of the DOMAIN table from the dataset output above */
+192        /* NOOBS= SUPPRESS # OF OBSERVATIONS */
+193        /* SPLIT= SPLIT ON DESIGNATED FIELD IN COLUMN HEADINGS */
+194        /* VAR specifies the designated variables to display */
+195        /* LABEL and FORMAT provide appropriate display opptions */
+196        /* Display Estimated Insurance Coverage Status for SUBPOP in 2nd Year */
+197        proc print data=work.domain_results noobs split='*';
+198        	var VARLEVEL N mean StdErr;
+199        	label mean='Proportion' StdErr='SE of Proportion';
+200        	format N Comma12. mean comma9.3 stderr 9.6;
+201        	TITLE3 'INSURANCE STATUS IN THE SECOND YEAR FOR THOSE W/ AGE=26-30, UNINSURED WHOLE YEAR, AND HIGH INCOME IN THE FIRST YEAR';
+202        run;
+
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.DOMAIN_RESULTS
+Data Name:  ProcPrintTable
+Path:       Print.Print
+-------------
+NOTE: There were 4 observations read from the data set WORK.DOMAIN_RESULTS.
+NOTE: The PROCEDURE PRINT printed page 4.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.03 seconds
+      
+
+203        
+204        /* Close all the output */
+205        ODS _ALL_ CLOSE;
+NOTE: ODS PDF(WEB) printed 5 pages to /tmp/SAS_work7D55000033F2_localhost.localdomain/#LN03513.
+206        
+207        /* THE PROC PRINTTO null step is required to close the PROC PRINTTO */
+208        PROC PRINTTO;
+209        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+

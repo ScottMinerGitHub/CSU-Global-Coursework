@@ -1,0 +1,607 @@
+<<<<<<< HEAD
+                                                             AHRQ MEPS DATA USERS WORKSHOP -- 2018
+=======
+                                                             AHRQ MEPS DATA USERS WORKSHOP -- 2018                                                             1
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+                                 EXERCISE 3b SAS: CALCULATE EXPENDITURES FOR ALL EVENTS ASSOCIATED WITH A CONDITION (DIABETES)
+                                                                        CHECK CCS CODES
+
+                                                                       The FREQ Procedure
+
+                                                             CLINICAL CLASSIFICATION CODE - EDITED
+ 
+                                                                                      Cumulative    Cumulative
+                                                  CCCODEX    Frequency     Percent     Frequency      Percent
+                                                  ------------------------------------------------------------
+                                                  049            3228       97.02          3228        97.02  
+                                                  050              99        2.98          3327       100.00  
+<<<<<<< HEAD
+                                                             AHRQ MEPS DATA USERS WORKSHOP -- 2018
+=======
+                                                             AHRQ MEPS DATA USERS WORKSHOP -- 2018                                                             2
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+                                 EXERCISE 3b SAS: CALCULATE EXPENDITURES FOR ALL EVENTS ASSOCIATED WITH A CONDITION (DIABETES)
+                                                           SAMPLE DUMP FOR CONDITION-EVENT LINK FILE
+
+------------------------------------------------------------------ CONDITION ID=600011010051 -------------------------------------------------------------------
+
+                                                            Obs    DUPERSID    CCCODEX      EVNTIDX
+
+                                                              1    60001101      049      600011011361
+                                                              2    60001101      049      600011011401
+                                                              3    60001101      049      600011011431
+                                                              4    60001101      049      600011011441
+                                                              5    60001101      049      600011011701
+                                                              6    60001101      049      600011011721
+                                                              7    60001101      049      600011011741
+                                                              8    60001101      049      600011011991
+                                                              9    60001101      049      600011012001
+                                                             10    60001101      049      600011012031
+                                                             11    60001101      049      600011012071
+                                                             12    60001101      049      600011012081
+
+
+------------------------------------------------------------------ CONDITION ID=600011010121 -------------------------------------------------------------------
+
+                                                            Obs    DUPERSID    CCCODEX      EVNTIDX
+
+                                                             13    60001101      050      600011011451
+                                                             14    60001101      050      600011011701
+                                                             15    60001101      050      600011011771
+
+
+------------------------------------------------------------------ CONDITION ID=600011020031 -------------------------------------------------------------------
+
+                                                            Obs    DUPERSID    CCCODEX      EVNTIDX
+
+                                                             16    60001102      049      600011020281
+                                                             17    60001102      049      600011020311
+                                                             18    60001102      049      600011020521
+                                                             19    60001102      049      600011020581
+                                                             20    60001102      049      600011020731
+<<<<<<< HEAD
+                                                             AHRQ MEPS DATA USERS WORKSHOP -- 2018
+=======
+                                                             AHRQ MEPS DATA USERS WORKSHOP -- 2018                                                             3
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+                                 EXERCISE 3b SAS: CALCULATE EXPENDITURES FOR ALL EVENTS ASSOCIATED WITH A CONDITION (DIABETES)
+                                                         SAMPLE DUMP AFTER DUPLICATE CASES ARE DELETED
+
+                                                                 Obs    DUPERSID      EVNTIDX
+
+                                                                   1    60001101    600011011361
+                                                                   2    60001101    600011011401
+                                                                   3    60001101    600011011431
+                                                                   4    60001101    600011011441
+                                                                   5    60001101    600011011451
+                                                                   6    60001101    600011011701
+                                                                   7    60001101    600011011721
+                                                                   8    60001101    600011011741
+                                                                   9    60001101    600011011771
+                                                                  10    60001101    600011011991
+                                                                  11    60001101    600011012001
+                                                                  12    60001101    600011012031
+                                                                  13    60001101    600011012071
+                                                                  14    60001101    600011012081
+                                                                  15    60001102    600011020281
+                                                                  16    60001102    600011020311
+                                                                  17    60001102    600011020521
+                                                                  18    60001102    600011020581
+                                                                  19    60001102    600011020731
+                                                                  20    60004103    600041030011
+                                                                  21    60004103    600041030041
+                                                                  22    60004103    600041030071
+                                                                  23    60004103    600041030081
+                                                                  24    60004103    600041030091
+                                                                  25    60020101    600201010081
+                                                                  26    60035101    600351010461
+                                                                  27    60036101    600361010281
+                                                                  28    60036101    600361010291
+                                                                  29    60036101    600361010361
+                                                                  30    60036101    600361010461
+<<<<<<< HEAD
+                                                             AHRQ MEPS DATA USERS WORKSHOP -- 2018
+=======
+                                                             AHRQ MEPS DATA USERS WORKSHOP -- 2018                                                             4
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+                                 EXERCISE 3b SAS: CALCULATE EXPENDITURES FOR ALL EVENTS ASSOCIATED WITH A CONDITION (DIABETES)
+                                                             ALL EVENTS ARE COMBINED INTO ONE FILE
+
+                                                                       The FREQ Procedure
+
+                                                                          EVENT TYPE
+ 
+                                                                                     Cumulative    Cumulative
+                                                  EVNTYP    Frequency     Percent     Frequency      Percent
+                                                  -----------------------------------------------------------
+                                                  AMBU        185183       54.12        185183        54.12  
+                                                  EROM          7163        2.09        192346        56.22  
+                                                  HVIS          5933        1.73        198279        57.95  
+                                                  IPAT          2921        0.85        201200        58.80  
+                                                  PMED        140953       41.20        342153       100.00  
+
+
+                                                                  TOTAL EXPENDITURE FOR EVENT
+ 
+                                                                                     Cumulative    Cumulative
+                                                  TOTEXP    Frequency     Percent     Frequency      Percent
+                                                  -----------------------------------------------------------
+                                                    GE 0      342153      100.00        342153       100.00  
+
+
+                                                                   SOURCE OF PAYMENT: FAMILY
+ 
+                                                                                    Cumulative    Cumulative
+                                                     SF    Frequency     Percent     Frequency      Percent
+                                                   ---------------------------------------------------------
+                                                   GE 0      342153      100.00        342153       100.00  
+
+
+                                                                  SOURCE OF PAYMENT: MEDICARE
+ 
+                                                                                    Cumulative    Cumulative
+                                                     MR    Frequency     Percent     Frequency      Percent
+                                                   ---------------------------------------------------------
+                                                   GE 0      342153      100.00        342153       100.00  
+
+
+                                                                  SOURCE OF PAYMENT: MEDICAID
+ 
+                                                                                    Cumulative    Cumulative
+                                                     MD    Frequency     Percent     Frequency      Percent
+                                                   ---------------------------------------------------------
+                                                   GE 0      342153      100.00        342153       100.00  
+
+
+                                                              SOURCE OF PAYMENT: PRIVATE INSURANCE
+ 
+                                                                                    Cumulative    Cumulative
+                                                     PV    Frequency     Percent     Frequency      Percent
+                                                   ---------------------------------------------------------
+                                                   GE 0      342153      100.00        342153       100.00  
+
+
+                                                                  SOURCE OF PAYMENT: VETERANS
+ 
+                                                                                    Cumulative    Cumulative
+                                                     VA    Frequency     Percent     Frequency      Percent
+                                                   ---------------------------------------------------------
+                                                   GE 0      342153      100.00        342153       100.00  
+
+
+                                                                   SOURCE OF PAYMENT: TRICARE
+ 
+                                                                                    Cumulative    Cumulative
+                                                     TR    Frequency     Percent     Frequency      Percent
+                                                   ---------------------------------------------------------
+                                                   GE 0      342153      100.00        342153       100.00  
+
+
+<<<<<<< HEAD
+=======
+                                                             AHRQ MEPS DATA USERS WORKSHOP -- 2018                                                             5
+                                 EXERCISE 3b SAS: CALCULATE EXPENDITURES FOR ALL EVENTS ASSOCIATED WITH A CONDITION (DIABETES)
+                                                             ALL EVENTS ARE COMBINED INTO ONE FILE
+
+                                                                       The FREQ Procedure
+
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+                                                                SOURCE OF PAYMENT: OTHER FEDERAL
+ 
+                                                                                    Cumulative    Cumulative
+                                                     OF    Frequency     Percent     Frequency      Percent
+                                                   ---------------------------------------------------------
+                                                   GE 0      342153      100.00        342153       100.00  
+
+
+                                                              SOURCE OF PAYMENT: STATE & LOCAL GOV
+ 
+                                                                                    Cumulative    Cumulative
+                                                     SL    Frequency     Percent     Frequency      Percent
+                                                   ---------------------------------------------------------
+                                                   GE 0      342153      100.00        342153       100.00  
+
+
+                                                                SOURCE OF PAYMENT: WORKERS COMP
+ 
+                                                                                    Cumulative    Cumulative
+                                                     WC    Frequency     Percent     Frequency      Percent
+                                                   ---------------------------------------------------------
+                                                   GE 0      342153      100.00        342153       100.00  
+
+
+                                                                SOURCE OF PAYMENT: OTHER PRIVATE
+ 
+                                                                                    Cumulative    Cumulative
+                                                     OR    Frequency     Percent     Frequency      Percent
+                                                   ---------------------------------------------------------
+                                                   GE 0      342153      100.00        342153       100.00  
+
+
+                                                                SOURCE OF PAYMENT: OTHER PUBLIC
+ 
+                                                                                    Cumulative    Cumulative
+                                                     OU    Frequency     Percent     Frequency      Percent
+                                                   ---------------------------------------------------------
+                                                   GE 0      342153      100.00        342153       100.00  
+
+
+                                                               SOURCE OF PAYMENT: OTHER INSURANCE
+ 
+                                                                                    Cumulative    Cumulative
+                                                     OT    Frequency     Percent     Frequency      Percent
+                                                   ---------------------------------------------------------
+                                                   GE 0      342153      100.00        342153       100.00  
+<<<<<<< HEAD
+                                                             AHRQ MEPS DATA USERS WORKSHOP -- 2018
+=======
+                                                             AHRQ MEPS DATA USERS WORKSHOP -- 2018                                                             6
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+                                 EXERCISE 3b SAS: CALCULATE EXPENDITURES FOR ALL EVENTS ASSOCIATED WITH A CONDITION (DIABETES)
+                                                             ALL EVENTS ARE COMBINED INTO ONE FILE
+
+                    Obs      EVNTIDX         SF          MR      MD     PV    VA    TR    OF    SL    WC    OR    OU    OT     TOTEXP    EVNTYP
+
+                      1    600011011311     0.00    1287.28     3.12     0     0     0     0     0     0     0     0     0    1290.40     AMBU 
+                      2    600011011361     6.60       8.22     0.00     0     0     0     0     0     0     0     0     0      14.82     PMED 
+                      3    600011011381     0.00      48.48     0.00     0     0     0     0     0     0     0     0     0      48.48     PMED 
+                      4    600011011391     0.00       5.13     0.00     0     0     0     0     0     0     0     0     0       5.13     PMED 
+                      5    600011011401     0.00      75.88     0.00     0     0     0     0     0     0     0     0     0      75.88     PMED 
+                      6    600011011411     0.00     165.84     0.00     0     0     0     0     0     0     0     0     0     165.84     PMED 
+                      7    600011011421     0.00      73.96     0.00     0     0     0     0     0     0     0     0     0      73.96     PMED 
+                      8    600011011431    14.40    3013.44     0.00     0     0     0     0     0     0     0     0     0    3027.84     PMED 
+                      9    600011011441     3.60     215.13     0.00     0     0     0     0     0     0     0     0     0     218.73     PMED 
+                     10    600011011451     0.00      56.87     0.00     0     0     0     0     0     0     0     0     0      56.87     PMED 
+                     11    600011011471     0.00      13.32     0.00     0     0     0     0     0     0     0     0     0      13.32     PMED 
+                     12    600011011491     0.00      23.99     0.00     0     0     0     0     0     0     0     0     0      23.99     PMED 
+                     13    600011011501    19.35       0.00     0.00     0     0     0     0     0     0     0     0     0      19.35     PMED 
+                     14    600011011511     6.60     834.06     0.00     0     0     0     0     0     0     0     0     0     840.66     PMED 
+                     15    600011011521     0.00     151.96     0.00     0     0     0     0     0     0     0     0     0     151.96     PMED 
+                     16    600011011541     0.00      81.12     0.00     0     0     0     0     0     0     0     0     0      81.12     PMED 
+                     17    600011011561     4.79       0.00     0.00     0     0     0     0     0     0     0     0     0       4.79     PMED 
+                     18    600011011571     2.50       0.00     0.00     0     0     0     0     0     0     0     0     0       2.50     PMED 
+                     19    600011011581     1.79       0.00     0.00     0     0     0     0     0     0     0     0     0       1.79     PMED 
+                     20    600011011601     0.00     843.87    16.00     0     0     0     0     0     0     0     0     0     859.87     EROM 
+<<<<<<< HEAD
+                                                             AHRQ MEPS DATA USERS WORKSHOP -- 2018
+=======
+                                                             AHRQ MEPS DATA USERS WORKSHOP -- 2018                                                             7
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+                                 EXERCISE 3b SAS: CALCULATE EXPENDITURES FOR ALL EVENTS ASSOCIATED WITH A CONDITION (DIABETES)
+                                        ESTIMATES ON USE AND EXPENDITURES FOR ALL EVENTS ASSOCIATED WITH DIABETES, 2015
+
+                          Variable                                                                                          Std Error
+                            Name           N               SumWgt                  Sum     Std Error of Sum         Mean     of Mean
+
+                           TOTEXP      2,831           26,356,142       89,665,504,958        5,165,060,112     3,402.07       167.10
+                           SF          2,831           26,356,142        7,754,063,159          456,932,722       294.20        15.20
+                           MR          2,831           26,356,142       35,492,281,908        3,182,445,303     1,346.64       113.88
+                           MD          2,831           26,356,142       12,612,562,776        1,842,313,175       478.54        68.34
+                           PV          2,831           26,356,142       25,605,505,962        2,243,003,700       971.52        80.05
+                           VA          2,831           26,356,142        1,864,147,550          339,111,593        70.73        12.93
+                           TR          2,831           26,356,142        1,600,311,164          606,348,575        60.72        22.95
+                           OF          2,831           26,356,142          771,599,798          462,532,096        29.28        17.30
+                           SL          2,831           26,356,142        1,217,886,863          307,410,213        46.21        11.63
+                           WC          2,831           26,356,142           24,985,573           16,515,091         0.95         0.63
+                           OR          2,831           26,356,142        1,745,745,854          398,150,040        66.24        15.07
+                           OU          2,831           26,356,142           81,350,794           22,344,564         3.09         0.85
+                           OT          2,831           26,356,142          895,063,556          402,135,500        33.96        15.27
+<<<<<<< HEAD
+                                                             AHRQ MEPS DATA USERS WORKSHOP -- 2018
+=======
+                                                             AHRQ MEPS DATA USERS WORKSHOP -- 2018                                                             8
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+                                 EXERCISE 3b SAS: CALCULATE EXPENDITURES FOR ALL EVENTS ASSOCIATED WITH A CONDITION (DIABETES)
+                                                 SAMPLE DUMP AFTER DATA IS SUMMED UP TO PERSON-EVENT TYPE-LEVEL
+
+--------------------------------------------------------------- PERSON ID (DUID + PID)=60001101 ----------------------------------------------------------------
+
+                    Obs    EVNTYP    N_VISITS      TOTEXP     SF           MR      MD     PV    VA    TR    OF    SL    WC    OR    OU    OT
+
+                      1     AMBU         1          69.46     0.0        0.00    69.46     0     0     0     0     0     0     0     0     0
+                      2     PMED        13       11576.18    87.6    11488.58     0.00     0     0     0     0     0     0     0     0     0
+
+
+--------------------------------------------------------------- PERSON ID (DUID + PID)=60001102 ----------------------------------------------------------------
+
+                         Obs    EVNTYP    N_VISITS    TOTEXP    SF    MR      MD      PV    VA    TR    OF    SL    WC    OR    OU    OT
+
+                           3     AMBU         1       134.29     0     0    134.29     0     0     0     0     0     0     0     0     0
+                           4     PMED         4       105.82     0     0    105.82     0     0     0     0     0     0     0     0     0
+
+
+--------------------------------------------------------------- PERSON ID (DUID + PID)=60004103 ----------------------------------------------------------------
+
+                    Obs    EVNTYP    N_VISITS     TOTEXP      SF      MR    MD    PV    VA    TR    OF    SL    WC       OR        OU      OT
+
+                      5     PMED         5       2120.73    401.54     0     0     0     0     0     0     0     0    1268.23    450.96     0
+
+
+--------------------------------------------------------------- PERSON ID (DUID + PID)=60020101 ----------------------------------------------------------------
+
+                         Obs    EVNTYP    N_VISITS    TOTEXP    SF    MR    MD    PV    VA    TR      OF     SL    WC    OR    OU    OT
+
+                           6     PMED         1        32.21     0     0     0     0     0     0    32.21     0     0     0     0     0
+
+
+--------------------------------------------------------------- PERSON ID (DUID + PID)=60035101 ----------------------------------------------------------------
+
+                         Obs    EVNTYP    N_VISITS    TOTEXP    SF      MR      MD    PV    VA    TR    OF    SL    WC    OR    OU    OT
+
+                           7     PMED         1       275.96     0    275.96     0     0     0     0     0     0     0     0     0     0
+
+
+--------------------------------------------------------------- PERSON ID (DUID + PID)=60036101 ----------------------------------------------------------------
+
+                     Obs    EVNTYP    N_VISITS     TOTEXP     SF       MR     MD       PV      VA    TR    OF    SL    WC    OR    OU    OT
+
+                       8     AMBU         2        208.74     0.6    34.14     0     174.00     0     0     0     0     0     0     0     0
+                       9     PMED         8       5896.21    88.0     0.00     0    5808.21     0     0     0     0     0     0     0     0
+
+
+--------------------------------------------------------------- PERSON ID (DUID + PID)=60045101 ----------------------------------------------------------------
+
+                        Obs    EVNTYP    N_VISITS    TOTEXP      SF     MR    MD      PV     VA    TR    OF    SL    WC    OR    OU    OT
+
+                         10     AMBU         1        61.37    25.00     0     0    36.37     0     0     0     0     0     0     0     0
+                         11     PMED         2        12.00     5.76     0     0     6.24     0     0     0     0     0     0     0     0
+
+
+--------------------------------------------------------------- PERSON ID (DUID + PID)=60052101 ----------------------------------------------------------------
+
+                           Obs    EVNTYP    N_VISITS    TOTEXP    SF    MR    MD    PV    VA    TR    OF    SL    WC    OR    OU    OT
+
+                            12     PMED         1         10      10     0     0     0     0     0     0     0     0     0     0     0
+
+
+--------------------------------------------------------------- PERSON ID (DUID + PID)=60060102 ----------------------------------------------------------------
+
+                     Obs    EVNTYP    N_VISITS     TOTEXP       SF      MR    MD       PV      VA    TR    OF    SL    WC    OR    OU    OT
+
+                      13     AMBU         4        344.24      79.00     0     0     265.24     0     0     0     0     0     0     0     0
+                      14     PMED         5       6119.73    1021.87     0     0    5097.86     0     0     0     0     0     0     0     0
+
+
+--------------------------------------------------------------- PERSON ID (DUID + PID)=60069101 ----------------------------------------------------------------
+
+                          Obs    EVNTYP    N_VISITS    TOTEXP     SF    MR    MD    PV    VA    TR    OF    SL    WC    OR    OU    OT
+
+                           15     AMBU         4         260     260     0     0     0     0     0     0     0     0     0     0     0
+<<<<<<< HEAD
+
+=======
+                                                             AHRQ MEPS DATA USERS WORKSHOP -- 2018                                                             9
+                                 EXERCISE 3b SAS: CALCULATE EXPENDITURES FOR ALL EVENTS ASSOCIATED WITH A CONDITION (DIABETES)
+                                                 SAMPLE DUMP AFTER DATA IS SUMMED UP TO PERSON-EVENT TYPE-LEVEL
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+--------------------------------------------------------------- PERSON ID (DUID + PID)=60121103 ----------------------------------------------------------------
+
+                     Obs    EVNTYP    N_VISITS     TOTEXP     SF        MR          MD    PV    VA    TR    OF    SL    WC    OR    OU    OT
+
+                      16     AMBU         4        650.24     0.0     518.08    132.16     0     0     0     0     0     0     0     0     0
+                      17     PMED         3       2211.86    13.2    2198.66      0.00     0     0     0     0     0     0     0     0     0
+
+
+--------------------------------------------------------------- PERSON ID (DUID + PID)=60122202 ----------------------------------------------------------------
+
+                       Obs    EVNTYP    N_VISITS    TOTEXP      SF       MR      MD    PV    VA    TR    OF    SL    WC    OR    OU    OT
+
+                        18     AMBU         3       222.79     0.00    222.79     0     0     0     0     0     0     0     0     0     0
+                        19     PMED         4       232.90    60.48    172.42     0     0     0     0     0     0     0     0     0     0
+
+
+--------------------------------------------------------------- PERSON ID (DUID + PID)=60128102 ----------------------------------------------------------------
+
+                         Obs    EVNTYP    N_VISITS    TOTEXP      SF      MR    MD    PV    VA    TR    OF    SL    WC    OR    OU    OT
+
+                          20     AMBU         5       352.35    330.35     0     0    22     0     0     0     0     0     0     0     0
+<<<<<<< HEAD
+                                                             AHRQ MEPS DATA USERS WORKSHOP -- 2018
+                                 EXERCISE 3b SAS: CALCULATE EXPENDITURES FOR ALL EVENTS ASSOCIATED WITH A CONDITION (DIABETES)
+                                                 SAMPLE DUMP AFTER DATA IS SUMMED UP TO PERSON-EVENT TYPE-LEVEL
+
+                                                                   The SURVEYMEANS Procedure
+
+                                                                          Data Summary
+
+                                                              Number of Strata                 165
+                                                              Number of Clusters               369
+                                                              Number of Observations         35931
+                                                              Sum of Weights             340155378
+
+
+                                                                           Statistics
+ 
+                                                                          Sum of                       Std Error                       Std Error
+                Variable    Label                              N         Weights            Mean         of Mean             Sum          of Sum
+                --------------------------------------------------------------------------------------------------------------------------------
+                N_VISITS    # OF VISITS PER                35931       340155378        0.586018        0.019258       199337132         8119111
+                            PERSON FOR EACH TYPE                                                                                                
+                            OF SERVICE                                                                                                          
+                TOTEXP      TOTAL EXPENDITURE              35931       340155378      263.601609       13.850919     89665504958      5165060112
+                            FOR EVENT                                                                                                           
+                SF          SOURCE OF PAYMENT:             35931       340155378       22.795651        1.295110      7754063159       456932722
+                            FAMILY                                                                                                              
+                MR          SOURCE OF PAYMENT:             35931       340155378      104.341381        9.200484     35492281908      3182445303
+                            MEDICARE                                                                                                            
+                MD          SOURCE OF PAYMENT:             35931       340155378       37.078828        5.361990     12612562776      1842313175
+                            MEDICAID                                                                                                            
+                PV          SOURCE OF PAYMENT:             35931       340155378       75.275911        6.222783     25605505962      2243003700
+                            PRIVATE INSURANCE                                                                                                   
+                VA          SOURCE OF PAYMENT:             35931       340155378        5.480282        0.992595      1864147550       339111593
+                            VETERANS                                                                                                            
+                TR          SOURCE OF PAYMENT:             35931       340155378        4.704648        1.771984      1600311164       606348575
+                            TRICARE                                                                                                             
+                OF          SOURCE OF PAYMENT:             35931       340155378        2.268375        1.350110       771599798       462532096
+                            OTHER FEDERAL                                                                                                       
+                SL          SOURCE OF PAYMENT:             35931       340155378        3.580384        0.889767      1217886863       307410213
+                            STATE & LOCAL GOV                                                                                                   
+                WC          SOURCE OF PAYMENT:             35931       340155378        0.073453        0.048509        24985573        16515091
+                            WORKERS COMP                                                                                                        
+                OR          SOURCE OF PAYMENT:             35931       340155378        5.132201        1.163528      1745745854       398150040
+                            OTHER PRIVATE                                                                                                       
+                OU          SOURCE OF PAYMENT:             35931       340155378        0.239158        0.065459        81350794        22344564
+                            OTHER PUBLIC                                                                                                        
+                OT          SOURCE OF PAYMENT:             35931       340155378        2.631337        1.178558       895063556       402135500
+                            OTHER INSURANCE                                                                                                     
+                --------------------------------------------------------------------------------------------------------------------------------
+                                                             AHRQ MEPS DATA USERS WORKSHOP -- 2018
+                                 EXERCISE 3b SAS: CALCULATE EXPENDITURES FOR ALL EVENTS ASSOCIATED WITH A CONDITION (DIABETES)
+                                                 SAMPLE DUMP AFTER DATA IS SUMMED UP TO PERSON-EVENT TYPE-LEVEL
+
+                                                                   The SURVEYMEANS Procedure
+
+                                                                Statistics for SUB*EVNTYP Domains
+ 
+                                                                                     Sum of                       Std Error                       Std Error
+          SUB    EVNTYP    Variable    Label                              N         Weights            Mean         of Mean             Sum          of Sum
+     ------------------------------------------------------------------------------------------------------------------------------------------------------
+            1    AMBU      N_VISITS    # OF VISITS PER                 1989        18348311        4.022958        0.165995        73814485         4134339
+                                       PERSON FOR EACH TYPE                                                                                                
+                                       OF SERVICE                                                                                                          
+                           TOTEXP      TOTAL EXPENDITURE               1989        18348311      863.900109      119.775000     15851107936      2255347515
+                                       FOR EVENT                                                                                                           
+                           SF          SOURCE OF PAYMENT:              1989        18348311       60.790401        6.286833      1115401180       123560206
+                                       FAMILY                                                                                                              
+                           MR          SOURCE OF PAYMENT:              1989        18348311      384.807141      112.085578      7060561128      2073821092
+                                       MEDICARE                                                                                                            
+                           MD          SOURCE OF PAYMENT:              1989        18348311       72.758896        8.031214      1335002849       153336649
+                                       MEDICAID                                                                                                            
+                           PV          SOURCE OF PAYMENT:              1989        18348311      235.790652       31.729925      4326360237       585450057
+                                       PRIVATE INSURANCE                                                                                                   
+                           VA          SOURCE OF PAYMENT:              1989        18348311       57.691280       12.707988      1058537553       233961540
+                                       VETERANS                                                                                                            
+                           TR          SOURCE OF PAYMENT:              1989        18348311        9.908037        3.708778       181795747        68957785
+                                       TRICARE                                                                                                             
+                           OF          SOURCE OF PAYMENT:              1989        18348311        8.077305        7.729679       148204897       142747145
+                                       OTHER FEDERAL                                                                                                       
+                           SL          SOURCE OF PAYMENT:              1989        18348311        3.735975        1.710387        68548827        31668370
+                                       STATE & LOCAL GOV                                                                                                   
+                           WC          SOURCE OF PAYMENT:              1989        18348311        0.092094        0.043049         1689774          792665
+                                       WORKERS COMP                                                                                                        
+                           OR          SOURCE OF PAYMENT:              1989        18348311       14.388780        2.387818       264009820        44085135
+                                       OTHER PRIVATE                                                                                                       
+                           OU          SOURCE OF PAYMENT:              1989        18348311        1.616926        0.707219        29667856        12970333
+                                       OTHER PUBLIC                                                                                                        
+                           OT          SOURCE OF PAYMENT:              1989        18348311       14.242623        7.400688       261328069       134806956
+                                       OTHER INSURANCE                                                                                                     
+                 EROM      N_VISITS    # OF VISITS PER                   85          709974        1.649057        0.158416         1170787          202775
+                                       PERSON FOR EACH TYPE                                                                                                
+                                       OF SERVICE                                                                                                          
+                           TOTEXP      TOTAL EXPENDITURE                 85          709974     1868.182973      540.107805      1326360573       476694718
+                                       FOR EVENT                                                                                                           
+                           SF          SOURCE OF PAYMENT:                85          709974      178.314859       74.793378       126598841        59723824
+                                       FAMILY                                                                                                              
+                           MR          SOURCE OF PAYMENT:                85          709974      144.902668       47.992392       102877068        33761390
+                                       MEDICARE                                                                                                            
+                           MD          SOURCE OF PAYMENT:                85          709974      136.766023       51.642811        97100264        38357365
+                                       MEDICAID                                                                                                            
+                           PV          SOURCE OF PAYMENT:                85          709974      775.319096      313.404511       550456083       265560507
+                                       PRIVATE INSURANCE                                                                                                   
+                           VA          SOURCE OF PAYMENT:                85          709974       72.865728       38.969778        51732743        29859934
+                                       VETERANS                                                                                                            
+                           TR          SOURCE OF PAYMENT:                85          709974        2.024945        2.062710         1437657         1437657
+                                       TRICARE                                                                                                             
+                           OF          SOURCE OF PAYMENT:                85          709974               0               0               0               0
+                                       OTHER FEDERAL                                                                                                       
+                           SL          SOURCE OF PAYMENT:                85          709974       13.536990       13.058981         9610906         9268755
+                                       STATE & LOCAL GOV                                                                                                   
+                           WC          SOURCE OF PAYMENT:                85          709974               0               0               0               0
+                                       WORKERS COMP                                                                                                        
+                           OR          SOURCE OF PAYMENT:                85          709974       33.987077       17.305791        24129927        12064166
+                                       OTHER PRIVATE                                                                                                       
+                           OU          SOURCE OF PAYMENT:                85          709974        0.120852        0.121207           85802           85802
+                                       OTHER PUBLIC                                                                                                        
+                           OT          SOURCE OF PAYMENT:                85          709974      510.344734      472.147227       362331283       342235939
+                                       OTHER INSURANCE                                                                                                     
+                 HVIS      N_VISITS    # OF VISITS PER                  132         1030192        4.512088        0.396755         4648315          709760
+                                       PERSON FOR EACH TYPE                                                                                                
+                                       OF SERVICE                                                                                                          
+                           TOTEXP      TOTAL EXPENDITURE                132         1030192     6578.533923     1451.051496      6777150288      1752021246
+                                       FOR EVENT                                                                                                           
+                           SF          SOURCE OF PAYMENT:               132         1030192      222.928169      132.396205       229658724       140027353
+                                       FAMILY                                                                                                              
+                           MR          SOURCE OF PAYMENT:               132         1030192     2278.319855      688.824333      2347105942       797117811
+                                       MEDICARE                                                                                                            
+                           MD          SOURCE OF PAYMENT:               132         1030192     3784.473628     1402.434586      3898732885      1526452748
+                                       MEDICAID                                                                                                            
+                           PV          SOURCE OF PAYMENT:               132         1030192       36.340050       25.029435        37437214        24734191
+                                       PRIVATE INSURANCE                                                                                                   
+                           VA          SOURCE OF PAYMENT:               132         1030192       67.700206       62.743270        69744183        65812647
+                                       VETERANS                                                                                                            
+                           TR          SOURCE OF PAYMENT:               132         1030192        2.020034        2.015963         2081022         2081022
+                                       TRICARE                                                                                                             
+                           OF          SOURCE OF PAYMENT:               132         1030192               0               0               0               0
+                                       OTHER FEDERAL                                                                                                       
+                           SL          SOURCE OF PAYMENT:               132         1030192      109.807506       50.666543       113122769        50674760
+                                       STATE & LOCAL GOV                                                                                                   
+                           WC          SOURCE OF PAYMENT:               132         1030192               0               0               0               0
+                                       WORKERS COMP                                                                                                        
+                           OR          SOURCE OF PAYMENT:               132         1030192       74.043628       62.220894        76279122        64716974
+                                       OTHER PRIVATE                                                                                                       
+                           OU          SOURCE OF PAYMENT:               132         1030192        2.900847        2.916526         2988428         2988428
+                                       OTHER PUBLIC                                                                                                        
+                           OT          SOURCE OF PAYMENT:               132         1030192               0               0               0               0
+                                       OTHER INSURANCE                                                                                                     
+                 IPAT      N_VISITS    # OF VISITS PER                   48          492910        1.210295        0.086765          596566          123694
+                                       PERSON FOR EACH TYPE                                                                                                
+                                       OF SERVICE                                                                                                          
+                           TOTEXP      TOTAL EXPENDITURE                 48          492910           12206     2188.971421      6016316285      1295502888
+                                       FOR EVENT                                                                                                           
+                           SF          SOURCE OF PAYMENT:                48          492910      367.913510      133.408291       181348305        76405367
+                                       FAMILY                                                                                                              
+                           MR          SOURCE OF PAYMENT:                48          492910     6737.643917     1760.190882      3321053110      1002156852
+                                       MEDICARE                                                                                                            
+                           MD          SOURCE OF PAYMENT:                48          492910     2917.958659     1275.743791      1438291456       635473685
+                                       MEDICAID                                                                                                            
+                           PV          SOURCE OF PAYMENT:                48          492910     1531.657710      408.538254       754969640       197400289
+                                       PRIVATE INSURANCE                                                                                                   
+                           VA          SOURCE OF PAYMENT:                48          492910       92.057005       93.877732        45375833        45375833
+                                       VETERANS                                                                                                            
+                           TR          SOURCE OF PAYMENT:                48          492910      132.693887      134.425206        65406164        65406164
+                                       TRICARE                                                                                                             
+                           OF          SOURCE OF PAYMENT:                48          492910               0               0               0               0
+                                       OTHER FEDERAL                                                                                                       
+                           SL          SOURCE OF PAYMENT:                48          492910      105.505386      106.323092        52004676        52004676
+                                       STATE & LOCAL GOV                                                                                                   
+                           WC          SOURCE OF PAYMENT:                48          492910               0               0               0               0
+                                       WORKERS COMP                                                                                                        
+                           OR          SOURCE OF PAYMENT:                48          492910      158.051443      113.657355        77905162        56950886
+                                       OTHER PRIVATE                                                                                                       
+                           OU          SOURCE OF PAYMENT:                48          492910        1.955739        1.545919          964004          749730
+                                       OTHER PUBLIC                                                                                                        
+                           OT          SOURCE OF PAYMENT:                48          492910      160.268429      104.728423        78997936        52106011
+                                       OTHER INSURANCE                                                                                                     
+                 PMED      N_VISITS    # OF VISITS PER                 2615        24506882        4.860144        0.096754       119106978         4652343
+                                       PERSON FOR EACH TYPE                                                                                                
+                                       OF SERVICE                                                                                                          
+                           TOTEXP      TOTAL EXPENDITURE               2615        24506882     2435.828810      131.884179     59694569875      3778922778
+                                       FOR EVENT                                                                                                           
+                           SF          SOURCE OF PAYMENT:              2615        24506882      248.952765       13.655540      6101056109       374616236
+                                       FAMILY                                                                                                              
+                           MR          SOURCE OF PAYMENT:              2615        24506882      924.666158       66.983736     22660684661      1799253460
+                                       MEDICARE                                                                                                            
+                           MD          SOURCE OF PAYMENT:              2615        24506882      238.440584       31.027436      5843435322       791965227
+                                       MEDICAID                                                                                                            
+                           PV          SOURCE OF PAYMENT:              2615        24506882      813.497310       76.895813     19936282789      1991368746
+                                       PRIVATE INSURANCE                                                                                                   
+                           VA          SOURCE OF PAYMENT:              2615        24506882       26.064402        6.261617       638757239       152047675
+                                       VETERANS                                                                                                            
+                           TR          SOURCE OF PAYMENT:              2615        24506882       55.069860       23.585147      1349590574       579990340
+                                       TRICARE                                                                                                             
+                           OF          SOURCE OF PAYMENT:              2615        24506882       25.437544       13.059963       623394902       325661598
+                                       OTHER FEDERAL                                                                                                       
+                           SL          SOURCE OF PAYMENT:              2615        24506882       39.768408       11.012108       974599685       269255653
+                                       STATE & LOCAL GOV                                                                                                   
+                           WC          SOURCE OF PAYMENT:              2615        24506882        0.950582        0.674214        23295800        16499508
+                                       WORKERS COMP                                                                                                        
+                           OR          SOURCE OF PAYMENT:              2615        24506882       53.185950       15.129561      1303421824       370340286
+                                       OTHER PRIVATE                                                                                                       
+                           OU          SOURCE OF PAYMENT:              2615        24506882        1.944136        0.493868        47644704        12259541
+                                       OTHER PUBLIC                                                                                                        
+                           OT          SOURCE OF PAYMENT:              2615        24506882        7.851112        3.371535       192406267        82823147
+                                       OTHER INSURANCE                                                                                                     
+     ------------------------------------------------------------------------------------------------------------------------------------------------------
+=======
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9

@@ -1,0 +1,534 @@
+NOTE: PROCEDURE PRINTTO used (Total process time):
+<<<<<<< HEAD
+      real time           0.10 seconds
+      cpu time            0.05 seconds
+      
+
+107        
+108        TITLE1 '2018 AHRQ MEPS DATA USERS WORKSHOP';
+109        TITLE2 "EXERCISE 2.A SAS: Antipsychotics Purchases and Expenses, 2015";
+110        
+111        /* Create a dataset with just a few variables for summary statistics */
+112        DATA SUMMARYSET (KEEP=DUID PID DUPERSID RXRECIDX LINKIDX TC1 TC1S1 RXXP15X
+113        		RXSF15X);
+114        	SET CDATA.H178A;
+115        RUN;
+=======
+      real time           0.07 seconds
+      cpu time            0.03 seconds
+      
+
+104        
+105        TITLE1 '2018 AHRQ MEPS DATA USERS WORKSHOP';
+106        TITLE2 "EXERCISE 2.A SAS: Antipsychotics Purchases and Expenses, 2015";
+107        
+108        /* Create a dataset with just a few variables for summary statistics */
+109        DATA SUMMARYSET (KEEP=DUID PID DUPERSID RXRECIDX LINKIDX TC1 TC1S1 RXXP15X
+110        		RXSF15X);
+111        	SET CDATA.H178A;
+112        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 330453 observations read from the data set CDATA.H178A.
+NOTE: The data set WORK.SUMMARYSET has 330453 observations and 9 variables.
+NOTE: DATA statement used (Total process time):
+<<<<<<< HEAD
+      real time           1.78 seconds
+      cpu time            0.90 seconds
+      
+
+116        
+117        /* Select only the position table in the output */
+118        ODS Select Position;
+119        
+120        /*********************************************************************\
+121        
+122        Display summary statistics:
+123        Variables, Labels, Type of variable, size of variable:
+124        Basic Summarized overview
+125        
+126         *********************************************************************/
+127        PROC DATASETS;
+128        	
+128      !  CONTENTS DATA=WORK.SUMMARYSET VARNUM;
+129        	Title3 'Short list of labels for relevant variables';
+130        	RUN;
+
+131        
+132        	/* Selct all output once again */
+133        	ODS Select All;
+134        
+135        	/*********************************************************************\
+136        	
+137        	Create summary statistics for the Sum of Payments and Amount Paid
+138        	(Self or Family) Variables (2015 PRESCRIBED MEDICINES PUF)
+139        	
+140        	 *********************************************************************/
+
+NOTE: The PROCEDURE DATASETS printed page 53.
+NOTE: PROCEDURE DATASETS used (Total process time):
+      real time           0.11 seconds
+      cpu time            0.10 seconds
+      
+
+141        PROC MEANS DATA=CDATA.H178A n nmiss mean mode min max maxdec=2 range std fw=8;
+142        	var RXXP15X RXSF15X;
+143        	title3 'Sum of Payments(2015), Amount Paid (Self or Family) (2015)';
+144        RUN;
+
+NOTE: There were 330453 observations read from the data set CDATA.H178A.
+NOTE: The PROCEDURE MEANS printed page 54.
+NOTE: PROCEDURE MEANS used (Total process time):
+      real time           1.72 seconds
+      cpu time            0.93 seconds
+      
+
+145        
+146        /*********************************************************************\
+147        
+148        Create format variables
+149        A variable is created to represent whether or
+150        not a value is greater than zero
+151        
+152         *********************************************************************/
+153        PROC FORMAT;
+154        	
+154      !  VALUE GTZERO 0='0' 0 <- HIGH='>0';
+NOTE: Format GTZERO is already on the library WORK.FORMATS.
+NOTE: Format GTZERO has been output.
+155        RUN;
+=======
+      real time           1.40 seconds
+      cpu time            0.69 seconds
+      
+
+113        
+114        /* Select only the position table in the output */
+115        ODS Select Position;
+116        
+117        /* Display summary statistics:
+118        /* Variables, Labels, Type of variable, size of variable: Basic Summarized overview */
+119        PROC DATASETS;
+120        	
+120      !  CONTENTS DATA=WORK.SUMMARYSET VARNUM;
+121        	Title3 'Short list of labels for relevant variables';
+122        	RUN;
+
+123        
+124        	/* Selct all output once again */
+125        	ODS Select All;
+126        
+127        	/* Create summary statistics for the Sum of Payments and Amount Paid (Self or Family) Variables (2015 PRESCRIBED MEDICINES PUF) */
+
+NOTE: The PROCEDURE DATASETS printed page 1.
+NOTE: PROCEDURE DATASETS used (Total process time):
+      real time           0.12 seconds
+2                                                                        The SAS System
+
+      cpu time            0.11 seconds
+      
+
+128        PROC MEANS DATA=CDATA.H178A n nmiss mean mode min max maxdec=2 range std fw=8;
+129        	var RXXP15X RXSF15X;
+130        	title3 'Sum of Payments(2015), Amount Paid (Self or Family) (2015)';
+131        RUN;
+
+NOTE: There were 330453 observations read from the data set CDATA.H178A.
+NOTE: The PROCEDURE MEANS printed page 2.
+NOTE: PROCEDURE MEANS used (Total process time):
+      real time           1.35 seconds
+      cpu time            0.76 seconds
+      
+
+132        
+133        /* Create format variables */
+134        /* A variable is created to represent whether or not a value is greater than zero */
+135        PROC FORMAT;
+136        	
+136      !  VALUE GTZERO 0='0' 0 <- HIGH='>0';
+NOTE: Format GTZERO is already on the library WORK.FORMATS.
+NOTE: Format GTZERO has been output.
+137        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: PROCEDURE FORMAT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+<<<<<<< HEAD
+156        
+157        /*********************************************************************\
+158        
+159        1) IDENTIFY Antipsychotic Drugs Using Therapeutic
+160        Classification (Tc) Codes
+161        
+162        Create DRUG dataset based on defintion of antipsychotic drugs
+163        
+164         *********************************************************************/
+165        DATA DRUG;
+166        	SET CDATA.H178A;
+167        
+168        	/*definition of ANTIPSYCHOTIC DRUGS*/
+169        	IF TC1=242 AND TC1S1=251;
+170        RUN;
+=======
+138        
+139        /* Create DRUG dataset based on defintion of antipsychotic drugs */
+140        /* 1) IDENTIFY Antipsychotic Drugs Using Therapeutic Classification (Tc) Codes */
+141        DATA DRUG;
+142        	SET CDATA.H178A;
+143        
+144        	/*definition of ANTIPSYCHOTIC DRUGS*/
+145        	IF TC1=242 AND TC1S1=251;
+146        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 330453 observations read from the data set CDATA.H178A.
+NOTE: The data set WORK.DRUG has 3317 observations and 69 variables.
+NOTE: DATA statement used (Total process time):
+<<<<<<< HEAD
+      real time           1.52 seconds
+      cpu time            0.75 seconds
+      
+
+171        
+172        /* Print a sample (30 observations) of our selected variables
+173        by Person-ID (Including RX Expenditures) */
+174        PROC PRINT DATA=DRUG (OBS=30);
+175        	VAR RXRECIDX LINKIDX TC1 TC1S1 RXXP15X RXSF15X;
+176        	BY DUPERSID;
+177        	TITLE3 "A SAMPLE DUMP FOR PMED RECORDS WITH ANTIPSYCHOTIC DRUGS";
+178        RUN;
+
+NOTE: There were 30 observations read from the data set WORK.DRUG.
+NOTE: The PROCEDURE PRINT printed page 55.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.20 seconds
+      cpu time            0.17 seconds
+      
+
+179        
+180        /* 2) SUM DATA TO PERSON-LEVEL (Total out OOP Expenditures)
+181        Output to a dataset named: PERDRUG */
+182        PROC SUMMARY DATA=DRUG NWAY;
+183        	CLASS DUPERSID;
+184        	VAR RXXP15X RXSF15X;
+185        	OUTPUT OUT=PERDRUG (DROP=_TYPE_) sum=TOT OOP;
+186        RUN;
+=======
+      real time           1.27 seconds
+      cpu time            0.63 seconds
+      
+
+147        
+148        /* Print a sample (30 observations) of our selected variables by Person-ID (Including RX Expenditures) */
+149        PROC PRINT DATA=DRUG (OBS=30);
+150        	VAR RXRECIDX LINKIDX TC1 TC1S1 RXXP15X RXSF15X;
+151        	BY DUPERSID;
+152        	TITLE3 "A SAMPLE DUMP FOR PMED RECORDS WITH ANTIPSYCHOTIC DRUGS";
+153        RUN;
+
+NOTE: There were 30 observations read from the data set WORK.DRUG.
+NOTE: The PROCEDURE PRINT printed page 3.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.12 seconds
+      cpu time            0.11 seconds
+      
+
+154        
+155        /* 2) SUM DATA TO PERSON-LEVEL (Total out OOP Expenditures) */
+156        /* Output to a dataset named: PERDRUG */
+157        PROC SUMMARY DATA=DRUG NWAY;
+158        	CLASS DUPERSID;
+159        	VAR RXXP15X RXSF15X;
+160        	OUTPUT OUT=PERDRUG (DROP=_TYPE_) sum=TOT OOP;
+161        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 3317 observations read from the data set WORK.DRUG.
+NOTE: The data set WORK.PERDRUG has 459 observations and 4 variables.
+NOTE: PROCEDURE SUMMARY used (Total process time):
+<<<<<<< HEAD
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+187        
+188        /* Print the first 30 values from PERDRUG
+189        Will display the FREQ of RX per person along with TOTEXP and OOP */
+190        PROC PRINT DATA=PERDRUG (OBS=30);
+191        	TITLE3 "A SAMPLE DUMP FOR PERSON-LEVEL EXPENDITURES FOR ANTIPSYCHOTIC DRUGS";
+192        RUN;
+
+NOTE: There were 30 observations read from the data set WORK.PERDRUG.
+NOTE: The PROCEDURE PRINT printed page 56.
+=======
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+3                                                                        The SAS System
+
+
+162        
+163        /* Print the first 30 values from PERDRUG */
+164        /* QC Check */
+165        /* Will display the FREQ of RX per person along with TOTEXP and OOP */
+166        PROC PRINT DATA=PERDRUG (OBS=30);
+167        	TITLE3 "A SAMPLE DUMP FOR PERSON-LEVEL EXPENDITURES FOR ANTIPSYCHOTIC DRUGS";
+168        RUN;
+
+NOTE: There were 30 observations read from the data set WORK.PERDRUG.
+NOTE: The PROCEDURE PRINT printed page 4.
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.08 seconds
+      cpu time            0.08 seconds
+      
+
+<<<<<<< HEAD
+193        
+194        /* Create a new dataset where we rename _freq_ to 'N_PHRCHASE'
+195        and create a calculated column called third payer,
+196        based on total and out of pocket expense */
+197        DATA PERDRUG2;
+198        	SET PERDRUG;
+199        	RENAME _FREQ_=N_PHRCHASE;
+200        	THIRD_PAYER=TOT - OOP;
+201        RUN;
+=======
+169        
+170        /* Create a new dataset where we rename _freq_ to 'N_PHRCHASE' and create a calculated column
+171        called third payer, based on total and out of pocket expense */
+172        DATA PERDRUG2;
+173        	SET PERDRUG;
+174        	RENAME _FREQ_=N_PHRCHASE;
+175        	THIRD_PAYER=TOT - OOP;
+176        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 459 observations read from the data set WORK.PERDRUG.
+NOTE: The data set WORK.PERDRUG2 has 459 observations and 5 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+<<<<<<< HEAD
+      cpu time            0.01 seconds
+      
+
+202        
+203        /*********************************************************************\
+204        
+205        3) MERGE THE PERSON-LEVEL EXPENDITURES TO THE ORIG DATASET
+206        Get the variables from the original dataset that will allow us
+207        to compute PROC SURVEYMEANS (STRATRA, CLUSTER, WEIGHT Variables)
+208        
+209        Merge dataset with PERDRUG2 created above.
+210        
+211        Create a bivariate FLAG (whether or not a person had an expenditure on
+212         antipsychotic medication based on the MERGE between datsets)
+213        Additionally, we create appropriate labels for variables.
+214        
+215         *********************************************************************/
+216        
+217        DATA FY;
+218        	MERGE CDATA.H181 (IN=AA KEEP=DUPERSID VARSTR VARPSU PERWT15F) PERDRUG2  (IN=BB
+219        		KEEP=DUPERSID N_PHRCHASE TOT OOP THIRD_PAYER);
+220        	BY DUPERSID;
+221        
+222        	IF AA AND BB THEN
+223        		DO;
+224        			SUB=1;
+225        		END;
+226        	ELSE IF NOT BB THEN
+227        		DO;
+228        
+229        			/*FOR PERSONS WITHOUT ANY PURCHASE OF ANTIPSYCHOTIC DRUGS*/
+230        			SUB=2;
+231        			N_PHRCHASE=0;
+232        			THIRD_PAYER=0;
+233        			TOT=0;
+234        			OOP=0;
+235        		END;
+236        
+237        	IF AA;
+238        	LABEL THIRD_PAYER='TOTAL-OOP' N_PHRCHASE='# OF PURCHASES PER PERSON'
+239        		SUB='POPULATION FLAG FOR PERSONS WITH 1+ ANTIPSYCHOTIC DRUGS';
+240        RUN;
+=======
+      cpu time            0.00 seconds
+      
+
+177        
+178        /* 3) MERGE THE PERSON-LEVEL EXPENDITURES TO THE ORIG DATASET /*
+179        /* Get the variables from the original dataset that will allow us to compute PROC SURVEYMEANS (STRATRA, CLUSTER, WEIGHT Variables)
+180        /* Merge dataset with PERDRUG2 created above. */
+181        /* Create a bivariate FLAG (whether or not a person had an expenditure on antipsychotic medication based on the MERGE between datsets) */
+182        /* Additionally, we create appropriate labels for variables. */
+183        DATA FY;
+184        	MERGE CDATA.H181 (IN=AA KEEP=DUPERSID VARSTR VARPSU PERWT15F) PERDRUG2  (IN=BB
+185        		KEEP=DUPERSID N_PHRCHASE TOT OOP THIRD_PAYER);
+186        	BY DUPERSID;
+187        
+188        	IF AA AND BB THEN
+189        		DO;
+190        			SUB=1;
+191        		END;
+192        	ELSE IF NOT BB THEN
+193        		DO;
+194        
+195        			/*FOR PERSONS WITHOUT ANY PURCHASE OF ANTIPSYCHOTIC DRUGS*/
+196        			SUB=2;
+197        			N_PHRCHASE=0;
+198        			THIRD_PAYER=0;
+199        			TOT=0;
+200        			OOP=0;
+201        		END;
+202        
+203        	IF AA;
+204        	LABEL THIRD_PAYER='TOTAL-OOP' N_PHRCHASE='# OF PURCHASES PER PERSON'
+205        		SUB='POPULATION FLAG FOR PERSONS WITH 1+ ANTIPSYCHOTIC DRUGS';
+206        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 35427 observations read from the data set CDATA.H181.
+NOTE: There were 459 observations read from the data set WORK.PERDRUG2.
+NOTE: The data set WORK.FY has 35427 observations and 9 variables.
+NOTE: DATA statement used (Total process time):
+<<<<<<< HEAD
+      real time           2.44 seconds
+      cpu time            1.13 seconds
+      
+
+241        
+242        /*********************************************************************\
+243        
+244        Display Supporting cross-tabs for new variables
+245        Population of N_PHRCHASE>0 with TOT>0 and OOP>0, etc. and FREQ Count
+246        Format as LIST output, MISSING values are treated as valid nonmissing
+247        levels
+248        
+249         *********************************************************************/
+250        
+251        PROC FREQ DATA=FY;
+252        	TABLES SUB * N_PHRCHASE * TOT * OOP * THIRD_PAYER / LIST MISSING;
+253        	FORMAT N_PHRCHASE TOT OOP THIRD_PAYER gtzero.;
+254        	TITLE3 "SUPPORTING CROSSTABS FOR NEW VARIABLES";
+255        RUN;
+
+NOTE: There were 35427 observations read from the data set WORK.FY.
+NOTE: The PROCEDURE FREQ printed page 57.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           0.08 seconds
+      cpu time            0.07 seconds
+      
+
+256        
+257        /* Suppress Graph output */
+258        ODS graphics off;
+259        
+260        /*********************************************************************\
+261        
+262        4) CALCULATE ESTIMATES ON EXPENDITURES AND USE
+263        Display PERSON-LEVEL Estimates on EXPENDITURES and USE FOR
+264        ANTIPSYCHOTIC DRUGS (2015)
+265        
+266        Display Total results: Mean($) TOT Payment, N_PHRCHASE, OOP,
+267        THIRD_PAYER
+268        
+269        Display Results for Subpopulation (Person w/ ANTI-PSYCH EXP.:
+270        Mean($) TOT Payment, N_PHRCHASE, OOP, THIRD_PAYER
+271        
+272         *********************************************************************/
+273        
+274        PROC SURVEYMEANS DATA=FY NOBS SUMWGT SUM STD MEAN STDERR;
+275        	STRATA VARSTR;
+276        	CLUSTER VARPSU;
+277        	WEIGHT PERWT15F;
+278        	DOMAIN SUB('1');
+279        	VAR TOT N_PHRCHASE OOP THIRD_PAYER;
+280        	ODS OUTPUT DOMAIN=work.domain_results;
+281        	TITLE3
+282        		"PERSON-LEVEL ESTIMATES ON EXPENDITURES AND USE FOR ANTIPSYCHOTIC DRUGS, 2015";
+283        RUN;
+=======
+      real time           1.97 seconds
+      cpu time            0.93 seconds
+      
+
+207        
+208        /* Display Supporting cross-tabs for new variables */
+209        /* Population of N_PHRCHASE>0 with TOT>0 and OOP>0, etc. and FREQ Count */
+210        /* Format as LIST output, MISSING values are treated as valid nonmissing levels */
+211        PROC FREQ DATA=FY;
+212        	TABLES SUB * N_PHRCHASE * TOT * OOP * THIRD_PAYER / LIST MISSING;
+4                                                                        The SAS System
+
+213        	FORMAT N_PHRCHASE TOT OOP THIRD_PAYER gtzero.;
+214        	TITLE3 "SUPPORTING CROSSTABS FOR NEW VARIABLES";
+215        RUN;
+
+NOTE: There were 35427 observations read from the data set WORK.FY.
+NOTE: The PROCEDURE FREQ printed page 5.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           0.07 seconds
+      cpu time            0.06 seconds
+      
+
+216        
+217        
+218        /* Suppress Graph output */
+219        ODS graphics off;
+220        
+221        /* 4) CALCULATE ESTIMATES ON EXPENDITURES AND USE */
+222        /* Display PERSON-LEVEL Estimates on EXPENDITURES and USE FOR ANTIPSYCHOTIC DRUGS (2015) */
+223        /* Display Total results: Mean($) TOT Payment, N_PHRCHASE, OOP, THIRD_PAYER */
+224        /* Display Results for Subpopulation (Person w/ ANTI-PSYCH EXP.: Mean($) TOT Payment, N_PHRCHASE, OOP, THIRD_PAYER */
+225        PROC SURVEYMEANS DATA=FY NOBS SUMWGT SUM STD MEAN STDERR;
+226        	STRATA VARSTR;
+227        	CLUSTER VARPSU;
+228        	WEIGHT PERWT15F;
+229        	DOMAIN SUB('1');
+230        	VAR TOT N_PHRCHASE OOP THIRD_PAYER;
+231        	ODS OUTPUT DOMAIN=work.domain_results;
+232        	TITLE3
+233        		"PERSON-LEVEL ESTIMATES ON EXPENDITURES AND USE FOR ANTIPSYCHOTIC DRUGS, 2015";
+234        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: Due to nonpositive weights, 1534 observation(s) were deleted.
+NOTE: Only one cluster in a stratum for POPULATION FLAG FOR PERSONS WITH 1+ ANTIPSYCHOTIC DRUGS domains for variable(s) TOT, N_PHRCHASE, OOP, THIRD_PAYER. The 
+      estimate of variance for TOT, N_PHRCHASE, OOP, THIRD_PAYER will omit this stratum.
+NOTE: The data set WORK.DOMAIN_RESULTS has 4 observations and 10 variables.
+<<<<<<< HEAD
+NOTE: The PROCEDURE SURVEYMEANS printed pages 58-59.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.29 seconds
+      cpu time            0.27 seconds
+      
+
+284        
+285        /* Close all output */
+286        ODS _ALL_ CLOSE;
+NOTE: ODS PDF(WEB) printed 7 pages to /tmp/SAS_work954500000E42_localhost.localdomain/#LN00446.
+287        
+288        /* THE PROC PRINTTO null step is required to close the PROC PRINTTO */
+289        PROC PRINTTO;
+290        RUN;
+=======
+NOTE: The PROCEDURE SURVEYMEANS printed pages 6-7.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.25 seconds
+      cpu time            0.25 seconds
+      
+
+235        
+236        
+237        /* Close all output */
+238        ODS _ALL_ CLOSE;
+NOTE: ODS PDF(WEB) printed 7 pages to /tmp/SAS_work7D55000033F2_localhost.localdomain/#LN02625.
+239        
+240        /* THE PROC PRINTTO null step is required to close the PROC PRINTTO */
+241        PROC PRINTTO;
+242        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+

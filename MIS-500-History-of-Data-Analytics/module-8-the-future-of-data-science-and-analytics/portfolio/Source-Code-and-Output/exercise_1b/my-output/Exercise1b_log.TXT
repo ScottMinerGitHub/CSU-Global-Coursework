@@ -1,0 +1,1121 @@
+NOTE: PROCEDURE PRINTTO used (Total process time):
+<<<<<<< HEAD
+<<<<<<< HEAD
+      real time           0.09 seconds
+      cpu time            0.03 seconds
+      
+
+105        
+106        /* Create format variables */
+107        /* Age is divided into 3 categories: 'ALL AGES','0-64','65+' */
+108        /* A variable is created to represent whether or not a value is greater than zero */
+109        /* A FLAG is created with 3 possible outcomes: 'No or any expense', 'No expense', 'Any expense' */
+110        PROC FORMAT;
+111        	
+111      !  VALUE AGEF 0-64='0-64' 65-HIGH='65+';
+NOTE: Format AGEF is already on the library WORK.FORMATS.
+NOTE: Format AGEF has been output.
+112        	
+112      !  VALUE AGECAT .='All Ages' 1='0-64' 2='65+';
+NOTE: Format AGECAT is already on the library WORK.FORMATS.
+NOTE: Format AGECAT has been output.
+113        	
+113      !  VALUE GTZERO 0='$0' 0 <- HIGH='>$0';
+NOTE: Format GTZERO is already on the library WORK.FORMATS.
+NOTE: Format GTZERO has been output.
+114        	
+114      !  VALUE FLAG .='No or any expense' 0='No expense' 1='Any expense';
+NOTE: Format FLAG is already on the library WORK.FORMATS.
+NOTE: Format FLAG has been output.
+115        RUN;
+=======
+      real time           0.08 seconds
+      cpu time            0.03 seconds
+      
+
+106        
+107        /* Create format variables */
+108        /* Age is divided into 3 categories: 'ALL AGES','0-64','65+' */
+109        /* A variable is created to represent whether or not a value is greater than zero */
+110        /* A FLAG is created with 3 possible outcomes: 'No or any expense', 'No expense', 'Any expense' */
+111        PROC FORMAT;
+112        	
+112      !  VALUE AGEF 0-64='0-64' 65-HIGH='65+';
+NOTE: Format AGEF is already on the library WORK.FORMATS.
+NOTE: Format AGEF has been output.
+113        	
+113      !  VALUE AGECAT .='All Ages' 1='0-64' 2='65+';
+NOTE: Format AGECAT is already on the library WORK.FORMATS.
+NOTE: Format AGECAT has been output.
+114        	
+114      !  VALUE GTZERO 0='$0' 0 <- HIGH='>$0';
+NOTE: Format GTZERO is already on the library WORK.FORMATS.
+NOTE: Format GTZERO has been output.
+115        	
+115      !  VALUE FLAG .='No or any expense' 0='No expense' 1='Any expense';
+NOTE: Format FLAG is already on the library WORK.FORMATS.
+NOTE: Format FLAG has been output.
+116        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: PROCEDURE FORMAT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+<<<<<<< HEAD
+116        
+117        /* Create summary statistics for dataset */
+118        /* Display label information for the variables we are going to be analyzing, along with more descriptive statistics for numerical variables */
+119        PROC MEANS DATA=CDATA.H181 n nmiss mean mode min max maxdec=2 range std fw=8;
+120        	var TOTEXP15 IPDEXP15 IPFEXP15 OBVEXP15 RXEXP15 OPDEXP15 OPFEXP15 DVTEXP15
+121        		ERDEXP15 ERFEXP15 HHAEXP15 HHNEXP15 OTHEXP15 VISEXP15 AGE15X AGE42X AGE31X
+122        		VARSTR VARPSU PERWT15f;
+123        	title "Descriptive Statistics for selected variables in the 2015 CONSOLIDATED DATA FILE (HC-181) ";
+2                                                                        The SAS System
+
+124        RUN;
+=======
+117        
+118        /* Create summary statistics for dataset */
+119        /* Display label information for the variables we are going to be analyzing, along with more descriptive statistics for numerical variables */
+120        PROC MEANS DATA=CDATA.H181 n nmiss mean mode min max maxdec=2 range std fw=8;
+121        	var TOTEXP15 IPDEXP15 IPFEXP15 OBVEXP15 RXEXP15 OPDEXP15 OPFEXP15 DVTEXP15
+122        		ERDEXP15 ERFEXP15 HHAEXP15 HHNEXP15 OTHEXP15 VISEXP15 AGE15X AGE42X AGE31X
+123        		VARSTR VARPSU PERWT15f;
+2                                                                        The SAS System
+
+124        	title "Descriptive Statistics for selected variables in the 2015 CONSOLIDATED DATA FILE (HC-181) ";
+125        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 35427 observations read from the data set CDATA.H181.
+NOTE: The PROCEDURE MEANS printed page 1.
+NOTE: PROCEDURE MEANS used (Total process time):
+<<<<<<< HEAD
+      real time           2.44 seconds
+      cpu time            1.30 seconds
+      
+
+125        
+126        /* READ IN DATA FROM 2015 CONSOLIDATED DATA FILE (HC-181) (keep only specified fields) */
+127        /* Create TOTAL expenditure variables based on type of service (I.E., Prescription Medicine, Dental, Hospital Inpatient, or Home Health Care/Other)*/
+128        /* Create DIFF variable to serve as a check (Calculate the DIFF of all Total EXP Variables based on type - TOTAL) */
+129        /* Create ARRAY variabless for FLAG variable creation */
+130        /* Do Loop iterates through Expenditure by Service Array (I.E. Hospital_inpatient, ambulatory, etc.) and creates FLAG for corresponding Expenditure
+130      ! by type FLAG */
+131        /* A Summary variable AGE is created from end-of-year and round-specific AGE variables */
+132        DATA PUF181;
+133        	SET CDATA.H181 (KEEP=TOTEXP15 IPDEXP15 IPFEXP15 OBVEXP15 RXEXP15 OPDEXP15
+134        		OPFEXP15 DVTEXP15 ERDEXP15 ERFEXP15 HHAEXP15 HHNEXP15 OTHEXP15 VISEXP15
+135        		AGE15X AGE42X AGE31X VARSTR VARPSU PERWT15f);
+136        
+137        	/* Define expenditure variables by type of service  */
+138        	TOTAL=TOTEXP15;
+139        	HOSPITAL_INPATIENT=IPDEXP15 + IPFEXP15;
+140        	AMBULATORY=OBVEXP15 + OPDEXP15 + OPFEXP15 + ERDEXP15 + ERFEXP15;
+141        	PRESCRIBED_MEDICINES=RXEXP15;
+142        	DENTAL=DVTEXP15;
+143        	HOME_HEALTH_OTHER=HHAEXP15 + HHNEXP15 + OTHEXP15 + VISEXP15;
+144        
+145        	/*QC CHECK IF THE SUM OF EXPENDITURES BY TYPE OF SERVICE IS EQUAL TO TOTAL*/
+146        	DIFF=TOTAL-HOSPITAL_INPATIENT - AMBULATORY   - PRESCRIBED_MEDICINES
+147                      - DENTAL            - HOME_HEALTH_OTHER;
+148        
+149        	/* CREATE FLAG (1/0) VARIABLES FOR PERSONS WITH AN EXPENSE, BY TYPE OF SERVICE  */
+150        	ARRAY EXX  (6) TOTAL HOSPITAL_INPATIENT AMBULATORY PRESCRIBED_MEDICINES DENTAL
+151        		HOME_HEALTH_OTHER;
+152        	ARRAY ANYX (6) X_ANYSVCE X_HOSPITAL_INPATIENT X_AMBULATORY
+153        		X_PRESCRIBED_MEDICINES X_DENTAL X_HOME_HEALTH_OTHER;
+154        
+155        	/* Loop checks for any expense greater than 0 and assigns appropriate flag by type */
+156        	DO II=1 TO 6;
+157        		ANYX(II)=0;
+158        
+159        		IF EXX(II) > 0 THEN
+160        			ANYX(II)=1;
+161        	END;
+162        	DROP II;
+163        
+164        	/* CREATE A SUMMARY VARIABLE FROM END OF YEAR, 42, AND 31 VARIABLES */
+165        	IF AGE15X >=0 THEN
+166        		AGE=AGE15X;
+167        	ELSE IF AGE42X >=0 THEN
+168        		AGE=AGE42X;
+169        	ELSE IF AGE31X >=0 THEN
+170        		AGE=AGE31X;
+171        
+172        	/* Define AGECAT Variable based on (0-64)(65+) Age Group */
+173        	IF 0 LE AGE LE 64 THEN
+174        		AGECAT=1;
+175        	ELSE IF AGE  > 64 THEN
+176        		AGECAT=2;
+177        	;
+178        	TITLE1 '2018 AHRQ MEPS DATA USERS WORKSHOP';
+179        	TITLE2 "EXERCISE 1.B SAS: NATIONAL HEALTH CARE EXPENSES, 2015";
+180        RUN;
+=======
+      real time           0.10 seconds
+      cpu time            0.05 seconds
+      
+
+107        
+108        TITLE1 '2018 AHRQ MEPS DATA USERS WORKSHOP';
+109        TITLE2 "EXERCISE 1.B SAS: ESTIMATES ON NATIONAL
+110         HEALTH CARE EXPENSES BY TYPE OF SERVICE, 2015";
+111        
+112        /**********************************************************************************
+113        
+114        Create format variables
+115        Age is divided into 3 categories: 'ALL AGES','0-64','65+'
+116        A variable is created to represent whether or not a value is greater than zero
+117        A FLAG is created with 3 possible outcomes: 'No or any expense', 'No expense',
+118        'Any expense'
+119        
+120         *********************************************************************************/
+121        PROC FORMAT;
+122        	
+122      !  VALUE AGEF 0-64='0-64' 65-HIGH='65+';
+NOTE: Format AGEF is already on the library WORK.FORMATS.
+NOTE: Format AGEF has been output.
+123        	
+123      !  VALUE AGECAT .='All Ages' 1='0-64' 2='65+';
+NOTE: Format AGECAT is already on the library WORK.FORMATS.
+NOTE: Format AGECAT has been output.
+124        	
+124      !  VALUE GTZERO 0='$0' 0 <- HIGH='>$0';
+NOTE: Format GTZERO is already on the library WORK.FORMATS.
+NOTE: Format GTZERO has been output.
+125        	
+125      !  VALUE FLAG .='No or any expense' 0='No expense' 1='Any expense';
+NOTE: Format FLAG is already on the library WORK.FORMATS.
+NOTE: Format FLAG has been output.
+126        RUN;
+
+NOTE: PROCEDURE FORMAT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+127        
+128        /**********************************************************************************
+129        
+130        /* Create summary statistics for dataset */
+131        /* Display label information for the variables we are going to be analyzing,
+132        along with more descriptive statistics for numerical variables */
+133        *********************************************************************************/
+134        
+135        	PROC MEANS DATA=CDATA.H181 n nmiss mean mode min max maxdec=2 range std fw=8;
+136        var TOTEXP15 IPDEXP15 IPFEXP15 OBVEXP15 RXEXP15 OPDEXP15 OPFEXP15 DVTEXP15
+           ___
+           180
+ERROR 180-322: Statement is not valid or it is used out of proper order.
+137        	ERDEXP15 ERFEXP15 HHAEXP15 HHNEXP15 OTHEXP15 VISEXP15 AGE15X AGE42X AGE31X
+138        	VARSTR VARPSU PERWT15f;
+
+139        title3 "Descriptive Statistics for selected variables
+140         in the 2015 CONSOLIDATED DATA FILE (HC-181) ";
+141        RUN;
+142        
+143        /**********************************************************************************
+144        
+145        READ IN DATA FROM 2015 CONSOLIDATED DATA FILE (HC-181) (keep only specified fields)
+146        
+147        Create TOTAL expenditure variables based on type of service
+148        (I.E., Prescription Medicine, Dental, Hospital Inpatient, or
+149        Home Health Care/Other)
+150        
+151        Create DIFF variable to serve as a check (Calculate the DIFF of all Total
+152        EXP Variables based on type - TOTAL)
+153        
+154        Create ARRAY variabless for FLAG variable creation
+155        
+156        Do Loop iterates through Expenditure by Service Array
+157        (I.E. Hospital_inpatient, ambulatory, etc.) and creates FLAG for
+158        corresponding Expenditure by type FLAG
+159        
+160        A Summary variable AGE is created from end-of-year and round-specific
+161        AGE variables
+162        
+163         *********************************************************************************/
+164        DATA PUF181;
+165        	SET CDATA.H181 (KEEP=TOTEXP15 IPDEXP15 IPFEXP15 OBVEXP15 RXEXP15 OPDEXP15
+166        		OPFEXP15 DVTEXP15 ERDEXP15 ERFEXP15 HHAEXP15 HHNEXP15 OTHEXP15 VISEXP15
+167        		AGE15X AGE42X AGE31X VARSTR VARPSU PERWT15f);
+168        
+169        	/* Define expenditure variables by type of service  */
+170        	TOTAL=TOTEXP15;
+171        	HOSPITAL_INPATIENT=IPDEXP15 + IPFEXP15;
+172        	AMBULATORY=OBVEXP15 + OPDEXP15 + OPFEXP15 + ERDEXP15 + ERFEXP15;
+173        	PRESCRIBED_MEDICINES=RXEXP15;
+174        	DENTAL=DVTEXP15;
+175        	HOME_HEALTH_OTHER=HHAEXP15 + HHNEXP15 + OTHEXP15 + VISEXP15;
+176        
+177        	/*QC CHECK IF THE SUM OF EXPENDITURES BY TYPE OF SERVICE IS EQUAL
+178        	TO TOTAL*/
+179        	DIFF=TOTAL-HOSPITAL_INPATIENT - AMBULATORY   - PRESCRIBED_MEDICINES
+180                      - DENTAL            - HOME_HEALTH_OTHER;
+181        
+182        	/* CREATE FLAG (1/0) VARIABLES FOR PERSONS WITH AN EXPENSE,
+183        	BY TYPE OF SERVICE*/
+184        	ARRAY EXX  (6) TOTAL HOSPITAL_INPATIENT AMBULATORY PRESCRIBED_MEDICINES DENTAL
+185        		HOME_HEALTH_OTHER;
+186        	ARRAY ANYX (6) X_ANYSVCE X_HOSPITAL_INPATIENT X_AMBULATORY
+187        		X_PRESCRIBED_MEDICINES X_DENTAL X_HOME_HEALTH_OTHER;
+188        
+189        	/* Loop checks for any expense greater than 0 and assigns
+190        	appropriate flag by type*/
+191        	DO II=1 TO 6;
+192        		ANYX(II)=0;
+193        
+194        		IF EXX(II) > 0 THEN
+195        			ANYX(II)=1;
+196        	END;
+197        	DROP II;
+198        
+199        	/* CREATE A SUMMARY VARIABLE FROM END OF YEAR, 42, AND 31 VARIABLES */
+200        	IF AGE15X >=0 THEN
+201        		AGE=AGE15X;
+202        	ELSE IF AGE42X >=0 THEN
+203        		AGE=AGE42X;
+204        	ELSE IF AGE31X >=0 THEN
+205        		AGE=AGE31X;
+206        
+207        	/* Define AGECAT Variable based on (0-64)(65+) Age Group */
+208        	IF 0 LE AGE LE 64 THEN
+209        		AGECAT=1;
+210        	ELSE IF AGE  > 64 THEN
+211        		AGECAT=2;
+212        	;
+213        RUN;
+>>>>>>> 0a8ad4a0cb7561f391b6e5f0ce454974fc31593e
+=======
+      real time           2.41 seconds
+      cpu time            1.31 seconds
+      
+
+126        
+127        /* READ IN DATA FROM 2015 CONSOLIDATED DATA FILE (HC-181) (keep only specified fields) */
+128        /* Create TOTAL expenditure variables based on type of service (I.E., Prescription Medicine, Dental, Hospital Inpatient, or Home Health Care/Other)*/
+129        /* Create DIFF variable to serve as a check (Calculate the DIFF of all Total EXP Variables based on type - TOTAL) */
+130        /* Create ARRAY variabless for FLAG variable creation */
+131        /* Do Loop iterates through Expenditure by Service Array (I.E. Hospital_inpatient, ambulatory, etc.) and creates FLAG for corresponding Expenditure
+131      ! by type FLAG */
+132        /* A Summary variable AGE is created from end-of-year and round-specific AGE variables */
+133        DATA PUF181;
+134        	SET CDATA.H181 (KEEP=TOTEXP15 IPDEXP15 IPFEXP15 OBVEXP15 RXEXP15 OPDEXP15
+135        		OPFEXP15 DVTEXP15 ERDEXP15 ERFEXP15 HHAEXP15 HHNEXP15 OTHEXP15 VISEXP15
+136        		AGE15X AGE42X AGE31X VARSTR VARPSU PERWT15f);
+137        
+138        	/* Define expenditure variables by type of service  */
+139        	TOTAL=TOTEXP15;
+140        	HOSPITAL_INPATIENT=IPDEXP15 + IPFEXP15;
+141        	AMBULATORY=OBVEXP15 + OPDEXP15 + OPFEXP15 + ERDEXP15 + ERFEXP15;
+142        	PRESCRIBED_MEDICINES=RXEXP15;
+143        	DENTAL=DVTEXP15;
+144        	HOME_HEALTH_OTHER=HHAEXP15 + HHNEXP15 + OTHEXP15 + VISEXP15;
+145        
+146        	/*QC CHECK IF THE SUM OF EXPENDITURES BY TYPE OF SERVICE IS EQUAL TO TOTAL*/
+147        	DIFF=TOTAL-HOSPITAL_INPATIENT - AMBULATORY   - PRESCRIBED_MEDICINES
+148                      - DENTAL            - HOME_HEALTH_OTHER;
+149        
+150        	/* CREATE FLAG (1/0) VARIABLES FOR PERSONS WITH AN EXPENSE, BY TYPE OF SERVICE  */
+151        	ARRAY EXX  (6) TOTAL HOSPITAL_INPATIENT AMBULATORY PRESCRIBED_MEDICINES DENTAL
+152        		HOME_HEALTH_OTHER;
+153        	ARRAY ANYX (6) X_ANYSVCE X_HOSPITAL_INPATIENT X_AMBULATORY
+154        		X_PRESCRIBED_MEDICINES X_DENTAL X_HOME_HEALTH_OTHER;
+155        
+156        	/* Loop checks for any expense greater than 0 and assigns appropriate flag by type */
+157        	DO II=1 TO 6;
+158        		ANYX(II)=0;
+159        
+160        		IF EXX(II) > 0 THEN
+161        			ANYX(II)=1;
+162        	END;
+163        	DROP II;
+164        
+165        	/* CREATE A SUMMARY VARIABLE FROM END OF YEAR, 42, AND 31 VARIABLES */
+166        	IF AGE15X >=0 THEN
+167        		AGE=AGE15X;
+168        	ELSE IF AGE42X >=0 THEN
+169        		AGE=AGE42X;
+170        	ELSE IF AGE31X >=0 THEN
+171        		AGE=AGE31X;
+172        
+173        	/* Define AGECAT Variable based on (0-64)(65+) Age Group */
+174        	IF 0 LE AGE LE 64 THEN
+175        		AGECAT=1;
+176        	ELSE IF AGE  > 64 THEN
+177        		AGECAT=2;
+178        	;
+179        	TITLE1 '2018 AHRQ MEPS DATA USERS WORKSHOP';
+180        	TITLE2 "EXERCISE 1.B SAS: NATIONAL HEALTH CARE EXPENSES, 2015";
+181        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 35427 observations read from the data set CDATA.H181.
+NOTE: The data set WORK.PUF181 has 35427 observations and 35 variables.
+NOTE: DATA statement used (Total process time):
+<<<<<<< HEAD
+<<<<<<< HEAD
+      real time           2.15 seconds
+      cpu time            0.97 seconds
+      
+
+181        
+182        /* Display the cross-tables created in the DATA step above in /LIST format */
+183        PROC FREQ DATA=PUF181;
+3                                                                        The SAS System
+
+184        	TABLES X_ANYSVCE * TOTAL X_HOSPITAL_INPATIENT * HOSPITAL_INPATIENT
+185        		X_AMBULATORY * AMBULATORY X_PRESCRIBED_MEDICINES * PRESCRIBED_MEDICINES
+186        		X_DENTAL * DENTAL X_HOME_HEALTH_OTHER * HOME_HEALTH_OTHER AGECAT*AGE
+187        		DIFF/LIST MISSING;
+188        	FORMAT TOTAL HOSPITAL_INPATIENT AMBULATORY PRESCRIBED_MEDICINES DENTAL
+189        		HOME_HEALTH_OTHER gtzero.
+190                   AGE agef.
+191                   X_ANYSVCE X_HOSPITAL_INPATIENT X_AMBULATORY
+192        		X_PRESCRIBED_MEDICINES X_DENTAL X_HOME_HEALTH_OTHER flag.
+193                   AGECAT agecat.;
+194        	TITLE3 "Supporting crosstabs for the flag variables";
+195        RUN;
+=======
+      real time           2.14 seconds
+      cpu time            1.00 seconds
+      
+
+182        
+183        /* Display the cross-tables for each FLAG Variable By Total Cost based on Type of Service */
+3                                                                        The SAS System
+
+184        /* QC Frequency Count Check */
+185        PROC FREQ DATA=PUF181;
+186        	TABLES X_ANYSVCE * TOTAL X_HOSPITAL_INPATIENT * HOSPITAL_INPATIENT
+187        		X_AMBULATORY * AMBULATORY X_PRESCRIBED_MEDICINES * PRESCRIBED_MEDICINES
+188        		X_DENTAL * DENTAL X_HOME_HEALTH_OTHER * HOME_HEALTH_OTHER AGECAT*AGE
+189        		DIFF/LIST MISSING;
+190        	FORMAT TOTAL HOSPITAL_INPATIENT AMBULATORY PRESCRIBED_MEDICINES DENTAL
+191        		HOME_HEALTH_OTHER gtzero.
+192                   AGE agef.
+193                   X_ANYSVCE X_HOSPITAL_INPATIENT X_AMBULATORY
+194        		X_PRESCRIBED_MEDICINES X_DENTAL X_HOME_HEALTH_OTHER flag.
+195                   AGECAT agecat.;
+196        	TITLE3 "Supporting crosstabs for the flag variables";
+197        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 35427 observations read from the data set WORK.PUF181.
+NOTE: The PROCEDURE FREQ printed page 2.
+NOTE: PROCEDURE FREQ used (Total process time):
+<<<<<<< HEAD
+      real time           0.37 seconds
+      cpu time            0.32 seconds
+      
+
+196        
+197        
+198        OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+210        
+4                                                                        The SAS System
+
+
+1                                                                        The SAS System
+
+1          OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+NOTE: ODS statements in the SAS Studio environment may disable some output features.
+73         
+74         /* Turn the graph output off */
+75         ods graphics off;
+76         ods exclude all;
+77         
+78         /* Display the ratios of EXPENSE BY TYPE OF SERVICE projected to the entire population */
+79         PROC SURVEYMEANS DATA=PUF181 sum;
+80         	STRATUM VARSTR;
+81         	CLUSTER VARPSU;
+82         	WEIGHT PERWT15f;
+83         	VAR HOSPITAL_INPATIENT AMBULATORY PRESCRIBED_MEDICINES DENTAL
+84         		HOME_HEALTH_OTHER TOTAL;
+85         	RATIO HOSPITAL_INPATIENT AMBULATORY PRESCRIBED_MEDICINES DENTAL
+86         		HOME_HEALTH_OTHER / TOTAL;
+87         TITLE3 'PERCENTAGE DISTRIBUTION OF EXPENSES BY TYPE OF SERVICE (STAT BRIEF #491 FIGURE 1)';
+88         RUN;
+
+NOTE: Due to nonpositive weights, 1534 observation(s) were deleted.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.46 seconds
+      cpu time            0.41 seconds
+      
+
+89         
+90         /* Display the percentage of persons with an expense by type of service */
+91         PROC SURVEYMEANS DATA=PUF181 NOBS MEAN STDERR SUM;
+92         	STRATUM VARSTR;
+93         	CLUSTER VARPSU;
+94         	WEIGHT PERWT15f;
+95         	VAR X_ANYSVCE X_HOSPITAL_INPATIENT X_AMBULATORY X_PRESCRIBED_MEDICINES
+96         		X_DENTAL X_HOME_HEALTH_OTHER;
+97         TITLE3 'PERCENTAGE OF PERSONS WITH AN EXPENSE, BY TYPE OF SERVICE';
+98         RUN;
+
+NOTE: Due to nonpositive weights, 1534 observation(s) were deleted.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.12 seconds
+      cpu time            0.10 seconds
+      
+
+99         
+100        /* Display the Average expense for all those with an expense and based on the agecat subgroup*/
+101        PROC SURVEYMEANS DATA=PUF181 MEAN NOBS SUMWGT STDERR SUM;
+102        	STRATUM VARSTR;
+103        	CLUSTER VARPSU;
+104        	VAR TOTAL;
+105        	DOMAIN AGECAT AGECAT*X_ANYSVCE('1');
+106        	WEIGHT PERWT15f;
+107        	FORMAT AGECAT agecat.;
+108        	ods output Statistics=work.Overall_results domain=work.domain_results;
+109        	TITLE3 'MEAN TOTAL EXPENSE PER PERSON WITH AN EXPENSE, AGE 0-64, AND AGE 65+ (via ODS Output)';
+110        RUN;
+=======
+      real time           2.66 seconds
+      cpu time            1.27 seconds
+      
+
+214        
+215        /**********************************************************************************
+216        
+217        Display the cross-tables for each FLAG Variable By Total Cost based on
+218        Type of Service
+219        
+220        QC Frequency Count Check
+221        
+222         *********************************************************************************/
+223        PROC FREQ DATA=PUF181;
+224        	TABLES X_ANYSVCE * TOTAL X_HOSPITAL_INPATIENT * HOSPITAL_INPATIENT
+225        		X_AMBULATORY * AMBULATORY X_PRESCRIBED_MEDICINES * PRESCRIBED_MEDICINES
+226        		X_DENTAL * DENTAL X_HOME_HEALTH_OTHER * HOME_HEALTH_OTHER AGECAT*AGE
+227        		DIFF/LIST MISSING;
+228        	FORMAT TOTAL HOSPITAL_INPATIENT AMBULATORY PRESCRIBED_MEDICINES DENTAL
+229        		HOME_HEALTH_OTHER gtzero.
+230                   AGE agef.
+231                   X_ANYSVCE X_HOSPITAL_INPATIENT X_AMBULATORY
+232        		X_PRESCRIBED_MEDICINES X_DENTAL X_HOME_HEALTH_OTHER flag.
+                                                                         The SAS System
+
+233                   AGECAT agecat.;
+234        	TITLE3 "Supporting crosstabs for the flag variables";
+235        RUN;
+
+NOTE: There were 35427 observations read from the data set WORK.PUF181.
+NOTE: The PROCEDURE FREQ printed page 43.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           0.40 seconds
+      cpu time            0.38 seconds
+      
+
+236        
+237        /* Turn the graph output off */
+238        ods graphics off;
+239        
+240        /**********************************************************************************
+241        
+242        Display the ratios of Expence By Type of Service
+243        Each type in the ratio option is divided by the total expenditure
+244        
+245         *********************************************************************************/
+246        PROC SURVEYMEANS DATA=PUF181 sum;
+247        	STRATUM VARSTR;
+248        	CLUSTER VARPSU;
+249        	WEIGHT PERWT15f;
+250        	VAR HOSPITAL_INPATIENT AMBULATORY PRESCRIBED_MEDICINES DENTAL
+251        		HOME_HEALTH_OTHER TOTAL;
+252        	RATIO HOSPITAL_INPATIENT AMBULATORY PRESCRIBED_MEDICINES DENTAL
+253        		HOME_HEALTH_OTHER / TOTAL;
+254        	TITLE3 'PERCENTAGE DISTRIBUTION OF EXPENSES BY
+255        	TYPE OF SERVICE (STAT BRIEF #491 FIGURE 1)';
+256        RUN;
+
+NOTE: Due to nonpositive weights, 1534 observation(s) were deleted.
+NOTE: The PROCEDURE SURVEYMEANS printed page 44.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.60 seconds
+      cpu time            0.58 seconds
+      
+
+257        
+258        /**********************************************************************************
+259        
+260        Display percentage of persons with an expense by service type and
+261        estimates for population at large
+262        
+263         *********************************************************************************/
+264        PROC SURVEYMEANS DATA=PUF181 NOBS MEAN STDERR SUM;
+265        	STRATUM VARSTR;
+266        	CLUSTER VARPSU;
+267        	WEIGHT PERWT15f;
+268        	VAR X_ANYSVCE X_HOSPITAL_INPATIENT X_AMBULATORY X_PRESCRIBED_MEDICINES
+269        		X_DENTAL X_HOME_HEALTH_OTHER;
+270        	TITLE3 'PERCENTAGE OF PERSONS WITH AN EXPENSE, BY TYPE OF SERVICE';
+271        RUN;
+
+NOTE: Due to nonpositive weights, 1534 observation(s) were deleted.
+NOTE: The PROCEDURE SURVEYMEANS printed page 45.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.20 seconds
+      cpu time            0.19 seconds
+      
+
+272        
+273        /**********************************************************************************
+274        
+275        Display the estimated average expenditure for the U.S. population
+276        Display the estimated average expenditure for the U.S. population based on AGECAT
+277        Display the estimated average expenditure for the U.S. population
+278        for those w/ an EXPENSE, based on AGECAT
+279        Output results of Statistics table and domain table to datasets in the
+280        TEMPORARY WORK Library for later processing in PROC PRINT
+281        
+282         *********************************************************************************/
+283        PROC SURVEYMEANS DATA=PUF181 MEAN NOBS SUMWGT STDERR SUM;
+284        	STRATUM VARSTR;
+285        	CLUSTER VARPSU;
+286        	VAR TOTAL;
+287        	DOMAIN AGECAT AGECAT*X_ANYSVCE('1');
+288        	WEIGHT PERWT15f;
+289        	FORMAT AGECAT agecat.;
+290        	ods output Statistics=work.Overall_results domain=work.domain_results;
+291        	TITLE3 'MEAN TOTAL EXPENSE PER PERSON WITH AN
+292        	EXPENSE, AGE 0-64, AND AGE 65+ (via ODS Output)';
+293        RUN;
+>>>>>>> 0a8ad4a0cb7561f391b6e5f0ce454974fc31593e
+=======
+      real time           0.38 seconds
+      cpu time            0.34 seconds
+      
+
+198        
+199        /* Turn the graph output off */
+200        ods graphics off;
+201        
+202        /* Display the ratios of Expence By Type of Service */
+203        /* Each type in the ratio option is divided by the total expenditure */
+204        PROC SURVEYMEANS DATA=PUF181 sum;
+205        	STRATUM VARSTR;
+206        	CLUSTER VARPSU;
+207        	WEIGHT PERWT15f;
+208        	VAR HOSPITAL_INPATIENT AMBULATORY PRESCRIBED_MEDICINES DENTAL
+209        		HOME_HEALTH_OTHER TOTAL;
+210        	RATIO HOSPITAL_INPATIENT AMBULATORY PRESCRIBED_MEDICINES DENTAL
+211        		HOME_HEALTH_OTHER / TOTAL;
+212        TITLE3 'PERCENTAGE DISTRIBUTION OF EXPENSES BY TYPE OF SERVICE (STAT BRIEF #491 FIGURE 1)';
+213        RUN;
+
+NOTE: Due to nonpositive weights, 1534 observation(s) were deleted.
+NOTE: The PROCEDURE SURVEYMEANS printed page 3.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.46 seconds
+      cpu time            0.45 seconds
+      
+
+214        
+215        /* Display percentage of persons with an expense by service type and estimates for population at large */
+216        PROC SURVEYMEANS DATA=PUF181 NOBS MEAN STDERR SUM;
+217        	STRATUM VARSTR;
+218        	CLUSTER VARPSU;
+219        	WEIGHT PERWT15f;
+220        	VAR X_ANYSVCE X_HOSPITAL_INPATIENT X_AMBULATORY X_PRESCRIBED_MEDICINES
+221        		X_DENTAL X_HOME_HEALTH_OTHER;
+222        TITLE3 'PERCENTAGE OF PERSONS WITH AN EXPENSE, BY TYPE OF SERVICE';
+223        RUN;
+
+NOTE: Due to nonpositive weights, 1534 observation(s) were deleted.
+NOTE: The PROCEDURE SURVEYMEANS printed page 4.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.17 seconds
+      cpu time            0.15 seconds
+      
+
+224        
+225        /* Display the estimated average expenditure for the U.S. population */
+226        /* Display the estimated average expenditure for the U.S. population based on AGECAT */
+227        /* Display the estimated average expenditure for the U.S. population for those w/ an EXPENSE, based on AGECAT */
+228        /* Output results of Statistics table and domain table to datasets in the TEMPORARY WORK Library for later processing in PROC PRINT */
+229        PROC SURVEYMEANS DATA=PUF181 MEAN NOBS SUMWGT STDERR SUM;
+230        	STRATUM VARSTR;
+231        	CLUSTER VARPSU;
+232        	VAR TOTAL;
+233        	DOMAIN AGECAT AGECAT*X_ANYSVCE('1');
+234        	WEIGHT PERWT15f;
+235        	FORMAT AGECAT agecat.;
+236        	ods output Statistics=work.Overall_results domain=work.domain_results;
+4                                                                        The SAS System
+
+237        	TITLE3 'MEAN TOTAL EXPENSE PER PERSON WITH AN EXPENSE, AGE 0-64, AND AGE 65+ (via ODS Output)';
+238        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: Due to nonpositive weights, 1534 observation(s) were deleted.
+NOTE: Only one cluster in a stratum for AGECAT*X_ANYSVCE domains for variable(s) TOTAL. The estimate of variance for TOTAL will omit this stratum.
+NOTE: The data set WORK.DOMAIN_RESULTS has 4 observations and 10 variables.
+NOTE: The data set WORK.OVERALL_RESULTS has 1 observations and 7 variables.
+<<<<<<< HEAD
+<<<<<<< HEAD
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.23 seconds
+      cpu time            0.21 seconds
+      
+
+111        
+112        ods exclude none;
+113        
+114        /* Create a new dataset with the combined results of the Statistics table and the domain table from the above PROC SURVEYMEANS statements */
+115        data combine;
+116        	set work.Overall_results work.domain_results;
+117        run;
+=======
+NOTE: The PROCEDURE SURVEYMEANS printed pages 46-48.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.33 seconds
+      cpu time            0.30 seconds
+      
+
+294        
+295        /* Create a new dataset based on the combined ODS OUTPUT above */
+296        data combine;
+297        	set work.Overall_results work.domain_results;
+298        run;
+>>>>>>> 0a8ad4a0cb7561f391b6e5f0ce454974fc31593e
+=======
+NOTE: The PROCEDURE SURVEYMEANS printed pages 5-7.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.27 seconds
+      cpu time            0.26 seconds
+      
+
+239        
+240        /* Create a new dataset based on the combined ODS OUTPUT above */
+241        data combine;
+242        	set work.Overall_results work.domain_results;
+243        run;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 1 observations read from the data set WORK.OVERALL_RESULTS.
+NOTE: There were 4 observations read from the data set WORK.DOMAIN_RESULTS.
+NOTE: The data set WORK.COMBINE has 5 observations and 10 variables.
+NOTE: DATA statement used (Total process time):
+<<<<<<< HEAD
+<<<<<<< HEAD
+      real time           0.02 seconds
+2                                                                        The SAS System                                  Thursday, November 28, 2019 12:15:29 AM
+
+      cpu time            0.01 seconds
+      
+
+118        
+119        /* Print the output of the combined results with appropriate formatting and labels */
+120        proc print data=combine noobs split='*';
+121        	var AGECAT X_ANYSVCE N SumWgt mean StdErr Sum stddev;
+122        	label AGECAT='Age Group' X_ANYSVCE='Expense*Category*(Flag)'
+123        		SumWgt='Population*Size' mean='Mean($)' StdErr='SE of Mean($)'
+124        		Sum='Total*Expense ($)' Stddev='SE of*Total Expense($)';
+125        	format N SumWgt Comma12. mean comma7. stderr 7.3 sum Stddev comma17.
+126                X_ANYSVCE flag.;
+127            Title3 'MEAN TOTAL EXPENSE FOR ALL AGES, BY AGE GROUP, AND BY AGE GROUP WITH AN EXPENSE';
+128        run;
+
+NOTE: There were 5 observations read from the data set WORK.COMBINE.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.07 seconds
+      cpu time            0.08 seconds
+      
+
+129        
+130        OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+=======
+=======
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+<<<<<<< HEAD
+299        
+300        /**********************************************************************************
+301        
+302        Print the output of the combined results with appropriate formatting
+303        and labels
+304        
+305        Combine all of the results above into one table that is more easily readable
+306        with appropriate formatting and labels
+307        
+308         *********************************************************************************/
+309        proc print data=combine noobs split='*';
+310        	var AGECAT X_ANYSVCE N SumWgt mean StdErr Sum stddev;
+311        	label AGECAT='Age Group' X_ANYSVCE='Expense*Category*(Flag)'
+312        		SumWgt='Population*Size' mean='Mean($)' StdErr='SE of Mean($)'
+313        		Sum='Total*Expense ($)' Stddev='SE of*Total Expense($)';
+314        	format N SumWgt Comma12. mean comma7. stderr 7.3 sum Stddev comma17.
+315                X_ANYSVCE flag.;
+316        	Title3 'MEAN TOTAL EXPENSE FOR ALL AGES,
+317        	BY AGE GROUP, AND BY AGE GROUP WITH AN EXPENSE';
+318        run;
+
+NOTE: There were 5 observations read from the data set WORK.COMBINE.
+NOTE: The PROCEDURE PRINT printed page 49.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.04 seconds
+      
+
+319        
+320        /**********************************************************************************
+321        
+322        The following perform a simliar pattern analysis for each of the remaining
+323        types of services.
+324        
+325        The code in the workshop did not combine the results of the Statistics and
+326        the domain tables,as it did in the above example with X_ANYSVCE.
+327        
+328        Similar statistics to those above are generated for each type of service,
+329        though the output is not combined into one table as it is above.
+330        
+331        
+332        Display the estimated average expenditure for the U.S. population
+333        Display the estimated average expenditure for the U.S. population per
+334        person with an inpatient expense
+335        Display the estimated average expenditure for the U.S. population
+336        per person with an inpatient expense based on AGECAT
+337        
+338         *********************************************************************************/
+339        PROC SURVEYMEANS DATA=PUF181 NOBS MEAN SUMWGT STDERR SUM;
+340        	STRATUM VARSTR;
+341        	CLUSTER VARPSU;
+342        	WEIGHT PERWT15f;
+343        	VAR HOSPITAL_INPATIENT;
+344        	DOMAIN X_HOSPITAL_INPATIENT('1') AGECAT*X_HOSPITAL_INPATIENT ('1');
+345        	FORMAT AGECAT agecat.;
+346        	TITLE3 'MEAN HOSPITAL INPATIENT EXPENSE PER PERSON WITH
+347        	AN INPATIENT EXPENSE, AGE 0-64, AND AGE 65+';
+348        RUN;
+=======
+244        
+245        /* Print the output of the combined results with appropriate formatting and labels */
+246        /* Combine all of the results above into one table that is more easily readable with appropriate formatting and labels */
+247        proc print data=combine noobs split='*';
+248        	var AGECAT X_ANYSVCE N SumWgt mean StdErr Sum stddev;
+249        	label AGECAT='Age Group' X_ANYSVCE='Expense*Category*(Flag)'
+250        		SumWgt='Population*Size' mean='Mean($)' StdErr='SE of Mean($)'
+251        		Sum='Total*Expense ($)' Stddev='SE of*Total Expense($)';
+252        	format N SumWgt Comma12. mean comma7. stderr 7.3 sum Stddev comma17.
+253                X_ANYSVCE flag.;
+254            Title3 'MEAN TOTAL EXPENSE FOR ALL AGES, BY AGE GROUP, AND BY AGE GROUP WITH AN EXPENSE';
+255        run;
+
+NOTE: There were 5 observations read from the data set WORK.COMBINE.
+NOTE: The PROCEDURE PRINT printed page 8.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.05 seconds
+      cpu time            0.05 seconds
+      
+
+256        
+257        
+258        /* *********************************************
+259        /* The following perform a simliar pattern analysis for each of the remaining types of services.
+260        /* The code in the workshop did not combine the results of the Statistics and the domain tables,
+261        /* as it did in the above example with X_ANYSVCE.
+262        /* Similar statistics to those above are generated for each type of service, though the output
+263        /* is not combined into one table as it is above.
+264        /* ********************************************* */
+265        
+266        /* Display the estimated average expenditure for the U.S. population */
+267        /* Display the estimated average expenditure for the U.S. population per person with an inpatient expense */
+268        /* Display the estimated average expenditure for the U.S. population per person with an inpatient expense based on AGECAT */
+269        PROC SURVEYMEANS DATA=PUF181 NOBS MEAN SUMWGT STDERR SUM;
+270        	STRATUM VARSTR;
+271        	CLUSTER VARPSU;
+272        	WEIGHT PERWT15f;
+273        	VAR HOSPITAL_INPATIENT;
+274        	DOMAIN X_HOSPITAL_INPATIENT('1') AGECAT*X_HOSPITAL_INPATIENT ('1');
+275        	FORMAT AGECAT agecat.;
+276        TITLE3 'MEAN HOSPITAL INPATIENT EXPENSE PER PERSON WITH AN INPATIENT EXPENSE, AGE 0-64, AND AGE 65+';
+277        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: Due to nonpositive weights, 1534 observation(s) were deleted.
+NOTE: Only one cluster in a stratum for X_HOSPITAL_INPATIENT domains for variable(s) HOSPITAL_INPATIENT. The estimate of variance for HOSPITAL_INPATIENT will 
+      omit this stratum.
+NOTE: Only one cluster in a stratum for AGECAT*X_HOSPITAL_INPATIENT domains for variable(s) HOSPITAL_INPATIENT. The estimate of variance for HOSPITAL_INPATIENT 
+      will omit this stratum.
+<<<<<<< HEAD
+NOTE: The PROCEDURE SURVEYMEANS printed pages 50-52.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.34 seconds
+      cpu time            0.31 seconds
+      
+
+349        
+350        /**********************************************************************************
+351        
+352        Display the estimated average expenditure for the U.S. population.
+353        Display the estimated average expenditure for the U.S. population
+354        per person with an ambulance expense
+355        Display the estimated average expenditure for the U.S. population per person
+356        with an ambulance expense based on AGECAT
+357        
+358         *********************************************************************************/
+359        PROC SURVEYMEANS DATA=PUF181 NOBS MEAN SUMWGT STDERR SUM;
+360        	STRATUM VARSTR;
+361        	CLUSTER VARPSU;
+362        	WEIGHT PERWT15f;
+363        	VAR AMBULATORY;
+364        	DOMAIN X_AMBULATORY('1') AGECAT*X_AMBULATORY('1');
+365        	FORMAT AGECAT agecat.;
+366        	TITLE3 'MEAN AMBULATORY EXPENSE PER PERSON WITH
+                                                                         The SAS System
+
+367        	AN AMBULATORY EXPENSE, AGE 0-64, AND AGE 65+';
+368        RUN;
+
+NOTE: Due to nonpositive weights, 1534 observation(s) were deleted.
+NOTE: Only one cluster in a stratum for AGECAT*X_AMBULATORY domains for variable(s) AMBULATORY. The estimate of variance for AMBULATORY will omit this stratum.
+NOTE: The PROCEDURE SURVEYMEANS printed pages 53-55.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.29 seconds
+      cpu time            0.28 seconds
+      
+
+369        
+370        /**********************************************************************************
+371        
+372        Display the estimated average expenditure for the U.S. population
+373        
+374        Display the estimated average expenditure for the U.S. population per person
+375        with a prescribed medicine expense
+376        
+377        Display the estimated average expenditure for the U.S. population per person
+378        with a prescribed medicine expense based on AGECAT
+379        
+380         *********************************************************************************/
+381        
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+NOTE: The SAS System stopped processing this step because of errors.
+382        PROC SURVEYMEANS DATA=PUF181 MEAN NOBS SUMWGT STDERR SUM
+383        STRATUM VARSTR;
+           _______
+           22
+           202
+ERROR 22-322: Syntax error, expecting one of the following: ;, ALL, ALLGEO, ALPHA, CLM, CLSUM, CV, CVSUM, DATA, DECILES, DEFF, DF, GEOMEAN, GMCLM, GMSTDERR, 
+              LCLM, LCLSUM, LGMCLM, MAX, MEAN, MEDIAN, MIN, MISSING, N, NCLUSTER, NMISS, NOBS, NOMCAR, NONSYMCL, NOPRINT, NOSPARSE, ORDER, PERCENTILE, PLOTS, 
+              Q1, Q3, QUANTILE, QUARTILES, R, RANGE, RATIO, STACKING, STD, STDERR, SUM, SUMWGT, T, UCLM, UCLSUM, UGMCLM, VAR, VARHEADER, VARMETHOD, VARSUM.  
+ERROR 202-322: The option or parameter is not recognized and will be ignored.
+384        CLUSTER VARPSU;
+385        WEIGHT PERWT15f;
+386        VAR PRESCRIBED_MEDICINES;
+387        DOMAIN X_PRESCRIBED_MEDICINES('1') AGECAT*X_PRESCRIBED_MEDICINES('1');
+388        FORMAT AGECAT agecat.;
+389        TITLE3 'MEAN PRESCRIPTION MEDICINE EXPENSE PER PERSON
+390        WITH A PRESCRIPTION MEDICINE EXPENSE, AGE 0-64, AND AGE 65+';
+391        RUN;
+392        
+393        /**********************************************************************************
+394        
+395        Display the estimated average expenditure for the U.S. population
+396        
+397        Display the estimated average expenditure for the U.S. population per person
+398        with a dental expense
+399        
+400        Display the estimated average expenditure for the U.S. population per person
+401        with a dental expense based on AGECAT
+402        
+403         *********************************************************************************/
+404        
+
+
+405        PROC SURVEYMEANS DATA=PUF181 MEAN NOBS SUMWGT STDERR SUM;
+406        	STRATUM VARSTR;
+407        	CLUSTER VARPSU;
+408        	WEIGHT PERWT15f;
+409        	VAR DENTAL;
+410        	DOMAIN X_DENTAL('1') AGECAT*X_DENTAL('1');
+411        	FORMAT AGECAT agecat.;
+412        	TITLE3
+413        		'MEAN DENTAL EXPENSE PER PERSON WITH A DENATL
+414        		EXPENSE, AGE 0-64, AND AGE 65+';
+415        RUN;
+
+NOTE: Due to nonpositive weights, 1534 observation(s) were deleted.
+NOTE: Only one cluster in a stratum for AGECAT*X_DENTAL domains for variable(s) DENTAL. The estimate of variance for DENTAL will omit this stratum.
+NOTE: The PROCEDURE SURVEYMEANS printed pages 56-58.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.29 seconds
+      cpu time            0.28 seconds
+      
+
+416        
+417        /**********************************************************************************
+418        
+419        Display the estimated average expenditure for the U.S. population
+420        
+421        Display the estimated average expenditure for the U.S. population per
+422        person with a home health expense
+423        
+424        Display the estimated average expenditure for the U.S. population per person
+425        with a home health expense based on AGECAT
+426        
+427         *********************************************************************************/
+428        
+429        PROC SURVEYMEANS DATA=PUF181 MEAN NOBS SUMWGT STDERR SUM;
+430        	STRATUM VARSTR;
+431        	CLUSTER VARPSU;
+432        	WEIGHT PERWT15f;
+433        	VAR HOME_HEALTH_OTHER;
+434        	DOMAIN X_HOME_HEALTH_OTHER('1') AGECAT*X_HOME_HEALTH_OTHER('1');
+435        	FORMAT AGECAT agecat.;
+436        	TITLE3 'MEAN OTHER EXPENSE (INCLUDING HOME HEALTH EXPENSE) PER PERSON WITH
+437        	AN OTHER  EXPENSE, AGE 0-64, AND AGE 65+';
+438        RUN;
+=======
+NOTE: The PROCEDURE SURVEYMEANS printed pages 9-11.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+5                                                                        The SAS System
+
+      real time           0.27 seconds
+      cpu time            0.27 seconds
+      
+
+278        
+279        
+280        /* Display the estimated average expenditure for the U.S. population */
+281        /* Display the estimated average expenditure for the U.S. population per person with an ambulance expense */
+282        /* Display the estimated average expenditure for the U.S. population per person with an ambulance expense based on AGECAT */
+283        PROC SURVEYMEANS DATA=PUF181 NOBS MEAN SUMWGT STDERR SUM;
+284        	STRATUM VARSTR;
+285        	CLUSTER VARPSU;
+286        	WEIGHT PERWT15f;
+287        	VAR AMBULATORY;
+288        	DOMAIN X_AMBULATORY('1') AGECAT*X_AMBULATORY('1');
+289        	FORMAT AGECAT agecat.;
+290        TITLE3 'MEAN AMBULATORY EXPENSE PER PERSON WITH AN AMBULATORY EXPENSE, AGE 0-64, AND AGE 65+';
+291        RUN;
+
+NOTE: Due to nonpositive weights, 1534 observation(s) were deleted.
+NOTE: Only one cluster in a stratum for AGECAT*X_AMBULATORY domains for variable(s) AMBULATORY. The estimate of variance for AMBULATORY will omit this stratum.
+NOTE: The PROCEDURE SURVEYMEANS printed pages 12-14.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.31 seconds
+      cpu time            0.29 seconds
+      
+
+292        
+293        /* Display the estimated average expenditure for the U.S. population */
+294        /* Display the estimated average expenditure for the U.S. population per person with a prescribed medicine expense */
+295        /* Display the estimated average expenditure for the U.S. population per person with a prescribed medicine expense based on AGECAT */
+296        PROC SURVEYMEANS DATA=PUF181 MEAN NOBS SUMWGT STDERR SUM;
+297        	STRATUM VARSTR;
+298        	CLUSTER VARPSU;
+299        	WEIGHT PERWT15f;
+300        	VAR PRESCRIBED_MEDICINES;
+301        	DOMAIN X_PRESCRIBED_MEDICINES('1') AGECAT*X_PRESCRIBED_MEDICINES('1');
+302        	FORMAT AGECAT agecat.;
+303        TITLE3 'MEAN PRESCRIPTION MEDICINE EXPENSE PER PERSON WITH A PRESCRIPTION MEDICINE EXPENSE, AGE 0-64, AND AGE 65+';
+304        RUN;
+
+NOTE: Due to nonpositive weights, 1534 observation(s) were deleted.
+NOTE: Only one cluster in a stratum for AGECAT*X_PRESCRIBED_MEDICINES domains for variable(s) PRESCRIBED_MEDICINES. The estimate of variance for 
+      PRESCRIBED_MEDICINES will omit this stratum.
+NOTE: The PROCEDURE SURVEYMEANS printed pages 15-17.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.27 seconds
+      cpu time            0.25 seconds
+      
+
+305        
+306        /* Display the estimated average expenditure for the U.S. population */
+307        /* Display the estimated average expenditure for the U.S. population per person with a dental expense */
+308        /* Display the estimated average expenditure for the U.S. population per person with a dental expense based on AGECAT */
+309        PROC SURVEYMEANS DATA=PUF181 MEAN NOBS SUMWGT STDERR SUM;
+310        	STRATUM VARSTR;
+311        	CLUSTER VARPSU;
+312        	WEIGHT PERWT15f;
+313        	VAR DENTAL;
+314        	DOMAIN X_DENTAL('1') AGECAT*X_DENTAL('1');
+315        	FORMAT AGECAT agecat.;
+316        TITLE3 'MEAN DENTAL EXPENSE PER PERSON WITH A DENATL EXPENSE, AGE 0-64, AND AGE 65+';
+317        RUN;
+
+NOTE: Due to nonpositive weights, 1534 observation(s) were deleted.
+NOTE: Only one cluster in a stratum for AGECAT*X_DENTAL domains for variable(s) DENTAL. The estimate of variance for DENTAL will omit this stratum.
+NOTE: The PROCEDURE SURVEYMEANS printed pages 18-20.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.26 seconds
+      cpu time            0.25 seconds
+      
+
+318        
+319        
+320        /* Display the estimated average expenditure for the U.S. population */
+321        /* Display the estimated average expenditure for the U.S. population per person with a home health expense */
+322        /* Display the estimated average expenditure for the U.S. population per person with a home health expense based on AGECAT */
+6                                                                        The SAS System
+
+323        PROC SURVEYMEANS DATA=PUF181 MEAN NOBS SUMWGT STDERR SUM;
+324        	STRATUM VARSTR;
+325        	CLUSTER VARPSU;
+326        	WEIGHT PERWT15f;
+327        	VAR HOME_HEALTH_OTHER;
+328        	DOMAIN X_HOME_HEALTH_OTHER('1') AGECAT*X_HOME_HEALTH_OTHER('1');
+329        	FORMAT AGECAT agecat.;
+330        TITLE3 'MEAN  OTHER EXPENSE (INCLUDING HOME HEALTH EXPENSE) PER PERSON WITH AN OTHER  EXPENSE, AGE 0-64, AND AGE 65+';
+331        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: Due to nonpositive weights, 1534 observation(s) were deleted.
+NOTE: Only one cluster in a stratum for AGECAT*X_HOME_HEALTH_OTHER domains for variable(s) HOME_HEALTH_OTHER. The estimate of variance for HOME_HEALTH_OTHER 
+      will omit this stratum.
+<<<<<<< HEAD
+NOTE: The PROCEDURE SURVEYMEANS printed pages 59-61.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.30 seconds
+      cpu time            0.29 seconds
+      
+
+439        
+440        ods select all;
+441        TITLE1 '2018 AHRQ MEPS DATA USERS WORKSHOP';
+442        TITLE2 "EXERCISE 1.B SAS: ESTIMATES ON NATIONAL HEALTH
+443        CARE EXPENSES BY TYPE OF SERVICE, 2015";
+444        
+445        PROC TTEST DATA=WORK.PUF181;
+446        	CLASS AGECAT;
+447        	VAR TOTAL HOSPITAL_INPATIENT AMBULATORY PRESCRIBED_MEDICINES DENTAL
+448        		HOME_HEALTH_OTHER;
+449        	TITLE3 "Additional T-Test for Type of Service By AGECAT";
+450        	FORMAT AGECAT agecat.;
+451        RUN;
+
+NOTE: The PROCEDURE TTEST printed page 62.
+NOTE: PROCEDURE TTEST used (Total process time):
+      real time           0.60 seconds
+      cpu time            0.58 seconds
+      
+
+452        
+453        PROC PRINTTO;
+454        RUN;
+
+>>>>>>> 0a8ad4a0cb7561f391b6e5f0ce454974fc31593e
+=======
+NOTE: The PROCEDURE SURVEYMEANS printed pages 21-23.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.27 seconds
+      cpu time            0.26 seconds
+      
+
+332        
+333        PROC PRINTTO;
+334        RUN;
+
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9

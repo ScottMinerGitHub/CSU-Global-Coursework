@@ -1,0 +1,619 @@
+NOTE: PROCEDURE PRINTTO used (Total process time):
+<<<<<<< HEAD
+      real time           0.13 seconds
+      cpu time            0.05 seconds
+      
+
+99         
+100        TITLE1 '2018 AHRQ MEPS DATA USERS WORKSHOP';
+101        TITLE2 "EXERCISE 5a SAS: CALCULATE FAMILY-LEVEL ESTIMATES";
+102        
+103        /* Summary statistics table 2 */
+104        DATA SUMMARYSET (KEEP=DUID PID AGE15X SEX CPSFAMID FAMWT15C FAMIDYR FAMWT15F);
+105        	SET CDATA.H181;
+106        RUN;
+=======
+      real time           0.09 seconds
+      cpu time            0.04 seconds
+      
+
+97         
+98         TITLE1 '2018 AHRQ MEPS DATA USERS WORKSHOP';
+99         TITLE2 "EXERCISE 5a SAS: CALCULATE FAMILY-LEVEL ESTIMATES";
+100        
+101        /* Summary statistics table 2 */
+102        DATA SUMMARYSET (KEEP=DUID PID AGE15X SEX CPSFAMID FAMWT15C FAMIDYR FAMWT15F);
+103        	SET CDATA.H181;
+104        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 35427 observations read from the data set CDATA.H181.
+NOTE: The data set WORK.SUMMARYSET has 35427 observations and 8 variables.
+NOTE: DATA statement used (Total process time):
+<<<<<<< HEAD
+      real time           2.71 seconds
+      cpu time            1.30 seconds
+      
+
+107        
+108        /* Select only the position table in the output */
+109        ODS Select Position;
+110        
+111        /* Display summary statistics: File #2 */
+112        PROC CONTENTS DATA=WORK.SUMMARYSET VARNUM;
+113        	Title3 'Summary of H181 Variables';
+114        RUN;
+
+NOTE: PROCEDURE CONTENTS used (Total process time):
+      real time           0.09 seconds
+      cpu time            0.09 seconds
+      
+NOTE: The PROCEDURE CONTENTS printed page 20.
+
+115        
+116        /* Selct all output once again */
+117        ODS Select All;
+118        
+119        /**********************************************************************************
+120        
+121        The CPSFAMID represents a redefinition of MEPS families into
+122        families defined by the Current Population Survey (CPS).
+123        
+124        Some of the distinctions between CPS-and MEPS-defined families are that MEPS
+125        families include and CPS families do not include: non-married partners,
+126        foster children, and in-laws. These persons are considered as members of separate
+127        families for CPS-like families. CPS-like families are defined so a poverty status
+128        classification variable consistent with established definitions of poverty can be
+129        assigned to the CPS-like families and used for weight poststratification purposes.
+130        
+131        FAMWT15C can be used to make estimates for the cross-section of families in the
+132        U.S. civilian, noninstitutionalized population on December 31, 2015
+133        where families are identified based on the CPS definition of a family unit.
+134        
+135        The annualized family ID letter, FAMIDYR, identifies eligible members of the
+136        eligible annualized families within a DU.
+137        
+138        FAMWT15F can be used to make estimates for the cross-section of families in
+139        the U.S. civilian noninstitutionalized population on December 31, 2015
+140        where families are identified based on the MEPS definition of a family unit.
+141        
+142        Each MEPS family unit is uniquely identified by the combination of the
+143        variables DUID and FAMIDYR while each CPS family unit
+144        is uniquely identified by the combination of the variables DUID and CPSFAMID.
+145        
+146         *********************************************************************************/;
+147        
+148        /* PROC PRINT FIRST 30 OBSERVATIONS AND SPECIFIED VARIABLES */
+149        PROC PRINT DATA=CDATA.H181 (OBS=20);
+150        	VAR PID AGE15X SEX CPSFAMID FAMWT15C FAMIDYR FAMWT15F;
+151        	TITLE3 "SAMPLE DUMP FOR FAMILY IDS";
+152        	BY DUID;
+153        RUN;
+
+NOTE: There were 20 observations read from the data set CDATA.H181.
+NOTE: The PROCEDURE PRINT printed page 21.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.20 seconds
+      cpu time            0.18 seconds
+      
+
+154        
+155        /**********************************************************************************
+156        
+157        Sort data by DUID and CPSFAMID to represent families defined by the Current
+158        Population Survey (CPS)
+159        
+160        Include ID variables, necessary weighting variables, total expenditures, and total
+161        income in new dataset named PERS
+162        
+163         *********************************************************************************/;
+164        
+165        PROC SORT DATA=CDATA.H181 (KEEP=DUPERSID DUID CPSFAMID FAMWT15C VARSTR VARPSU
+166        		TOTSLF15 TTLP15X) OUT=PERS;
+167        	BY DUID CPSFAMID;
+168        RUN;
+=======
+      real time           2.16 seconds
+      cpu time            1.05 seconds
+      
+
+105        
+106        /* Select only the position table in the output */
+107        ODS Select Position;
+108        
+109        /* Display summary statistics: File #2 */
+110        PROC CONTENTS DATA=WORK.SUMMARYSET VARNUM;
+111        	Title3 'Summary of H181 Variables';
+112        RUN;
+
+
+Output Added:
+-------------
+Name:       Position
+Label:      Varnum
+Template:   Base.Contents.Position
+Path:       Contents.DataSet.Position
+-------------
+NOTE: PROCEDURE CONTENTS used (Total process time):
+      real time           0.08 seconds
+      cpu time            0.08 seconds
+      
+NOTE: The PROCEDURE CONTENTS printed page 1.
+
+113        
+114        /* Selct all output once again */
+2                                                                        The SAS System
+
+115        ODS Select All;
+116        
+117        /* The CPSFAMID represents a redefinition of MEPS families into families defined by the Current Population Survey (CPS).
+118        Some of the distinctions between CPS-and MEPS-defined families are that MEPS families include and CPS families do not include:
+119        non-married partners, foster children, and in-laws. These persons are considered as members of separate families for CPS-like families.
+120        CPS-like families are defined so a poverty status classification variable consistent with established definitions of poverty can be assigned to the
+120      ! CPS-like families
+121        and used for weight poststratification purposes. */
+122        
+123        /* FAMWT15C can be used to make estimates for the cross-section of families in the U.S. civilian, noninstitutionalized population on December 31,
+123      ! 2015
+124        where families are identified based on the CPS definition of a family unit. */
+125        
+126        /* The annualized family ID letter, FAMIDYR, identifies eligible members of the eligible annualized families within a DU. */
+127        
+128        /* FAMWT15F can be used to make estimates for the cross-section of families in the U.S. civilian noninstitutionalized population on December 31, 2015
+129        where families are identified based on the MEPS definition of a family unit. */
+130        
+131        /*  Each MEPS family unit is uniquely identified by the combination of the variables DUID and FAMIDYR while each CPS family unit
+132        is uniquely identified by the combination of the variables DUID and CPSFAMID. */
+133        
+134        /* PROC PRINT FIRST 30 OBSERVATIONS AND SPECIFIED VARIABLES */
+135        PROC PRINT DATA=CDATA.H181 (OBS=20);
+136          VAR PID AGE15X SEX CPSFAMID FAMWT15C FAMIDYR FAMWT15F;
+137        TITLE3 "SAMPLE DUMP FOR FAMILY IDS";
+138          BY DUID;
+139        RUN;
+
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set CDATA.H181
+Data Name:  ProcPrintTable
+Path:       Print.ByGroup1.Print
+-------------
+NOTE: The above message was for the following BY group:
+      DWELLING UNIT ID=60001
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set CDATA.H181
+Data Name:  ProcPrintTable
+Path:       Print.ByGroup2.Print
+-------------
+NOTE: The above message was for the following BY group:
+      DWELLING UNIT ID=60002
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set CDATA.H181
+Data Name:  ProcPrintTable
+Path:       Print.ByGroup3.Print
+-------------
+NOTE: The above message was for the following BY group:
+      DWELLING UNIT ID=60003
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set CDATA.H181
+Data Name:  ProcPrintTable
+Path:       Print.ByGroup4.Print
+-------------
+NOTE: The above message was for the following BY group:
+      DWELLING UNIT ID=60004
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set CDATA.H181
+Data Name:  ProcPrintTable
+Path:       Print.ByGroup5.Print
+-------------
+NOTE: The above message was for the following BY group:
+3                                                                        The SAS System
+
+      DWELLING UNIT ID=60009
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set CDATA.H181
+Data Name:  ProcPrintTable
+Path:       Print.ByGroup6.Print
+-------------
+NOTE: The above message was for the following BY group:
+      DWELLING UNIT ID=60010
+NOTE: There were 20 observations read from the data set CDATA.H181.
+NOTE: The PROCEDURE PRINT printed page 2.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.18 seconds
+      cpu time            0.15 seconds
+      
+
+140        
+141        /* Sort data by DUID and CPSFAMID to represent families defined by the Current Populatin Survey (CPS) */
+142        /* Include ID variables, necessary weighting variables, total expenditures, and total income in new dataset named PERS */
+143        PROC SORT DATA=CDATA.H181 (KEEP=DUPERSID DUID CPSFAMID FAMWT15C VARSTR VARPSU TOTSLF15 TTLP15X)
+144                      OUT=PERS;
+145          BY DUID CPSFAMID;
+146        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 35427 observations read from the data set CDATA.H181.
+NOTE: The data set WORK.PERS has 35427 observations and 8 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+<<<<<<< HEAD
+      real time           2.66 seconds
+      cpu time            1.22 seconds
+      
+
+169        
+170        /**********************************************************************************
+171        
+172        Create a datset PERS2
+173        
+174        Keep Dwelling Unit ID, CPS Family Id
+175        
+176        Create variables, FAMSIZE (size), FAMOOP (out-of-pocket), and FAMINC (income)
+177        
+178        Define values for newly created family variables based on a loop of the CPSFAMID
+179        
+180         *********************************************************************************/;
+181        
+182        DATA PERS2 FAM (KEEP=DUID CPSFAMID FAMSIZE FAMOOP FAMINC);
+183        	SET PERS;
+184        	BY DUID CPSFAMID;
+185        	LABEL FAMSIZE='# OF PERSONS PER CPS FAMILY'
+186        		FAMOOP='TOTAL OUT-OF-POCKET EXP (TOTSLF15) PER CPS FAMILY'
+187        		FAMINC='TOTAL INCOME (TTLP15X) PER CPS FAMILY';
+188        
+189        	IF FIRST.CPSFAMID THEN
+190        		DO;
+191        			FAMSIZE=0;
+192        			FAMOOP=0;
+193        			FAMINC=0;
+194        		END;
+195        	FAMSIZE + 1;
+196        	FAMOOP  + TOTSLF15;
+197        	FAMINC  + TTLP15X;
+198        	OUTPUT PERS2;
+199        
+200        	IF LAST.CPSFAMID THEN
+201        		OUTPUT FAM;
+202        RUN;
+=======
+      real time           2.01 seconds
+      cpu time            0.97 seconds
+      
+
+147        
+148        /* Create a datset PERS2 */
+149        /* Keep Dwelling Unit ID, CPS Family Id */
+150        /* Create variables, FAMSIZE (size), FAMOOP (out-of-pocket), and FAMINC (income)*/
+151        /* Define values for newly created family variables based on a loop of the CPSFAMID */
+152        DATA PERS2
+153             FAM (KEEP=DUID CPSFAMID FAMSIZE FAMOOP FAMINC);
+154         SET PERS;
+155          BY DUID CPSFAMID;
+156        
+157             LABEL FAMSIZE = '# OF PERSONS PER CPS FAMILY'
+158                   FAMOOP  = 'TOTAL OUT-OF-POCKET EXP (TOTSLF15) PER CPS FAMILY'
+159                   FAMINC  = 'TOTAL INCOME (TTLP15X) PER CPS FAMILY';
+160        
+161             IF FIRST.CPSFAMID THEN DO;
+162                FAMSIZE = 0 ;
+163                FAMOOP  = 0 ;
+164                FAMINC  = 0 ;
+165             END;
+166        
+167             FAMSIZE + 1        ;
+168             FAMOOP  + TOTSLF15 ;
+169             FAMINC  + TTLP15X  ;
+170        
+171             OUTPUT PERS2;
+172             IF LAST.CPSFAMID THEN OUTPUT FAM;
+173        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 35427 observations read from the data set WORK.PERS.
+NOTE: The data set WORK.PERS2 has 35427 observations and 11 variables.
+NOTE: The data set WORK.FAM has 15423 observations and 5 variables.
+NOTE: DATA statement used (Total process time):
+<<<<<<< HEAD
+      real time           0.03 seconds
+      cpu time            0.02 seconds
+      
+
+203        
+204        /**********************************************************************************
+205        
+206        Print the PERS2 dataset created above (first 20 observsations)
+207        
+208        Print represents families defined by the Current Population Survey
+209        
+210         *********************************************************************************/;
+211        
+212        PROC PRINT DATA=PERS2 (OBS=20);
+213        	BY DUID CPSFAMID;
+214        	TITLE3 "A SAMPLE DUMP TO CHECK THE CREATION OF THE FAMILY-LEVEL VARIABLES";
+215        RUN;
+
+NOTE: There were 20 observations read from the data set WORK.PERS2.
+NOTE: The PROCEDURE PRINT printed page 22.
+=======
+      real time           0.05 seconds
+      cpu time            0.03 seconds
+      
+
+174        
+175        /* Print the PERS2 dataset created above (first 20 observsations) */
+176        PROC PRINT DATA=PERS2 (OBS=20);
+177          BY DUID CPSFAMID;
+178        TITLE3 "A SAMPLE DUMP TO CHECK THE CREATION OF THE FAMILY-LEVEL VARIABLES";
+179        RUN;
+
+
+4                                                                        The SAS System
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.PERS2
+Data Name:  ProcPrintTable
+Path:       Print.ByGroup1.Print
+-------------
+NOTE: The above message was for the following BY group:
+      DWELLING UNIT ID=60001 CPSFAMID=A
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.PERS2
+Data Name:  ProcPrintTable
+Path:       Print.ByGroup2.Print
+-------------
+NOTE: The above message was for the following BY group:
+      DWELLING UNIT ID=60001 CPSFAMID=B
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.PERS2
+Data Name:  ProcPrintTable
+Path:       Print.ByGroup3.Print
+-------------
+NOTE: The above message was for the following BY group:
+      DWELLING UNIT ID=60001 CPSFAMID=C
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.PERS2
+Data Name:  ProcPrintTable
+Path:       Print.ByGroup4.Print
+-------------
+NOTE: The above message was for the following BY group:
+      DWELLING UNIT ID=60002 CPSFAMID=A
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.PERS2
+Data Name:  ProcPrintTable
+Path:       Print.ByGroup5.Print
+-------------
+NOTE: The above message was for the following BY group:
+      DWELLING UNIT ID=60003 CPSFAMID=A
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.PERS2
+Data Name:  ProcPrintTable
+Path:       Print.ByGroup6.Print
+-------------
+NOTE: The above message was for the following BY group:
+      DWELLING UNIT ID=60004 CPSFAMID=A
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.PERS2
+Data Name:  ProcPrintTable
+Path:       Print.ByGroup7.Print
+-------------
+NOTE: The above message was for the following BY group:
+      DWELLING UNIT ID=60009 CPSFAMID=A
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.PERS2
+Data Name:  ProcPrintTable
+Path:       Print.ByGroup8.Print
+-------------
+5                                                                        The SAS System
+
+NOTE: The above message was for the following BY group:
+      DWELLING UNIT ID=60010 CPSFAMID=A
+NOTE: There were 20 observations read from the data set WORK.PERS2.
+NOTE: The PROCEDURE PRINT printed page 3.
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.22 seconds
+      cpu time            0.22 seconds
+      
+<<<<<<< HEAD
+                                                                         The SAS System
+
+
+216        
+217        /**********************************************************************************
+218        
+219        ADD WEIGHT, VARSTR, AND VARPSU TO THE FAMILY-LEVEL ANALYTIC DATA
+220        
+221        Sort the PERS dataset where FAMWT15C > 0
+222        
+223        De-duplicating the results and keeping variables to use for PROC SURVEYMEANS statement
+224        
+225         *********************************************************************************/;
+226        
+227        PROC SORT DATA=PERS (WHERE=(FAMWT15C>0)) OUT=FAMWT (KEEP=DUID CPSFAMID FAMWT15C
+228        		VARSTR VARPSU) NODUPKEY;
+229        	BY DUID CPSFAMID;
+230        RUN;
+=======
+
+180        
+181        /*ADD WEIGHT, VARSTR, AND VARPSU TO THE FAMILY-LEVEL ANALYTIC DATA*/
+182        /* Sort the PERS dataset where FAMWT15C > 0, de-duplicating the results and keeping variables to use for PROC SURVEYMEANS statement*/
+183        PROC SORT DATA=PERS (WHERE=(FAMWT15C>0)) OUT=FAMWT (KEEP=DUID CPSFAMID FAMWT15C VARSTR VARPSU) NODUPKEY;
+184          BY DUID CPSFAMID;
+185        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 33850 observations read from the data set WORK.PERS.
+      WHERE FAMWT15C>0;
+NOTE: 19328 observations with duplicate key values were deleted.
+NOTE: The data set WORK.FAMWT has 14522 observations and 5 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+<<<<<<< HEAD
+      real time           0.04 seconds
+      cpu time            0.04 seconds
+      
+
+231        
+232        /**********************************************************************************
+233        
+234        Merge FAM data with FAMWT data created above By Dwelling-Unit ID and CPS Family ID
+235        
+236        FAM2 is CPS families with WEIGHT variables for PROC SURVEYMEANS statement
+237        
+238         *********************************************************************************/;
+239        
+240        DATA FAM2;
+241        	MERGE FAM (IN=AA) FAMWT (IN=BB);
+242        	BY DUID CPSFAMID;
+243        
+244        	IF AA AND BB;
+245        RUN;
+=======
+      real time           0.05 seconds
+      cpu time            0.03 seconds
+      
+
+186        
+187        /* Merge FAM data with FAMWT data created above By Dwelling-Unit ID and CPS Family ID */
+188        DATA FAM2;
+189          MERGE FAM (IN=AA) FAMWT (IN=BB);
+190          BY DUID CPSFAMID;
+191          IF AA AND BB;
+192        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 15423 observations read from the data set WORK.FAM.
+NOTE: There were 14522 observations read from the data set WORK.FAMWT.
+NOTE: The data set WORK.FAM2 has 14522 observations and 8 variables.
+NOTE: DATA statement used (Total process time):
+<<<<<<< HEAD
+      real time           0.02 seconds
+      cpu time            0.03 seconds
+      
+
+246        
+247        /* Turn off graphics */
+248        ods graphics off;
+249        
+250        /**********************************************************************************
+251        
+252        Provide CPS Family-Level Estimates on Family Size, CPS Family OUT-OF-POCKET EXP,
+253        and CPS Family Income
+254        
+255         *********************************************************************************/;
+256        
+257        PROC SURVEYMEANS DATA=FAM2 NOBS SUMWGT MEAN STDERR;
+258        	STRATA VARSTR;
+259        	CLUSTER VARPSU;
+260        	WEIGHT FAMWT15C;
+261        	TITLE3 "CPS FAMILY-LEVEL ESTIMATES ON FAMILY SIZE, OUT-OF-POCKET EXP,
+262        AND INCOME, 2015";
+263        	VAR FAMSIZE FAMOOP FAMINC;
+264        RUN;
+
+NOTE: The PROCEDURE SURVEYMEANS printed page 23.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.13 seconds
+      cpu time            0.12 seconds
+      
+
+265        
+266        /* Close all the output */
+267        ODS _ALL_ CLOSE;
+NOTE: ODS PDF(WEB) printed 5 pages to /tmp/SAS_workF37500007251_localhost.localdomain/#LN00278.
+268        
+269        /* THE PROC PRINTTO null step is required to close the PROC PRINTTO */
+270        PROC PRINTTO;
+271        RUN;
+=======
+      real time           0.03 seconds
+      cpu time            0.02 seconds
+      
+
+193        
+194        /* Turn off graphics */
+195        ods graphics off;
+196        
+197        /* Provide estimate of family size, out-of-pocket expense, and income for entire population */
+198        PROC SURVEYMEANS DATA=FAM2 NOBS SUMWGT MEAN STDERR;
+199        	STRATA  VARSTR ;
+200        	CLUSTER VARPSU ;
+201        	WEIGHT  FAMWT15C ;
+202        TITLE3 "CPS FAMILY-LEVEL ESTIMATES ON FAMILY SIZE, OUT-OF-POCKET EXP, AND INCOME, 2015";
+203        	VAR FAMSIZE FAMOOP FAMINC;
+204        RUN;
+
+
+Output Added:
+-------------
+Name:       Summary
+Label:      Data Summary
+Template:   Stat.SurveyMeans.Factoid
+Path:       Surveymeans.Summary
+-------------
+
+Output Added:
+-------------
+Name:       Statistics
+Label:      Statistics
+Template:   Stat.SurveyMeans.Statistics
+Path:       Surveymeans.Statistics
+-------------
+NOTE: The PROCEDURE SURVEYMEANS printed page 4.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.12 seconds
+      cpu time            0.11 seconds
+      
+
+205        
+6                                                                        The SAS System
+
+206        /* Close all the output */
+207        ODS _ALL_ CLOSE;
+NOTE: ODS PDF(WEB) printed 5 pages to /tmp/SAS_work7D55000033F2_localhost.localdomain/#LN03561.
+208        
+209        /* THE PROC PRINTTO null step is required to close the PROC PRINTTO */
+210        PROC PRINTTO;
+211        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+

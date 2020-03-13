@@ -1,0 +1,5 @@
+# Ignore pdfs
+*.pdf
+
+# Igore rtfs
+*.rtf

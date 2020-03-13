@@ -1,0 +1,809 @@
+NOTE: PROCEDURE PRINTTO used (Total process time):
+<<<<<<< HEAD
+      real time           0.11 seconds
+      cpu time            0.05 seconds
+      
+
+111        
+112        /* Create MACRO variable for year */
+113        %LET YR=15;
+114        TITLE1 '2018 AHRQ MEPS DATA USERS WORKSHOP';
+115        TITLE2
+116        	"EXERCISE7.SAS: HOW TO CONSTRUCT INSURANCE STATUS VARIABLES, USING FY &YR DATA";
+117        
+118        /* Create format variable to display race */
+119        PROC FORMAT;
+120        	
+120      !  VALUE RACETHX 1='1 HISPANIC' 2='2 WHITE' 3='3 BLACK' 4='4 ASIAN'
+121        		5='5 OTHER RACE';
+NOTE: Format RACETHX has been output.
+122        RUN;
+=======
+      real time           0.09 seconds
+      cpu time            0.06 seconds
+      
+
+110        
+111         /* Create MACRO variable for year */
+112        %LET YR=15;
+113        
+114        TITLE1 '2018 AHRQ MEPS DATA USERS WORKSHOP';
+115        TITLE2 "EXERCISE7.SAS: HOW TO CONSTRUCT INSURANCE STATUS VARIABLES, USING FY &YR DATA";
+116        
+117        /* Create format variable to display race */
+118        PROC FORMAT;
+119        VALUE RACETHX
+120          1 = '1 HISPANIC'
+121          2 = '2 WHITE'
+122          3 = '3 BLACK'
+123          4 = '4 ASIAN'
+124          5 = '5 OTHER RACE'
+125          ;
+NOTE: Format RACETHX is already on the library WORK.FORMATS.
+NOTE: Format RACETHX has been output.
+126        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: PROCEDURE FORMAT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+<<<<<<< HEAD
+123        
+124        /* Create Summary dataset based on subset of variables */
+125        DATA SUMMARYSET (KEEP=DUID PID DUPERSID
+126        		PEGJA&YR--PEGDE&YR POUJA&YR--POUDE&YR PDKJA&YR--PDKDE&YR
+127            PNGJA&YR--PNGDE&YR POGJA&YR--POGDE&YR PRSJA&YR--PRSDE&YR PRXJA&YR--PRXDE&YR PRIJA&YR--PRIDE&YR
+128            INSJA&YR.X--INSDE&YR.X MCDJA&YR.X--MCDDE&YR.X MCRJA&YR.X--MCRDE&YR.X
+129        		TRIJA&YR.X--TRIDE&YR.X);
+130        	SET CDATA.H181;
+131        RUN;
+=======
+127        
+128        /* Create Summary dataset based on subset of variables */
+129        DATA SUMMARYSET (KEEP=DUID PID DUPERSID PEGJA&YR--PEGDE&YR POUJA&YR--POUDE&YR PDKJA&YR--PDKDE&YR
+130            PNGJA&YR--PNGDE&YR POGJA&YR--POGDE&YR PRSJA&YR--PRSDE&YR PRXJA&YR--PRXDE&YR PRIJA&YR--PRIDE&YR
+131            INSJA&YR.X--INSDE&YR.X MCDJA&YR.X--MCDDE&YR.X MCRJA&YR.X--MCRDE&YR.X TRIJA&YR.X--TRIDE&YR.X);
+132        	SET CDATA.H181;
+133        RUN;
+2                                                                        The SAS System
+
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 35427 observations read from the data set CDATA.H181.
+NOTE: The data set WORK.SUMMARYSET has 35427 observations and 147 variables.
+NOTE: DATA statement used (Total process time):
+<<<<<<< HEAD
+      real time           2.77 seconds
+      cpu time            1.36 seconds
+      
+
+132        
+133        /* Select only position table in output display */
+134        ODS Select Position;
+135        
+136        PROC DATASETS;
+137        	
+137      !  CONTENTS DATA=WORK.SUMMARYSET VARNUM;
+138        	Title3 'Condensed list of variables';
+139        	RUN;
+
+140        
+141        	/* Turn output back on */
+142        	ODS Select All;
+143        
+144        	/**********************************************************************************
+145        	
+146        	1) COUNT # OF MONTHS WITH INSURANCE
+147        	Create arrays based on insurance coverage type and month of coverage for
+148        	corresponding year in the MACRO variable defined above
+149        	
+150        	Iterate through the arrays defined for coverage type by month
+151        	
+152        	The do loop will increase a counter for a given insurance coverage type producing
+153        	a count of months covered for each coverage type by Person
+154        	
+155        	 *********************************************************************************/;
+156        
+
+NOTE: The PROCEDURE DATASETS printed page 24.
+NOTE: PROCEDURE DATASETS used (Total process time):
+      real time           0.41 seconds
+      cpu time            0.40 seconds
+      
+
+157        DATA FY1;
+158        	SET CDATA.H181;
+159        	ARRAY PEG (12) PEGJA&YR PEGFE&YR PEGMA&YR PEGAP&YR PEGMY&YR PEGJU&YR PEGJL&YR PEGAU&YR PEGSE&YR PEGOC&YR PEGNO&YR PEGDE&YR;
+160        	ARRAY POU (12) POUJA&YR POUFE&YR POUMA&YR POUAP&YR POUMY&YR POUJU&YR POUJL&YR POUAU&YR POUSE&YR POUOC&YR POUNO&YR POUDE&YR;
+161        	ARRAY PDK (12) PDKJA&YR PDKFE&YR PDKMA&YR PDKAP&YR PDKMY&YR PDKJU&YR PDKJL&YR PDKAU&YR PDKSE&YR PDKOC&YR PDKNO&YR PDKDE&YR;
+162        	ARRAY PNG (12) PNGJA&YR PNGFE&YR PNGMA&YR PNGAP&YR PNGMY&YR PNGJU&YR PNGJL&YR PNGAU&YR PNGSE&YR PNGOC&YR PNGNO&YR PNGDE&YR;
+163        	ARRAY POG (12) POGJA&YR POGFE&YR POGMA&YR POGAP&YR POGMY&YR POGJU&YR POGJL&YR POGAU&YR POGSE&YR POGOC&YR POGNO&YR POGDE&YR;
+164        	ARRAY PRS (12) PRSJA&YR PRSFE&YR PRSMA&YR PRSAP&YR PRSMY&YR PRSJU&YR PRSJL&YR PRSAU&YR PRSSE&YR PRSOC&YR PRSNO&YR PRSDE&YR;
+165        	ARRAY PRX (12) PRXJA&YR PRXFE&YR PRXMA&YR PRXAP&YR PRXMY&YR PRXJU&YR PRXJL&YR PRXAU&YR PRXSE&YR PRXOC&YR PRXNO&YR PRXDE&YR;
+166        	ARRAY PRI (12) PRIJA&YR PRIFE&YR PRIMA&YR PRIAP&YR PRIMY&YR PRIJU&YR PRIJL&YR PRIAU&YR PRISE&YR PRIOC&YR PRINO&YR PRIDE&YR;
+167        	ARRAY INS (12) INSJA&YR.X INSFE&YR.X INSMA&YR.X INSAP&YR.X INSMY&YR.X
+168        		INSJU&YR.X INSJL&YR.X INSAU&YR.X INSSE&YR.X INSOC&YR.X INSNO&YR.X INSDE&YR.X;
+169        	ARRAY MCD (12) MCDJA&YR.X MCDFE&YR.X MCDMA&YR.X MCDAP&YR.X MCDMY&YR.X
+170        		MCDJU&YR.X MCDJL&YR.X MCDAU&YR.X MCDSE&YR.X MCDOC&YR.X MCDNO&YR.X MCDDE&YR.X;
+171        	ARRAY MCR (12) MCRJA&YR.X MCRFE&YR.X MCRMA&YR.X MCRAP&YR.X MCRMY&YR.X
+172        		MCRJU&YR.X MCRJL&YR.X MCRAU&YR.X MCRSE&YR.X MCROC&YR.X MCRNO&YR.X MCRDE&YR.X;
+173        	ARRAY TRI (12) TRIJA&YR.X TRIFE&YR.X TRIMA&YR.X TRIAP&YR.X TRIMY&YR.X
+174        		TRIJU&YR.X TRIJL&YR.X TRIAU&YR.X TRISE&YR.X TRIOC&YR.X TRINO&YR.X TRIDE&YR.X;
+175        	ARRAY OPA (12) OPAJA&YR OPAFE&YR OPAMA&YR OPAAP&YR OPAMY&YR OPAJU&YR OPAJL&YR OPAAU&YR OPASE&YR OPAOC&YR OPANO&YR OPADE&YR;
+176        	ARRAY OPB (12) OPBJA&YR OPBFE&YR OPBMA&YR OPBAP&YR OPBMY&YR OPBJU&YR OPBJL&YR OPBAU&YR OPBSE&YR OPBOC&YR OPBNO&YR OPBDE&YR;
+177        	PRI_N=0;
+178        	INS_N=0;
+179        	UNINS_N=0;
+180        	MCD_N=0;
+181        	MCR_N=0;
+182        	TRI_N=0;
+183        	OPAB_N=0;
+184        	GRP_N=0;
+185        	NG_N=0;
+186        	PUB_N=0;
+187        	REF_N=0;
+188        
+189        	DO I=1 TO 12;
+190        
+191        		IF PRI(I)=1 THEN
+192        			PRI_N+1;
+193        
+194        		IF INS(I)=1 THEN
+195        			INS_N+1;
+196        
+197        		IF INS(I)=2 THEN
+198        			UNINS_N+1;
+199        
+200        		IF MCD(I)=1 THEN
+201        			MCD_N+1;
+202        
+203        		IF MCR(I)=1 THEN
+204        			MCR_N+1;
+205        
+206        		IF TRI(I)=1 THEN
+207        			TRI_N+1;
+208        
+209        		IF OPA(I)=1 OR OPB(I)=1 THEN
+210        			OPAB_N+1;
+211        
+212        		IF PEG(I)=1 OR TRI(I)=1 OR POU(I)=1 OR PDK(I)=1 THEN
+213        			GRP_N + 1;
+214        
+215        		IF PRX(I)=1 OR PNG(I)=1 OR POG(I)=1 OR PRS(I)=1 THEN
+216        			NG_N + 1;
+217        
+218        		IF MCR(I)=1 OR MCD(I)=1 OR OPA(I)=1 OR OPB(I)=1 THEN
+219        			PUB_N + 1;
+220        
+221        		IF INS(I)>0 THEN
+222        			REF_N+1;
+223        	END;
+224        	DROP I;
+225        	LABEL PRI_N="# OF MONTHS COV BY PRIVATE INSU"
+226        		INS_N="# OF MONTHS COV BY ANY INSU" UNINS_N="# OF MONTHS WITHOUT INSU"
+227        		MCD_N="# OF MONTHS COV BY MEDICAID" MCR_N="# OF MONTHS COV BY MEDICARE"
+228        		TRI_N="# OF MONTHS COV BY TRICARE"
+229        		OPAB_N="# OF MONTHS COV BY OTHER PUBLIC A OR B INSU"
+230        		GRP_N="# OF MONTHS COV BY PRIVATE GROUP INSU"
+231        		NG_N="# OF MONTHS COV BY PRIVATE NON-GROUP INSU"
+232        		PUB_N="# OF MONTHS COV BY PUBLIC INSU" REF_N="# OF MONTHS IN MEPS SURVEY";
+233        RUN;
+=======
+      real time           2.26 seconds
+      cpu time            1.10 seconds
+      
+
+134        
+135        /* Select only position table in output display */
+136        ODS Select Position;
+137        
+138        PROC DATASETS;
+139        	
+139      !  CONTENTS DATA=WORK.SUMMARYSET VARNUM;
+140        	Title3 'Condensed list of variables';
+141        	RUN;
+
+
+Output Added:
+-------------
+Name:       Position
+Template:   Base.Contents.Position
+Path:       Datasets.DataSet.Position
+-------------
+142        	
+143        /* Turn output back on */
+144        ODS Select All;
+145        
+146        /* 1) COUNT # OF MONTHS WITH INSURANCE */
+147        /* Create arrays based on insurance coverage type and month of coverage for corresponding year in the MACRO variable defined above*/
+148        /* Iterate through the arrays defined for coverage type by month */
+149        /* The do loop will increase a counter for a given insurance coverage type producing a count of months covered for each coverage type by Person */
+
+NOTE: The PROCEDURE DATASETS printed pages 1-3.
+NOTE: PROCEDURE DATASETS used (Total process time):
+      real time           0.42 seconds
+      cpu time            0.36 seconds
+      
+
+150        DATA FY1;
+151          SET CDATA.H181;
+152        
+153        ARRAY PEG (12) PEGJA&YR PEGFE&YR PEGMA&YR PEGAP&YR PEGMY&YR PEGJU&YR PEGJL&YR PEGAU&YR PEGSE&YR PEGOC&YR PEGNO&YR PEGDE&YR;
+154        ARRAY POU (12) POUJA&YR POUFE&YR POUMA&YR POUAP&YR POUMY&YR POUJU&YR POUJL&YR POUAU&YR POUSE&YR POUOC&YR POUNO&YR POUDE&YR;
+155        ARRAY PDK (12) PDKJA&YR PDKFE&YR PDKMA&YR PDKAP&YR PDKMY&YR PDKJU&YR PDKJL&YR PDKAU&YR PDKSE&YR PDKOC&YR PDKNO&YR PDKDE&YR;
+156        ARRAY PNG (12) PNGJA&YR PNGFE&YR PNGMA&YR PNGAP&YR PNGMY&YR PNGJU&YR PNGJL&YR PNGAU&YR PNGSE&YR PNGOC&YR PNGNO&YR PNGDE&YR;
+157        ARRAY POG (12) POGJA&YR POGFE&YR POGMA&YR POGAP&YR POGMY&YR POGJU&YR POGJL&YR POGAU&YR POGSE&YR POGOC&YR POGNO&YR POGDE&YR;
+158        ARRAY PRS (12) PRSJA&YR PRSFE&YR PRSMA&YR PRSAP&YR PRSMY&YR PRSJU&YR PRSJL&YR PRSAU&YR PRSSE&YR PRSOC&YR PRSNO&YR PRSDE&YR;
+159        ARRAY PRX (12) PRXJA&YR PRXFE&YR PRXMA&YR PRXAP&YR PRXMY&YR PRXJU&YR PRXJL&YR PRXAU&YR PRXSE&YR PRXOC&YR PRXNO&YR PRXDE&YR;
+160        
+161        ARRAY PRI (12) PRIJA&YR PRIFE&YR PRIMA&YR PRIAP&YR PRIMY&YR PRIJU&YR PRIJL&YR PRIAU&YR PRISE&YR PRIOC&YR PRINO&YR PRIDE&YR;
+162        ARRAY INS (12) INSJA&YR.X INSFE&YR.X INSMA&YR.X INSAP&YR.X INSMY&YR.X INSJU&YR.X INSJL&YR.X INSAU&YR.X INSSE&YR.X INSOC&YR.X INSNO&YR.X INSDE&YR.X;
+163        ARRAY MCD (12) MCDJA&YR.X MCDFE&YR.X MCDMA&YR.X MCDAP&YR.X MCDMY&YR.X MCDJU&YR.X MCDJL&YR.X MCDAU&YR.X MCDSE&YR.X MCDOC&YR.X MCDNO&YR.X MCDDE&YR.X;
+164        ARRAY MCR (12) MCRJA&YR.X MCRFE&YR.X MCRMA&YR.X MCRAP&YR.X MCRMY&YR.X MCRJU&YR.X MCRJL&YR.X MCRAU&YR.X MCRSE&YR.X MCROC&YR.X MCRNO&YR.X MCRDE&YR.X;
+165        ARRAY TRI (12) TRIJA&YR.X TRIFE&YR.X TRIMA&YR.X TRIAP&YR.X TRIMY&YR.X TRIJU&YR.X TRIJL&YR.X TRIAU&YR.X TRISE&YR.X TRIOC&YR.X TRINO&YR.X TRIDE&YR.X;
+166        
+167        ARRAY OPA (12) OPAJA&YR OPAFE&YR OPAMA&YR OPAAP&YR OPAMY&YR OPAJU&YR OPAJL&YR OPAAU&YR OPASE&YR OPAOC&YR OPANO&YR OPADE&YR;
+168        ARRAY OPB (12) OPBJA&YR OPBFE&YR OPBMA&YR OPBAP&YR OPBMY&YR OPBJU&YR OPBJL&YR OPBAU&YR OPBSE&YR OPBOC&YR OPBNO&YR OPBDE&YR;
+169        
+170          PRI_N=0;
+171          INS_N=0;
+172          UNINS_N=0;
+173          MCD_N=0;
+174          MCR_N=0;
+175          TRI_N=0;
+176          OPAB_N=0;
+177          GRP_N=0;
+178          NG_N=0;
+179          PUB_N=0;
+180          REF_N=0;
+181        
+182          DO I=1 TO 12;
+183            IF PRI(I)=1 THEN PRI_N+1;
+184            IF INS(I)=1 THEN INS_N+1;
+185            IF INS(I)=2 THEN UNINS_N+1;
+186            IF MCD(I)=1 THEN MCD_N+1;
+3                                                                        The SAS System
+
+187            IF MCR(I)=1 THEN MCR_N+1;
+188            IF TRI(I)=1 THEN TRI_N+1;
+189            IF OPA(I)=1 OR OPB(I)=1 THEN OPAB_N+1;
+190            IF PEG(I)=1 OR TRI(I)=1 OR POU(I)=1 OR PDK(I)=1 THEN GRP_N + 1;
+191            IF PRX(I)=1 OR PNG(I)=1 OR POG(I)=1 OR PRS(I)=1 THEN NG_N + 1;
+192            IF MCR(I)=1 OR MCD(I)=1 OR OPA(I)=1 OR OPB(I)=1 THEN PUB_N + 1;
+193            IF INS(I)>0 THEN REF_N+1;
+194          END;
+195          DROP I;
+196        
+197        LABEL
+198          PRI_N  ="# OF MONTHS COV BY PRIVATE INSU"
+199          INS_N  ="# OF MONTHS COV BY ANY INSU"
+200          UNINS_N="# OF MONTHS WITHOUT INSU"
+201          MCD_N  ="# OF MONTHS COV BY MEDICAID"
+202          MCR_N  ="# OF MONTHS COV BY MEDICARE"
+203          TRI_N  ="# OF MONTHS COV BY TRICARE"
+204          OPAB_N ="# OF MONTHS COV BY OTHER PUBLIC A OR B INSU"
+205          GRP_N  ="# OF MONTHS COV BY PRIVATE GROUP INSU"
+206          NG_N   ="# OF MONTHS COV BY PRIVATE NON-GROUP INSU"
+207          PUB_N  ="# OF MONTHS COV BY PUBLIC INSU"
+208          REF_N  ="# OF MONTHS IN MEPS SURVEY" ;
+209        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 35427 observations read from the data set CDATA.H181.
+NOTE: The data set WORK.FY1 has 35427 observations and 1842 variables.
+NOTE: DATA statement used (Total process time):
+<<<<<<< HEAD
+                                                                         The SAS System
+
+      real time           3.51 seconds
+      cpu time            2.01 seconds
+      
+
+234        
+235        /**********************************************************************************
+236        
+237        Display FREQ counts for the calculated variables created above
+238        
+239        (# of months insured by insurance type)
+240        Treat missing values as valid nonmissing formats in calculations
+241        
+242        Each variable ranges from 0-12 (for # of months covered) (13 total outcomes)
+243        
+244         *********************************************************************************/;
+245        
+246        PROC FREQ DATA=FY1;
+247        	TABLES PRI_N INS_N UNINS_N MCD_N MCR_N TRI_N OPAB_N GRP_N NG_N PUB_N REF_N
+248        		/LIST MISSING;
+249        	TITLE3 "CREATE COUNT VARIABLES FOR # OF MONTHS WITH INSURANCE";
+250        RUN;
+
+NOTE: There were 35427 observations read from the data set WORK.FY1.
+NOTE: The PROCEDURE FREQ printed pages 25-26.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           1.29 seconds
+      cpu time            0.80 seconds
+      
+
+251        
+252        /**********************************************************************************
+253        
+254        Print 30 observations using Private Insurance as an example
+255        
+256        Display whether or not the person was covered by private insurance for the given months of 2015
+257        
+258        1 value represents coverage, 2 value represents no coverage
+259        
+260         *********************************************************************************/;
+261        
+262        PROC PRINT DATA=FY1 (OBS=30) NOOBS;
+263        	TITLE3 'SAMPLE DUMP TO CHECK THE COUNT VARIABLES (USING PRI_N AS EXMAPLE)';
+264        	VAR DUPERSID PRIJA&YR PRIFE&YR PRIMA&YR PRIAP&YR PRIMY&YR PRIJU&YR PRIJL&YR PRIAU&YR PRISE&YR PRIOC&YR PRINO&YR PRIDE&YR PRI_N;
+265        RUN;
+
+NOTE: There were 30 observations read from the data set WORK.FY1.
+NOTE: The PROCEDURE PRINT printed page 27.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.25 seconds
+      cpu time            0.24 seconds
+      
+
+266        
+267        /**********************************************************************************
+268        
+269        2) CREATE FLAGS FOR VARIOUS TYPES OF INSU
+270        
+271        Create FLAG for type of Insurance coverage based on count of months by type of
+272        coverage variable above
+273        
+274        If the count of total uninsured months is '0' the 'INSURED FOR FULL YEAR'
+275        flag is set
+276        
+277        If the count of total months insured by a private group > '0' the
+278        'EVER INSURED BY PRIVATE GROUP' flag is set
+279        
+280        If the count of total months insured by a private group > '0'
+281        and # of months is equal to # of months participant has been in MEPS Survey,
+282        the 'INSURED BY PRIVATE GROUP FOR FULL YEAR' flag is set
+283        
+284        If the count of total months insured by a private non-group > '0',
+285        the 'EVER INSURED BY PRIVATE NON-GROUP' flag is set
+286        
+287         *********************************************************************************/;
+288        
+289        DATA FY2;
+290        	SET FY1;
+291        	LABEL FULL_INSU='INSURED FOR FULL YEAR'
+292        		GROUP_INS1='EVER INSURED BY PRIVATE GROUP'
+293        		GROUP_INS2='INSURED BY PRIVATE GROUP FOR FULL YEAR'
+294        		NG_INS='EVER INSURED BY PRIVATE NON-GROUP';
+295        	FULL_INSU=0;
+296        	GROUP_INS1=0;
+297        	GROUP_INS2=0;
+298        	NG_INS=0;
+299        
+300        	IF UNINS_N=0 THEN
+301        		FULL_INSU=1;
+302        
+303        	IF GRP_N>0 THEN
+304        		GROUP_INS1=1;
+305        
+306        	IF GRP_N>0 AND GRP_N=REF_N THEN
+307        		GROUP_INS2=1;
+308        
+309        	IF NG_N>0 THEN
+310        		NG_INS=1;
+311        RUN;
+=======
+      real time           3.10 seconds
+      cpu time            1.76 seconds
+      
+
+210        
+211        /* Display FREQ counts for the calculated variables created above (# of months insured by insurance type) */
+212        /* Treat missing values as valid nonmissing formats in calculations */
+213        /* Each variable ranges from 0-12 (for # of months covered) (13 total outcomes) */
+214        PROC FREQ DATA=FY1;
+215          TABLES  PRI_N INS_N UNINS_N MCD_N MCR_N TRI_N OPAB_N GRP_N NG_N PUB_N REF_N /LIST MISSING;
+216        TITLE3 "CREATE COUNT VARIABLES FOR # OF MONTHS WITH INSURANCE";
+217        RUN;
+
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table1.OneWayFreqs
+-------------
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table2.OneWayFreqs
+-------------
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table3.OneWayFreqs
+-------------
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table4.OneWayFreqs
+-------------
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+4                                                                        The SAS System
+
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table5.OneWayFreqs
+-------------
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table6.OneWayFreqs
+-------------
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table7.OneWayFreqs
+-------------
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table8.OneWayFreqs
+-------------
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table9.OneWayFreqs
+-------------
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table10.OneWayFreqs
+-------------
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table11.OneWayFreqs
+-------------
+NOTE: There were 35427 observations read from the data set WORK.FY1.
+NOTE: The PROCEDURE FREQ printed pages 4-7.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           1.41 seconds
+      cpu time            0.75 seconds
+      
+
+218        
+219        /* Print 30 observations using Private Insurance as an example */
+220        /* Display whether or not the person was covered by private insurance for the given months of 2015*/
+221        /* 1 value represents coverage, 2 value represents no coverage */
+222        PROC PRINT DATA=FY1 (OBS=30) NOOBS;
+223        TITLE3 'SAMPLE DUMP TO CHECK THE COUNT VARIABLES (USING PRI_N AS EXMAPLE)';
+224        VAR DUPERSID PRIJA&YR PRIFE&YR PRIMA&YR PRIAP&YR PRIMY&YR PRIJU&YR PRIJL&YR PRIAU&YR PRISE&YR PRIOC&YR PRINO&YR PRIDE&YR PRI_N;
+225        RUN;
+
+
+Output Added:
+-------------
+Name:       Print
+Label:      Data Set WORK.FY1
+Data Name:  ProcPrintTable
+Path:       Print.Print
+-------------
+NOTE: There were 30 observations read from the data set WORK.FY1.
+NOTE: The PROCEDURE PRINT printed page 8.
+5                                                                        The SAS System
+
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.25 seconds
+      cpu time            0.23 seconds
+      
+
+226        
+227        /*2) CREATE FLAGS FOR VARIOUS TYPES OF INSU */
+228        /* Create FLAG for type of Insurance coverage based on count of months by type of coverage variable above */
+229        /* If the count of total uninsured months is '0' the 'INSURED FOR FULL YEAR' flag is set */
+230        /* If the count of total months insured by a private group > '0' the 'EVER INSURED BY PRIVATE GROUP' flag is set */
+231        /* If the count of total months insured by a private group > '0' and # of months is equal to # of months participant has been in MEPS Survey, the
+231      ! 'INSURED BY PRIVATE GROUP FOR FULL YEAR' flag is set */
+232        /* If the count of total months insured by a private non-group > '0', the 'EVER INSURED BY PRIVATE NON-GROUP' flag is set */
+233        DATA FY2;
+234          SET FY1;
+235          LABEL
+236          FULL_INSU='INSURED FOR FULL YEAR'
+237          GROUP_INS1='EVER INSURED BY PRIVATE GROUP'
+238          GROUP_INS2='INSURED BY PRIVATE GROUP FOR FULL YEAR'
+239          NG_INS='EVER INSURED BY PRIVATE NON-GROUP';
+240        
+241          FULL_INSU=0;
+242          GROUP_INS1=0;
+243          GROUP_INS2=0;
+244          NG_INS=0;
+245        
+246          IF UNINS_N=0 THEN FULL_INSU=1;
+247          IF GRP_N>0 THEN GROUP_INS1=1;
+248          IF GRP_N>0 AND GRP_N=REF_N THEN GROUP_INS2=1;
+249          IF NG_N>0 THEN NG_INS=1;
+250        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
+NOTE: There were 35427 observations read from the data set WORK.FY1.
+NOTE: The data set WORK.FY2 has 35427 observations and 1846 variables.
+NOTE: DATA statement used (Total process time):
+<<<<<<< HEAD
+      real time           1.42 seconds
+      cpu time            0.91 seconds
+      
+
+312        
+313        /**********************************************************************************
+314        
+315        Display FREQ results for newly created tables
+316        
+317        Compare Insured for full year, Insured for full year vs. uninsured, insured for
+318        full year vs. # of months in MEPS survey
+319        
+320        Compare Ever Insured by Private Group, and # months covered by private
+321        groups insurance
+322        
+323        Compare Insured by Private Group For Full Year, and # of months covered by
+324        private groups insurance, and # of months in MEPS survey
+325        
+326        These are mainly checks that can be used to verify the creation of the flag
+327        variables and verify our counts for quality control (i.e. does the count for
+328        NG_INS match with our count variable of 0 months of coverage
+329        for private non-group insurance, do the corresponding month count
+330        subgroups correlate with the FREQ count of those who have received
+331        private non-group insurance)
+332        
+333        *********************************************************************************/;
+334        
+335        PROC FREQ DATA=FY2;
+336        	TABLES FULL_INSU FULL_INSU*UNINS_N FULL_INSU*INS_N*REF_N GROUP_INS1
+337        		GROUP_INS1*GRP_N GROUP_INS2 GROUP_INS2*GRP_N*REF_N NG_INS NG_INS*NG_N/LIST
+338        		MISSING;
+339        	TITLE3 "SUPPORTING CROSSTABS TO VERIFY THE CREATION OF THE FLAGS";
+340        RUN;
+
+NOTE: There were 35427 observations read from the data set WORK.FY2.
+NOTE: The PROCEDURE FREQ printed pages 28-29.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           1.57 seconds
+      cpu time            1.01 seconds
+      
+
+341        
+342        /* Turn Graphs off */
+343        ODS GRAPHICS OFF;
+344        
+345        /**********************************************************************************
+346        
+347        3) CALCULATE % OF PERSONS COVERED BY INSU
+348        Calculate Estimates of Percentages of Persons Covered By RACE
+349        
+350        *********************************************************************************/;
+351        
+352        PROC SURVEYMEANS DATA=FY2 NOBS SUMWGT SUM STD MEAN STDERR;
+353        	TITLE3 "% AND POPULATION WITH INSU";
+354        	STRATA VARSTR;
+355        	CLUSTER VARPSU;
+356        	WEIGHT PERWT15F;
+357        	VAR FULL_INSU GROUP_INS1 GROUP_INS2 NG_INS;
+358        	DOMAIN RACETHX;
+359        	FORMAT RACETHX RACETHX.;
+360        RUN;
+
+NOTE: Due to nonpositive weights, 1534 observation(s) were deleted.
+NOTE: Only one cluster in a stratum for RACE/ETHNICITY (EDITED/IMPUTED) domains for variable(s) FULL_INSU, GROUP_INS1, GROUP_INS2, NG_INS. The estimate of 
+      variance for FULL_INSU, GROUP_INS1, GROUP_INS2, NG_INS will omit this stratum.
+NOTE: The PROCEDURE SURVEYMEANS printed pages 30-31.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           1.30 seconds
+      cpu time            0.68 seconds
+      
+
+361        
+362        /* Close all the output */
+363        ODS _ALL_ CLOSE;
+NOTE: ODS PDF(WEB) printed 22 pages to /tmp/SAS_workF37500007251_localhost.localdomain/#LN00302.
+364        
+365        /* THE PROC PRINTTO null step is required to close the PROC PRINTTO */
+366        PROC PRINTTO;
+367        RUN;
+=======
+      real time           1.55 seconds
+      cpu time            0.83 seconds
+      
+
+251        
+252        /* Display FREQ results for newly created tables */
+253        /* Compare Insured for full year, Insured for full year vs. uninsured, insured for full year vs. # of months in MEPS survey */
+254        /* Compare Ever Insured by Private Group, and # months covered by private groups insurance */
+255        /* Compare Insured by Private Group For Full Year, and # of months covered by private groups insurance, and # of months in MEPS survey */
+256        /* These are mainly checks that can be used to verify the creation of the flag variables and verify our counts for quality control */
+257        /* (i.e. does the count for NG_INS match with our count variable of 0 months of coverage for private non-group insurance,
+258        do the corresponding month count subgroups correlate with the FREQ count of those who have received private non-group insurance) */
+259        PROC FREQ DATA=FY2;
+260          TABLES FULL_INSU FULL_INSU*UNINS_N FULL_INSU*INS_N*REF_N
+261                 GROUP_INS1 GROUP_INS1*GRP_N
+262                 GROUP_INS2 GROUP_INS2*GRP_N*REF_N
+263                 NG_INS NG_INS*NG_N/LIST MISSING;
+264            TITLE3 "SUPPORTING CROSSTABS TO VERIFY THE CREATION OF THE FLAGS";
+265        RUN;
+
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table1.OneWayFreqs
+-------------
+
+Output Added:
+-------------
+Name:       List
+Label:      LIST Frequencies
+Template:   Base.Freq.List
+Path:       Freq.Table2.List
+-------------
+
+Output Added:
+-------------
+Name:       List
+Label:      LIST Frequencies
+Template:   Base.Freq.List
+6                                                                        The SAS System
+
+Path:       Freq.Table3.List
+-------------
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table4.OneWayFreqs
+-------------
+
+Output Added:
+-------------
+Name:       List
+Label:      LIST Frequencies
+Template:   Base.Freq.List
+Path:       Freq.Table5.List
+-------------
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table6.OneWayFreqs
+-------------
+
+Output Added:
+-------------
+Name:       List
+Label:      LIST Frequencies
+Template:   Base.Freq.List
+Path:       Freq.Table7.List
+-------------
+
+Output Added:
+-------------
+Name:       OneWayFreqs
+Label:      One-Way Frequencies
+Template:   Base.Freq.OneWayFreqs
+Path:       Freq.Table8.OneWayFreqs
+-------------
+
+Output Added:
+-------------
+Name:       List
+Label:      LIST Frequencies
+Template:   Base.Freq.List
+Path:       Freq.Table9.List
+-------------
+NOTE: There were 35427 observations read from the data set WORK.FY2.
+NOTE: The PROCEDURE FREQ printed pages 9-12.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           1.63 seconds
+      cpu time            1.01 seconds
+      
+
+266        
+267        
+268        /* Turn Graphs off */
+269        ODS GRAPHICS OFF;
+270        
+271        /*3) CALCULATE % OF PERSONS COVERED BY INSU*/
+272        /* Create Estimates for the % of population with insurance using the FLAGS created above */
+273        PROC SURVEYMEANS DATA=FY2 NOBS SUMWGT SUM STD MEAN STDERR;
+274        TITLE3 "% AND POPULATION WITH INSU";
+275        	STRATA  VARSTR;
+276        	CLUSTER VARPSU;
+277        	WEIGHT PERWT15F;
+278        	VAR  FULL_INSU GROUP_INS1 GROUP_INS2 NG_INS;
+279        	DOMAIN RACETHX;
+280          FORMAT RACETHX RACETHX.;
+281        RUN;
+
+NOTE: Due to nonpositive weights, 1534 observation(s) were deleted.
+
+Output Added:
+7                                                                        The SAS System
+
+-------------
+Name:       Summary
+Label:      Data Summary
+Template:   Stat.SurveyMeans.Factoid
+Path:       Surveymeans.Summary
+-------------
+
+Output Added:
+-------------
+Name:       Statistics
+Label:      Statistics
+Template:   Stat.SurveyMeans.Statistics
+Path:       Surveymeans.Statistics
+-------------
+
+Output Added:
+-------------
+Name:       Domain
+Label:      Statistics
+Template:   Stat.SurveyMeans.Domain
+Path:       Surveymeans.DomainAnalysis.Domain
+-------------
+NOTE: Only one cluster in a stratum for RACE/ETHNICITY (EDITED/IMPUTED) domains for variable(s) FULL_INSU, GROUP_INS1, GROUP_INS2, NG_INS. The estimate of 
+      variance for FULL_INSU, GROUP_INS1, GROUP_INS2, NG_INS will omit this stratum.
+NOTE: The PROCEDURE SURVEYMEANS printed pages 13-14.
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           1.22 seconds
+      cpu time            0.58 seconds
+      
+
+282        
+283        /* Close all the output */
+284        ODS _ALL_ CLOSE;
+NOTE: ODS PDF(WEB) printed 22 pages to /tmp/SAS_work7D55000033F2_localhost.localdomain/#LN03633.
+285        
+286        /* THE PROC PRINTTO null step is required to close the PROC PRINTTO */
+287        PROC PRINTTO;
+288        RUN;
+>>>>>>> dbd5d2d48b8dbf415b49d69286228274eb4a90f9
+
