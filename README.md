@@ -1,5 +1,7 @@
 # CSU-Global-Coursework
 
+Overview of folder structure:
+
 ## MIS-500 History of Data Analytics
  
 * module-1: Intro to Data Science and Analytics
