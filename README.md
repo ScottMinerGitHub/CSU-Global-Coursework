@@ -2,6 +2,8 @@
 
 The below presents an overview of the folder structure of each class in the program.
 
+***
+
 ## MIS-500: History of Data Analytics
 
 October 07, 2019 - December 01, 2019
@@ -31,7 +33,9 @@ October 07, 2019 - December 01, 2019
             - Exercise_5b
                 + my-output
         + Option-2-Running-SAS-Code-on-Dataset-Provided-by-U.S.-Department-of-Health-&-Human-Services.docx
-        
+
+***
+
 ## MIS-540: Introduction to Business Intelligence
 
 December 09, 2019 - February 09, 2020
@@ -57,6 +61,8 @@ December 09, 2019 - February 09, 2020
 * module-8: Future and Trends in Business Intelligence Impacts on Data Privacy
     - Portfolio: Functional Requirements Document
         + option-2-factory-machines-faults-detection.docx
+
+***
 
 ## MIS-510: Introduction to Data Mining and Visualizations
 
