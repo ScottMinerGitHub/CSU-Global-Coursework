@@ -22,7 +22,7 @@ The below presents an overview of the folder structure for each class:
     - Portfolio
         + Data
             - h171ssp.exe
-        + Source-Coude-And-Output
+        + Source-Code-And-Output
             - Exercise_1a
                 + my-output <br/>
 <span>&#8942;</span>
