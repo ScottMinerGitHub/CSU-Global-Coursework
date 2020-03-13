@@ -5,7 +5,9 @@ The below presents an overview of the folder structure of each class in the prog
 ## MIS-500: History of Data Analytics
 
 October 07, 2019 - December 01, 2019
- 
+
+***
+
 * module-1: Intro to Data Science and Analytics
     - option-1-installing-python-and-running-a-data-set-exploration-in-pycharm-edu-program.docx
 * module-2: Landscape of Data Science and Analytics
@@ -37,6 +39,9 @@ October 07, 2019 - December 01, 2019
 ## MIS-540: Introduction to Business Intelligence
 
 December 09, 2019 - February 09, 2020
+
+***
+
 * module-1: Business Intelligence For Enterprise Opportunities and Challenges
     - option-1-manufacturing-bi-use-case-single-integrated-BI-solution-1.docx
 * module-2: Analytics Types and Business Intelligence
@@ -59,12 +64,14 @@ December 09, 2019 - February 09, 2020
 * module-8: Future and Trends in Business Intelligence Impacts on Data Privacy
     - Portfolio: Functional Requirements Document
         + option-2-factory-machines-faults-detection.docx
-
+        
 ***
 
 ## MIS-510: Introduction to Data Mining and Visualizations
 
 February 10th, 2020 - April 05, 2020
+
+***
 
 * module-1: Core Concepts
     - option-1-categorical-variables-toyota-corolla-data-set.docx
