@@ -35,7 +35,7 @@ October 07, 2019 - December 01, 2019
 ## MIS-540: Introduction to Business Intelligence
 
 December 09, 2019 - February 09, 2020
-* module-1: Business Intelligence For Enterpreise Opportunities and Challenges
+* module-1: Business Intelligence For Enterprise Opportunities and Challenges
     - option-1-manufacturing-bi-use-case-single-integrated-BI-solution-1.docx
 * module-2: Analytics Types and Business Intelligence
     - option-1-healthcare-BI-Use-Case-consolidate.docx
@@ -54,7 +54,7 @@ December 09, 2019 - February 09, 2020
 * module-7: Optimization and Simulation
     - Career Development
         + Practitioner Experience.docx
-* moudle-8: Future and Trends in Business Intelligence Impacts on Data Privacy
+* module-8: Future and Trends in Business Intelligence Impacts on Data Privacy
     - Portfolio: Functional Requirements Document
         + option-2-factory-machines-faults-detection.docx
 
@@ -71,5 +71,5 @@ February 10th, 2020 - April 05, 2020
 * module-4: Classification
     - critical-thinking-riding-mowers
         + option-2-logistic-regression-on-riding-mower-ownership.docx
-    - portfolio-milestone-credit-data-minig
+    - portfolio-milestone-credit-data-mining
         + option-#1-credit-data-mining.docx
