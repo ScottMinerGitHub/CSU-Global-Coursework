@@ -3,6 +3,8 @@
 The below presents an overview of the folder structure of each class in the program.
 
 ## MIS-500: History of Data Analytics
+
+Dates: 
  
 * module-1: Intro to Data Science and Analytics
     - option-1-installing-python-and-running-a-data-set-exploration-in-pycharm-edu-program.docx
@@ -31,6 +33,8 @@ The below presents an overview of the folder structure of each class in the prog
         + Option-2-Running-SAS-Code-on-Dataset-Provided-by-U.S.-Department-of-Health-&-Human-Services.docx
         
 ## MIS-510: Introduction to Data Mining and Visualizations
+
+February 10th, 2020 - April 05, 2020
 
 * module-1: Core Concepts
     - option-1-categorical-variables-toyota-corolla-data-set.docx
