@@ -2,8 +2,6 @@
 
 The below presents an overview of the folder structure of each class in the program.
 
-***
-
 ## MIS-500: History of Data Analytics
 
 October 07, 2019 - December 01, 2019
