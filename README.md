@@ -4,7 +4,7 @@ The below presents an overview of the folder structure of each class in the prog
 
 ## MIS-500: History of Data Analytics
 
-Dates: 
+October 07, 2019 - December 01, 2019
  
 * module-1: Intro to Data Science and Analytics
     - option-1-installing-python-and-running-a-data-set-exploration-in-pycharm-edu-program.docx
@@ -32,23 +32,9 @@ Dates:
                 + my-output
         + Option-2-Running-SAS-Code-on-Dataset-Provided-by-U.S.-Department-of-Health-&-Human-Services.docx
         
-## MIS-510: Introduction to Data Mining and Visualizations
-
-February 10th, 2020 - April 05, 2020
-
-* module-1: Core Concepts
-    - option-1-categorical-variables-toyota-corolla-data-set.docx
-* module-2: Visualization
-    - option-1-hot-vs-cold-cereals.docx
-* module-3: Predictive Modeling
-    - module-3-CT-Option-1.docx
-* module-4: Classification
-    - critical-thinking-riding-mowers
-        + option-2-logistic-regression-on-riding-mower-ownership.docx
-    - portfolio-milestone-credit-data-minig
-        + option-#1-credit-data-mining.docx
-        
 ## MIS-540: Introduction to Business Intelligence
+
+December 09, 2019 - February 09, 2020
 * module-1: Business Intelligence For Enterpreise Opportunities and Challenges
     - option-1-manufacturing-bi-use-case-single-integrated-BI-solution-1.docx
 * module-2: Analytics Types and Business Intelligence
@@ -71,3 +57,19 @@ February 10th, 2020 - April 05, 2020
 * moudle-8: Future and Trends in Business Intelligence Impacts on Data Privacy
     - Portfolio: Functional Requirements Document
         + option-2-factory-machines-faults-detection.docx
+
+## MIS-510: Introduction to Data Mining and Visualizations
+
+February 10th, 2020 - April 05, 2020
+
+* module-1: Core Concepts
+    - option-1-categorical-variables-toyota-corolla-data-set.docx
+* module-2: Visualization
+    - option-1-hot-vs-cold-cereals.docx
+* module-3: Predictive Modeling
+    - module-3-CT-Option-1.docx
+* module-4: Classification
+    - critical-thinking-riding-mowers
+        + option-2-logistic-regression-on-riding-mower-ownership.docx
+    - portfolio-milestone-credit-data-minig
+        + option-#1-credit-data-mining.docx
