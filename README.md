@@ -21,8 +21,6 @@
 
 ## Folder Structure
 
-The following outlines the folder structure of the repository.
-
 ### MIS-500: History of Data Analytics
 
 October 07, 2019 - December 01, 2019
