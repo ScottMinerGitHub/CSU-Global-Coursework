@@ -1,5 +1,7 @@
-# Ignore pdfs
+# File paths
 *.pdf
-
-# Igore rtfs
 *.rtf
+
+# directories
+data-mining-for-business-analytics/
+r-studio-history-files/
