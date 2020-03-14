@@ -1,8 +1,8 @@
 # CSU-Global-Coursework
 
-The below presents an overview of the folder structure of each class in the program.
-
 ## Degree Progress
+
+Degree progress toward Master of Science Data Analytics (MSDA) program with a specialization in Machine Learning and Artificial Intelligence.
 
 |Date_Begin |Date_End   |Status       |Course_Number |Course_Description                                  
 |:----------|:----------|:------------|:-------------|:---------------------------------------------------
@@ -21,7 +21,11 @@ The below presents an overview of the folder structure of each class in the prog
 
 ***
 
-## MIS-500: History of Data Analytics
+## Folder Structure
+
+The following presents the folder structure of the repository.
+
+### MIS-500: History of Data Analytics
 
 October 07, 2019 - December 01, 2019
 
@@ -53,7 +57,7 @@ October 07, 2019 - December 01, 2019
         
 *** 
 
-## MIS-540: Introduction to Business Intelligence
+### MIS-540: Introduction to Business Intelligence
 
 December 09, 2019 - February 09, 2020
 
@@ -82,7 +86,7 @@ December 09, 2019 - February 09, 2020
         
 ***
 
-## MIS-510: Introduction to Data Mining and Visualizations
+### MIS-510: Introduction to Data Mining and Visualizations
 
 February 10th, 2020 - April 05, 2020
 
