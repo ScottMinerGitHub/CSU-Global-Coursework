@@ -4,19 +4,96 @@ The below presents an overview of the folder structure of each class in the prog
 
 ## Degree Progress
 
-|Course_Number |Course_Description                                  |Date_Begin |Date_End   |Status       |
-|:-------------|:---------------------------------------------------|:----------|:----------|:------------|
-|MIS500        |Foundations of Data Analytics                       |2019-10-07 |2019-12-01 |Complete     |
-|MIS540        |Introduction to Business Intelligence               |2019-12-09 |2020-02-09 |Complete     |
-|MIS510        |Data Mining and Visualization                       |2020-02-10 |2020-04-05 |Current      |
-|MIS530        |Predictive Analytics                                |2020-04-13 |2020-06-07 |Future       |
-|MIS541        |Data Warehousing in Enterprise Environments         |2020-06-08 |2020-08-02 |Future       |
-|MIS542        |Business Analytics                                  |2020-08-10 |2020-10-04 |Future       |
-|MIS543        |Enterprise Performance Management                   |2020-10-05 |2020-11-29 |Future       |
-|MIS581        |Capstone - Business Intelligence and Data Analytics |2020-12-07 |2020-02-07 |Future       |
-|CSC505        |Principles of Software Development                  |2021-02-08 |2021-04-04 |Future       |
-|CSC505        |Design and Analysis of Algorithms                   |2021-04-12 |2021-06-06 |Future - Sp. |
-|CSC510        |Foundations of Artificial Intelligence              |2021-06-07 |2021-08-01 |Future - Sp. |
+<table class="table" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Course_Number </th>
+   <th style="text-align:left;"> Course_Description </th>
+   <th style="text-align:left;"> Date_Begin </th>
+   <th style="text-align:left;"> Date_End </th>
+   <th style="text-align:left;"> Status </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> MIS500 </td>
+   <td style="text-align:left;"> Foundations of Data Analytics </td>
+   <td style="text-align:left;"> 2019-10-07 </td>
+   <td style="text-align:left;"> 2019-12-01 </td>
+   <td style="text-align:left;"> Complete </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> MIS540 </td>
+   <td style="text-align:left;"> Introduction to Business Intelligence </td>
+   <td style="text-align:left;"> 2019-12-09 </td>
+   <td style="text-align:left;"> 2020-02-09 </td>
+   <td style="text-align:left;"> Complete </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;color: black !important;background-color: yellow !important;"> MIS510 </td>
+   <td style="text-align:left;color: black !important;background-color: yellow !important;"> Data Mining and Visualization </td>
+   <td style="text-align:left;color: black !important;background-color: yellow !important;"> 2020-02-10 </td>
+   <td style="text-align:left;color: black !important;background-color: yellow !important;"> 2020-04-05 </td>
+   <td style="text-align:left;color: black !important;background-color: yellow !important;"> Current </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> MIS530 </td>
+   <td style="text-align:left;"> Predictive Analytics </td>
+   <td style="text-align:left;"> 2020-04-13 </td>
+   <td style="text-align:left;"> 2020-06-07 </td>
+   <td style="text-align:left;"> Future </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> MIS541 </td>
+   <td style="text-align:left;"> Data Warehousing in Enterprise Environments </td>
+   <td style="text-align:left;"> 2020-06-08 </td>
+   <td style="text-align:left;"> 2020-08-02 </td>
+   <td style="text-align:left;"> Future </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> MIS542 </td>
+   <td style="text-align:left;"> Business Analytics </td>
+   <td style="text-align:left;"> 2020-08-10 </td>
+   <td style="text-align:left;"> 2020-10-04 </td>
+   <td style="text-align:left;"> Future </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> MIS543 </td>
+   <td style="text-align:left;"> Enterprise Performance Management </td>
+   <td style="text-align:left;"> 2020-10-05 </td>
+   <td style="text-align:left;"> 2020-11-29 </td>
+   <td style="text-align:left;"> Future </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> MIS581 </td>
+   <td style="text-align:left;"> Capstone - Business Intelligence and Data Analytics </td>
+   <td style="text-align:left;"> 2020-12-07 </td>
+   <td style="text-align:left;"> 2020-02-07 </td>
+   <td style="text-align:left;"> Future </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> CSC505 </td>
+   <td style="text-align:left;"> Principles of Software Development </td>
+   <td style="text-align:left;"> 2021-02-08 </td>
+   <td style="text-align:left;"> 2021-04-04 </td>
+   <td style="text-align:left;"> Future </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> CSC505 </td>
+   <td style="text-align:left;"> Design and Analysis of Algorithms </td>
+   <td style="text-align:left;"> 2021-04-12 </td>
+   <td style="text-align:left;"> 2021-06-06 </td>
+   <td style="text-align:left;"> Future - Sp. </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> CSC510 </td>
+   <td style="text-align:left;"> Foundations of Artificial Intelligence </td>
+   <td style="text-align:left;"> 2021-06-07 </td>
+   <td style="text-align:left;"> 2021-08-01 </td>
+   <td style="text-align:left;"> Future - Sp. </td>
+  </tr>
+</tbody>
+</table>
 
 ## MIS-500: History of Data Analytics
 
