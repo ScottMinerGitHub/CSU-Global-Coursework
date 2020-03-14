@@ -2,7 +2,7 @@
 
 ## Degree Progress
 
-Degree progress toward Master of Science Data Analytics (MSDA) program with a specialization in Machine Learning and Artificial Intelligence.
+Degree progress toward MSDA program.
 
 |Date_Begin |Date_End   |Status       |Course_Number |Course_Description                                  
 |:----------|:----------|:------------|:-------------|:---------------------------------------------------
