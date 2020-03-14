@@ -2,8 +2,6 @@
 
 ## Degree Progress
 
-Degree progress toward MSDA program.
-
 |Date_Begin |Date_End   |Status       |Course_Number |Course_Description                                  
 |:----------|:----------|:------------|:-------------|:---------------------------------------------------
 |2019-10-07 |2019-12-01 |Complete     |MIS500        |Foundations of Data Analytics                       
@@ -23,7 +21,7 @@ Degree progress toward MSDA program.
 
 ## Folder Structure
 
-The following presents the folder structure of the repository.
+The following outlines the folder structure of the repository.
 
 ### MIS-500: History of Data Analytics
 
