@@ -2,6 +2,22 @@
 
 The below presents an overview of the folder structure of each class in the program.
 
+## Degree Progress
+
+|Course_Number |Course_Description                                  |Date_Begin |Date_End   |Status       |
+|:-------------|:---------------------------------------------------|:----------|:----------|:------------|
+|MIS500        |Foundations of Data Analytics                       |2019-10-07 |2019-12-01 |Complete     |
+|MIS540        |Introduction to Business Intelligence               |2019-12-09 |2020-02-09 |Complete     |
+|MIS510        |Data Mining and Visualization                       |2020-02-10 |2020-04-05 |Current      |
+|MIS530        |Predictive Analytics                                |2020-04-13 |2020-06-07 |Future       |
+|MIS541        |Data Warehousing in Enterprise Environments         |2020-06-08 |2020-08-02 |Future       |
+|MIS542        |Business Analytics                                  |2020-08-10 |2020-10-04 |Future       |
+|MIS543        |Enterprise Performance Management                   |2020-10-05 |2020-11-29 |Future       |
+|MIS581        |Capstone - Business Intelligence and Data Analytics |2020-12-07 |2020-02-07 |Future       |
+|CSC505        |Principles of Software Development                  |2021-02-08 |2021-04-04 |Future       |
+|CSC505        |Design and Analysis of Algorithms                   |2021-04-12 |2021-06-06 |Future - Sp. |
+|CSC510        |Foundations of Artificial Intelligence              |2021-06-07 |2021-08-01 |Future - Sp. |
+
 ## MIS-500: History of Data Analytics
 
 October 07, 2019 - December 01, 2019
