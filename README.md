@@ -4,96 +4,21 @@ The below presents an overview of the folder structure of each class in the prog
 
 ## Degree Progress
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
- <thead>
-  <tr>
-   <th style="text-align:left;"> Course_Number </th>
-   <th style="text-align:left;"> Course_Description </th>
-   <th style="text-align:left;"> Date_Begin </th>
-   <th style="text-align:left;"> Date_End </th>
-   <th style="text-align:left;"> Status </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:left;"> MIS500 </td>
-   <td style="text-align:left;"> Foundations of Data Analytics </td>
-   <td style="text-align:left;"> 2019-10-07 </td>
-   <td style="text-align:left;"> 2019-12-01 </td>
-   <td style="text-align:left;"> Complete </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> MIS540 </td>
-   <td style="text-align:left;"> Introduction to Business Intelligence </td>
-   <td style="text-align:left;"> 2019-12-09 </td>
-   <td style="text-align:left;"> 2020-02-09 </td>
-   <td style="text-align:left;"> Complete </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;color: black !important;background-color: yellow !important;"> MIS510 </td>
-   <td style="text-align:left;color: black !important;background-color: yellow !important;"> Data Mining and Visualization </td>
-   <td style="text-align:left;color: black !important;background-color: yellow !important;"> 2020-02-10 </td>
-   <td style="text-align:left;color: black !important;background-color: yellow !important;"> 2020-04-05 </td>
-   <td style="text-align:left;color: black !important;background-color: yellow !important;"> Current </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> MIS530 </td>
-   <td style="text-align:left;"> Predictive Analytics </td>
-   <td style="text-align:left;"> 2020-04-13 </td>
-   <td style="text-align:left;"> 2020-06-07 </td>
-   <td style="text-align:left;"> Future </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> MIS541 </td>
-   <td style="text-align:left;"> Data Warehousing in Enterprise Environments </td>
-   <td style="text-align:left;"> 2020-06-08 </td>
-   <td style="text-align:left;"> 2020-08-02 </td>
-   <td style="text-align:left;"> Future </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> MIS542 </td>
-   <td style="text-align:left;"> Business Analytics </td>
-   <td style="text-align:left;"> 2020-08-10 </td>
-   <td style="text-align:left;"> 2020-10-04 </td>
-   <td style="text-align:left;"> Future </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> MIS543 </td>
-   <td style="text-align:left;"> Enterprise Performance Management </td>
-   <td style="text-align:left;"> 2020-10-05 </td>
-   <td style="text-align:left;"> 2020-11-29 </td>
-   <td style="text-align:left;"> Future </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> MIS581 </td>
-   <td style="text-align:left;"> Capstone - Business Intelligence and Data Analytics </td>
-   <td style="text-align:left;"> 2020-12-07 </td>
-   <td style="text-align:left;"> 2020-02-07 </td>
-   <td style="text-align:left;"> Future </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> CSC505 </td>
-   <td style="text-align:left;"> Principles of Software Development </td>
-   <td style="text-align:left;"> 2021-02-08 </td>
-   <td style="text-align:left;"> 2021-04-04 </td>
-   <td style="text-align:left;"> Future </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> CSC505 </td>
-   <td style="text-align:left;"> Design and Analysis of Algorithms </td>
-   <td style="text-align:left;"> 2021-04-12 </td>
-   <td style="text-align:left;"> 2021-06-06 </td>
-   <td style="text-align:left;"> Future - Sp. </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> CSC510 </td>
-   <td style="text-align:left;"> Foundations of Artificial Intelligence </td>
-   <td style="text-align:left;"> 2021-06-07 </td>
-   <td style="text-align:left;"> 2021-08-01 </td>
-   <td style="text-align:left;"> Future - Sp. </td>
-  </tr>
-</tbody>
-</table>
+|Course_Number |Course_Description                                  |Status       |Date_Begin |Date_End   |
+|:-------------|:---------------------------------------------------|:------------|:----------|:----------|
+|MIS500        |Foundations of Data Analytics                       |Complete     |2019-10-07 |2019-12-01 |
+|MIS540        |Introduction to Business Intelligence               |Complete     |2019-12-09 |2020-02-09 |
+|MIS510        |Data Mining and Visualization                       |Current      |2020-02-10 |2020-04-05 |
+|MIS530        |Predictive Analytics                                |Future       |2020-04-13 |2020-06-07 |
+|MIS541        |Data Warehousing in Enterprise Environments         |Future       |2020-06-08 |2020-08-02 |
+|MIS542        |Business Analytics                                  |Future       |2020-08-10 |2020-10-04 |
+|MIS543        |Enterprise Performance Management                   |Future       |2020-10-05 |2020-11-29 |
+|MIS581        |Capstone - Business Intelligence and Data Analytics |Future       |2020-12-07 |2020-02-07 |
+|CSC505        |Principles of Software Development                  |Future       |2021-02-08 |2021-04-04 |
+|CSC505        |Design and Analysis of Algorithms                   |Future - Sp. |2021-04-12 |2021-06-06 |
+|CSC510        |Foundations of Artificial Intelligence              |Future - Sp. |2021-06-07 |2021-08-01 |
+
+***
 
 ## MIS-500: History of Data Analytics
 
