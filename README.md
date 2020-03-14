@@ -17,8 +17,6 @@
 |2021-06-07 |2021-08-01 |Future - Sp. |CSC510        |Foundations of Artificial Intelligence   
 |TBD        |TBD        |Future - Sp. |CSC525        |Principles of Machine Learning
 
-***
-
 ## Folder Structure
 
 ### MIS-500: History of Data Analytics
