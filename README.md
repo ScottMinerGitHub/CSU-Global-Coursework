@@ -4,19 +4,20 @@ The below presents an overview of the folder structure of each class in the prog
 
 ## Degree Progress
 
-|Course_Number |Course_Description                                  |Status       |Date_Begin |Date_End   |
-|:-------------|:---------------------------------------------------|:------------|:----------|:----------|
-|MIS500        |Foundations of Data Analytics                       |Complete     |2019-10-07 |2019-12-01 |
-|MIS540        |Introduction to Business Intelligence               |Complete     |2019-12-09 |2020-02-09 |
-|MIS510        |Data Mining and Visualization                       |Current      |2020-02-10 |2020-04-05 |
-|MIS530        |Predictive Analytics                                |Future       |2020-04-13 |2020-06-07 |
-|MIS541        |Data Warehousing in Enterprise Environments         |Future       |2020-06-08 |2020-08-02 |
-|MIS542        |Business Analytics                                  |Future       |2020-08-10 |2020-10-04 |
-|MIS543        |Enterprise Performance Management                   |Future       |2020-10-05 |2020-11-29 |
-|MIS581        |Capstone - Business Intelligence and Data Analytics |Future       |2020-12-07 |2020-02-07 |
-|CSC505        |Principles of Software Development                  |Future       |2021-02-08 |2021-04-04 |
-|CSC505        |Design and Analysis of Algorithms                   |Future - Sp. |2021-04-12 |2021-06-06 |
-|CSC510        |Foundations of Artificial Intelligence              |Future - Sp. |2021-06-07 |2021-08-01 |
+|Date_Begin |Date_End   |Status       |Course_Number |Course_Description                                  
+|:----------|:----------|:------------|:-------------|:---------------------------------------------------
+|2019-10-07 |2019-12-01 |Complete     |MIS500        |Foundations of Data Analytics                       
+|2019-12-09 |2020-02-09 |Complete     |MIS540        |Introduction to Business Intelligence               
+|2020-02-10 |2020-04-05 |Current      |MIS510        |Data Mining and Visualization                       
+|2020-04-13 |2020-06-07 |Future       |MIS530        |Predictive Analytics                                
+|2020-06-08 |2020-08-02 |Future       |MIS541        |Data Warehousing in Enterprise Environments         
+|2020-08-10 |2020-10-04 |Future       |MIS542        |Business Analytics                                  
+|2020-10-05 |2020-11-29 |Future       |MIS543        |Enterprise Performance Management                   
+|2020-12-07 |2020-02-07 |Future       |MIS581        |Capstone - Business Intelligence and Data Analytics 
+|2021-02-08 |2021-04-04 |Future - Sp. |CSC505        |Principles of Software Development                  
+|2021-04-12 |2021-06-06 |Future - Sp. |CSC505        |Design and Analysis of Algorithms                   
+|2021-06-07 |2021-08-01 |Future - Sp. |CSC510        |Foundations of Artificial Intelligence   
+|TBD        |TBD        |Future - Sp. |CSC525        |Principles of Machine Learning
 
 ***
 
