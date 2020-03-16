@@ -1,7 +1,10 @@
 # File extensions
 *.pdf
 *.rtf
+*.jpg
 
 # directories
 data-mining-for-business-analytics/
 r-studio-history-files/
+MIS-510-Introduction-to-Data-Mining-and-Visualizations/module-5-model-evaluation/discussion/
+MIS-510-Introduction-to-Data-Mining-and-Visualizations/module-5-model-evaluation/module-5-outline/
