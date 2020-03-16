@@ -95,5 +95,7 @@ February 10th, 2020 - April 05, 2020
         + option-2-logistic-regression-on-riding-mower-ownership.docx
     - portfolio-milestone-credit-data-mining
         + option-#1-credit-data-mining.docx
+ * module-5: Model Evaluation
+    - option-1-ROC-vs-Lift-Charts.docx 
         
 ***
